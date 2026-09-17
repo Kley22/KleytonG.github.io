@@ -1,0 +1,57 @@
+[
+  {
+    "slug":"vigencia-contratual", "number":"01", "title":"Vigências sob controle", "name":"Acompanhamento de Vigência Contratual", "category":"contratos", "tag":"Prazos & renovações", "short":"Uma visão organizada dos contratos, das datas de encerramento e das próximas renovações.",
+    "problem":"Datas distribuídas entre contratos e documentos dificultam a identificação das próximas renovações e do que precisa de atenção primeiro.",
+    "solution":"Reunir início, término e situação em uma base única. A demonstração classifica cada contrato a partir de uma data de referência e permite ajustar a antecedência dos alertas.",
+    "features":["Consulta por contrato ou fornecedor fictício","Filtro de situação e data de referência","Alertas configuráveis de renovação","Contratos encerrados identificados separadamente"],
+    "benefit":"Apoiar a organização das prioridades e a preparação de documentos com antecedência.",
+    "challenge":"Distinguir contratos encerrados, vencidos e ainda não iniciados sem depender apenas da data de término.",
+    "future":"Receber capturas anonimizadas da planilha original e documentar seu fluxo de atualização.",
+    "process":["Reunir as datas e a situação de cada instrumento.","Calcular o intervalo até o término e identificar exceções.","Organizar a consulta por prioridade de acompanhamento."],
+    "model":{"reference":"2026-09-17","threshold":60,"rows":[{"id":"DEMO-001","supplier":"Aurora Serviços (fictícia)","object":"Manutenção predial","start":"2026-01-01","end":"2026-10-15","closed":false},{"id":"DEMO-002","supplier":"Horizonte Espaços (fictícia)","object":"Locação de imóvel","start":"2026-02-01","end":"2027-01-31","closed":false},{"id":"DEMO-003","supplier":"Norte Apoio (fictícia)","object":"Serviços de apoio","start":"2025-09-01","end":"2026-09-01","closed":false},{"id":"DEMO-004","supplier":"Cais Mobilidade (fictícia)","object":"Locação de veículos","start":"2026-01-01","end":"2026-12-31","closed":true},{"id":"DEMO-005","supplier":"Vereda Serviços (fictícia)","object":"Conservação","start":"2026-10-01","end":"2027-09-30","closed":false}]}
+  },
+  {
+    "slug":"previsao-contratual", "number":"02", "title":"Do saldo à previsão", "name":"Previsão Contratual", "category":"contratos financeiro", "tag":"Saldos & planejamento", "short":"Projeções de consumo para antecipar a necessidade de saldo em serviços e materiais.",
+    "problem":"Conhecer o saldo atual não basta para avaliar se os recursos cobrem as despesas esperadas até o fim de um período.",
+    "solution":"Relacionar saldo disponível, estimativa mensal e meses restantes. O simulador apresenta os componentes de serviço e material e sinaliza insuficiência quando o saldo projetado é negativo.",
+    "features":["Projeção separada de serviço e material","Estimativa ajustável de consumo mensal","Saldo projetado ao fim do período","Alerta de insuficiência por componente"],
+    "benefit":"Dar visibilidade à diferença entre os recursos disponíveis e o consumo estimado, apoiando o acompanhamento contratual.",
+    "challenge":"Mostrar as premissas da projeção e evitar que uma sobra em material esconda a insuficiência em serviço.",
+    "future":"Conectar uma base demonstrativa de pagamentos por competência e comparar a estimativa com o realizado.",
+    "process":["Separar saldos disponíveis de serviço e material.","Definir o consumo mensal estimado e o horizonte.","Revisar a projeção quando houver mudança nas premissas."],
+    "model":{"months":6,"serviceBalance":48000,"serviceMonthly":7200,"materialBalance":12000,"materialMonthly":2300}
+  },
+  {
+    "slug":"pagamentos", "number":"03", "title":"Pagamentos em perspectiva", "name":"Controle de Pagamentos Mensais", "category":"financeiro", "tag":"Contas a pagar", "short":"Competência, vencimento, documentação e pagamento reunidos em uma consulta objetiva.",
+    "problem":"A rotina de pagamentos exige conciliar o valor solicitado, a documentação e o vencimento, mantendo visibilidade do que já foi pago e do que está pendente.",
+    "solution":"Organizar os registros por contrato e competência. A demonstração combina filtros de situação, vencimento e fornecedor com totais calculados sobre os registros exibidos.",
+    "features":["Consulta por competência e fornecedor","Totais por situação de pagamento","Destaque de pendências documentais","Atraso somente para valores sem pagamento"],
+    "benefit":"Facilitar a conferência da rotina e a localização das pendências que precisam de acompanhamento.",
+    "challenge":"Separar pendência financeira de pendência documental e não manter como atrasado um registro já pago.",
+    "future":"Incluir um checklist demonstrativo de conferência e um histórico de atualizações por competência.",
+    "process":["Reunir competência, documento, valor e vencimento.","Conferir a situação documental e a data de pagamento.","Filtrar pendências e acompanhar sua regularização."],
+    "model":{"reference":"2026-09-17","rows":[{"id":"NF-DEMO-01","contract":"DEMO-001","supplier":"Aurora Serviços (fictícia)","period":"2026-09","value":7200,"due":"2026-09-15","paid":null,"documents":"Conferidos"},{"id":"NF-DEMO-02","contract":"DEMO-002","supplier":"Horizonte Espaços (fictícia)","period":"2026-09","value":4500,"due":"2026-09-10","paid":"2026-09-09","documents":"Conferidos"},{"id":"NF-DEMO-03","contract":"DEMO-003","supplier":"Norte Apoio (fictícia)","period":"2026-09","value":3200,"due":"2026-09-25","paid":null,"documents":"Em conferência"},{"id":"NF-DEMO-04","contract":"DEMO-004","supplier":"Cais Mobilidade (fictícia)","period":"2026-08","value":2800,"due":"2026-09-05","paid":"2026-09-05","documents":"Conferidos"}]}
+  },
+  {
+    "slug":"aditivos-repactuacoes", "number":"04", "title":"Cada alteração, um histórico", "name":"Aditivos e Repactuações", "category":"contratos", "tag":"Histórico contratual", "short":"Uma linha do tempo para visualizar as mudanças de prazo e de valor de um contrato.",
+    "problem":"Consultar apenas a versão inicial de um contrato pode ocultar alterações posteriores de valor e prazo.",
+    "solution":"Manter uma sequência de registros vinculados ao contrato, com data, tipo de alteração e efeito. O exemplo também permite simular um ajuste percentual sobre um valor mensal fictício.",
+    "features":["Linha do tempo de alterações fictícias","Visualização do valor inicial e do atualizado","Simulação do efeito de um percentual","Separação entre alteração de prazo e de valor"],
+    "benefit":"Apoiar a rastreabilidade das alterações e a consulta ao histórico de cada instrumento.",
+    "challenge":"Preservar a ordem dos registros e identificar a base de cálculo usada em cada alteração.",
+    "future":"Incluir referências a documentos públicos ou modelos anonimizados e uma trilha demonstrativa de revisão.",
+    "process":["Registrar o instrumento inicial e suas condições.","Vincular cada alteração à data e ao documento correspondente.","Consultar o histórico antes de atualizar os controles."],
+    "model":{"base":2400,"percent":8,"events":[{"date":"2026-01-01","title":"Registro inicial","text":"Valor mensal fictício de R$ 2.400,00; término em 31/12/2026."},{"date":"2026-07-01","title":"Alteração de prazo","text":"Exemplo de extensão do término para 30/06/2027, sem alteração do valor neste registro."}]}
+  },
+  {
+    "slug":"gestao-frota", "number":"05", "title":"A rotina da frota, visível", "name":"Controles de Gestão de Frota", "category":"operacoes", "tag":"Operação & manutenção", "short":"Hodômetros, abastecimentos e proximidade da manutenção para acompanhar a operação.",
+    "problem":"Registros dispersos de quilometragem, abastecimento e manutenção dificultam o acompanhamento da utilização de veículos.",
+    "solution":"Organizar os indicadores em uma consulta por veículo. A demonstração calcula a distância percorrida, o consumo médio estimado e a distância até uma manutenção programada.",
+    "features":["Validação de hodômetros crescentes","Cálculo demonstrativo de km por litro","Alerta de manutenção por quilometragem","Premissas de medição visíveis"],
+    "benefit":"Facilitar a conferência dos registros e a organização do acompanhamento preventivo da frota.",
+    "challenge":"Evitar indicadores distorcidos por registros inconsistentes ou por abastecimentos sem a mesma referência de medição.",
+    "future":"Adicionar histórico fictício por veículo e acompanhamento de manutenção por data, além da quilometragem.",
+    "process":["Conferir hodômetros e volumes registrados.","Calcular indicadores com uma referência de abastecimento consistente.","Comparar a quilometragem atual com a próxima manutenção."],
+    "model":{"vehicle":"VEÍCULO-DEMO-01","previous":41500,"current":41920,"litres":35,"maintenance":42000}
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "notice": "Projeto demonstrativo — dados fictícios. Não contém dados institucionais.",
+  "base": 2400,
+  "percent": 8,
+  "events": [
+    {
+      "date": "2026-01-01",
+      "title": "Registro inicial",
+      "text": "Valor mensal fictício de R$ 2.400,00; término em 31/12/2026."
+    },
+    {
+      "date": "2026-07-01",
+      "title": "Alteração de prazo",
+      "text": "Exemplo de extensão do término para 30/06/2027, sem alteração do valor neste registro."
+    }
+  ]
+}
