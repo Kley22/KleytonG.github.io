@@ -1,6 +1,6 @@
 # Acompanhamento de saldos e previsões
 
-[Abrir case](https://kley22.github.io/KleytonG.github.io/projetos/previsao-contratual/)
+[Abrir projeto](https://kley22.github.io/KleytonG.github.io/projetos/previsao-contratual/)
 
 ## Contexto
 
@@ -14,7 +14,13 @@ Vincular os lançamentos ao contrato e à vigência, separar serviço de materia
 
 Conferência dos lançamentos, atualização dos controles e acompanhamento de saldos e previsões. A previsão é uma informação de apoio e depende das premissas adotadas e da atualização dos registros.
 
-## Fluxo conceitual
+## Demonstração interativa
+
+Ajuste os saldos, os custos mensais e o horizonte para comparar serviços e materiais.
+
+Os exemplos foram criados para o portfólio. As interações são executadas no navegador; recarregar a página restaura os valores iniciais.
+
+## Etapas do processo
 
 ### 1. Localizar o período correto
 
@@ -40,19 +46,15 @@ Conferência dos lançamentos, atualização dos controles e acompanhamento de s
 - Acompanhamento: Organizar a previsão e apresentá-la separadamente dos lançamentos registrados.
 - Saída: Visão de apoio para sinalizar necessidade de análise.
 
-## Estrutura observada
+## Recursos do controle
 
 - Saldos e médias separados entre serviço e material.
 - Competência vinculada à vigência correspondente.
 - Previsão que distingue lacunas do histórico e competências futuras.
 - Ressalvas para vínculos, datas e base de projeção insuficientes.
 
-## Melhorias propostas
+## Possibilidades de evolução
 
 - Exibir o método da média e a referência de cada previsão.
 - Preservar nos resumos a indicação de projeção indisponível.
 - Conferir os totais por componente, vigência e ciclo de acompanhamento.
-
-## Escopo público
-
-Descrição conceitual baseada na análise estrutural de planilhas. Não contém registros, valores, documentos, capturas, fórmulas de origem, identificadores ou vínculos internos. As etapas são explicativas e não reproduzem uma aplicação institucional. As melhorias são propostas, não alterações aplicadas aos arquivos de trabalho. Não se afirmam ganhos quantitativos medidos.

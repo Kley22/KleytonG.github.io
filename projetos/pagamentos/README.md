@@ -1,6 +1,6 @@
 # Instrução e acompanhamento de pagamentos
 
-[Abrir case](https://kley22.github.io/KleytonG.github.io/projetos/pagamentos/)
+[Abrir projeto](https://kley22.github.io/KleytonG.github.io/projetos/pagamentos/)
 
 ## Contexto
 
@@ -14,7 +14,13 @@ Relacionar os documentos à obrigação e à competência, acompanhar protocolos
 
 Conferência documental, organização dos protocolos e acompanhamento das etapas administrativas. Minha atuação está na preparação, conferência e no acompanhamento administrativo do fluxo.
 
-## Fluxo conceitual
+## Demonstração interativa
+
+Localize um lançamento, confira a documentação e experimente o acompanhamento de um pagamento.
+
+Os exemplos foram criados para o portfólio. As interações são executadas no navegador; recarregar a página restaura os valores iniciais.
+
+## Etapas do processo
 
 ### 1. Relacionar o documento
 
@@ -40,18 +46,14 @@ Conferência documental, organização dos protocolos e acompanhamento das etapa
 - Acompanhamento: Atualizar o controle sem confundir recebimento, lançamento e pagamento.
 - Saída: Consulta do andamento administrativo.
 
-## Estrutura observada
+## Recursos do controle
 
 - Registros de notas fiscais e competências.
 - Campos de protocolo, recebimento, tramitação e lançamento.
 - Acompanhamento de despesas contratuais e obrigações imobiliárias.
 
-## Melhorias propostas
+## Possibilidades de evolução
 
 - Definir um dicionário único para as situações de cada etapa.
 - Manter datas de ocorrência e de atualização distinguíveis.
 - Sinalizar documento ausente sem tratá-lo como pagamento em atraso.
-
-## Escopo público
-
-Descrição conceitual baseada na análise estrutural de planilhas. Não contém registros, valores, documentos, capturas, fórmulas de origem, identificadores ou vínculos internos. As etapas são explicativas e não reproduzem uma aplicação institucional. As melhorias são propostas, não alterações aplicadas aos arquivos de trabalho. Não se afirmam ganhos quantitativos medidos.

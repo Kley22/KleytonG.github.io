@@ -9,9 +9,9 @@
 
 ## Da análise à publicação
 
-A análise ocorreu fora do repositório. Somente descrições conceituais foram escritas no site. Não foram copiados registros, valores, contagens operacionais, documentos, capturas, fórmulas de origem, metadados, chaves ou links das planilhas.
+A análise estrutural dos controles orientou os temas dos projetos. Para as demonstrações funcionais, todos os registros e valores foram criados do zero. Os arquivos de trabalho permaneceram fora do repositório.
 
-Os seis cases separam a estrutura observada das propostas de melhoria. Os exploradores representam etapas do processo, não reproduções dos sistemas de trabalho. A existência de um controle não comprova atribuição de aprovação, fiscalização formal ou responsabilidade gerencial. O cargo Auxiliar de Escritório foi preservado.
+Os seis cases separam a estrutura observada das propostas de melhoria. Os exploradores explicam as etapas do processo; os módulos interativos permitem testar a lógica com exemplos. A existência de um controle não comprova atribuição de aprovação, fiscalização formal ou responsabilidade gerencial. O cargo Auxiliar de Escritório foi preservado.
 
 ## Limites da leitura
 
@@ -31,4 +31,4 @@ O currículo recebido como versão (4) preserva os mesmos dados profissionais do
 
 ## Histórico
 
-O histórico Git conserva versões públicas anteriores, incluindo os antigos exemplos fictícios e currículos. Não houve reescrita de histórico. Nenhum arquivo institucional desta revisão foi incluído no histórico.
+O histórico Git conserva versões públicas anteriores, incluindo versões anteriores das demonstrações e currículos. Não houve reescrita de histórico. Nenhum arquivo institucional desta revisão foi incluído no histórico.

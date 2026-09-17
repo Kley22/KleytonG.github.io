@@ -1,6 +1,6 @@
 # Consolidação e painéis de acompanhamento
 
-[Abrir case](https://kley22.github.io/KleytonG.github.io/projetos/paineis-acompanhamento/)
+[Abrir projeto](https://kley22.github.io/KleytonG.github.io/projetos/paineis-acompanhamento/)
 
 ## Contexto
 
@@ -14,7 +14,13 @@ Separar as funções das bases de referência, dos registros operacionais e das 
 
 Organização e manutenção dos controles e das informações que apoiam as consultas administrativas. O painel apresenta informações de apoio. Sua leitura depende da atualização e da consistência das bases.
 
-## Fluxo conceitual
+## Demonstração interativa
+
+Escolha o período e a origem para acompanhar os valores e conferir a composição dos indicadores.
+
+Os exemplos foram criados para o portfólio. As interações são executadas no navegador; recarregar a página restaura os valores iniciais.
+
+## Etapas do processo
 
 ### 1. Organizar a origem
 
@@ -40,18 +46,14 @@ Organização e manutenção dos controles e das informações que apoiam as con
 - Acompanhamento: Organizar painéis por finalidade, com acesso ao detalhe necessário.
 - Saída: Visão de apoio ao acompanhamento administrativo.
 
-## Estrutura observada
+## Recursos do controle
 
 - Bases auxiliares e áreas de importação e consolidação.
 - Consultas de contratos, imóveis e frota.
 - Camadas de validação e acompanhamento da sincronização.
 
-## Melhorias propostas
+## Possibilidades de evolução
 
 - Exibir a referência de atualização de cada origem.
 - Distinguir ausência de movimento de falha de importação.
 - Concentrar cada regra de cálculo em um ponto rastreável.
-
-## Escopo público
-
-Descrição conceitual baseada na análise estrutural de planilhas. Não contém registros, valores, documentos, capturas, fórmulas de origem, identificadores ou vínculos internos. As etapas são explicativas e não reproduzem uma aplicação institucional. As melhorias são propostas, não alterações aplicadas aos arquivos de trabalho. Não se afirmam ganhos quantitativos medidos.

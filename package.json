@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "python scripts/build.py",
-    "test": "python scripts/check_links.py && python scripts/check_public_content.py",
+    "test": "python scripts/check_links.py && python scripts/check_public_content.py && node --test tests/*.test.mjs",
     "serve": "python -m http.server 8000"
   }
 }

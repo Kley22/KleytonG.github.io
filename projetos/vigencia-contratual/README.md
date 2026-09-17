@@ -1,6 +1,6 @@
 # Controle de contratos e vigências
 
-[Abrir case](https://kley22.github.io/KleytonG.github.io/projetos/vigencia-contratual/)
+[Abrir projeto](https://kley22.github.io/KleytonG.github.io/projetos/vigencia-contratual/)
 
 ## Contexto
 
@@ -14,7 +14,13 @@ Organizar o cadastro contratual e o histórico de vigências, relacionando cada 
 
 Atualização dos controles, organização documental e acompanhamento de prazos e alterações. O controle reúne e sinaliza informações para os responsáveis pelo contrato.
 
-## Fluxo conceitual
+## Demonstração interativa
+
+Escolha uma data de referência, filtre a situação e localize os contratos que precisam de atenção.
+
+Os exemplos foram criados para o portfólio. As interações são executadas no navegador; recarregar a página restaura os valores iniciais.
+
+## Etapas do processo
 
 ### 1. Identificar o contrato
 
@@ -40,18 +46,14 @@ Atualização dos controles, organização documental e acompanhamento de prazos
 - Acompanhamento: Reunir as referências necessárias e sinalizar o assunto ao responsável.
 - Saída: Informação preparada para análise e providência.
 
-## Estrutura observada
+## Recursos do controle
 
 - Cadastro de contratos e identificação de vigências.
 - Seleção de vigência ativa e consulta de alterações.
 - Relacionamento entre contratos, pagamentos e conferências.
 
-## Melhorias propostas
+## Possibilidades de evolução
 
 - Adotar identificadores estáveis para contrato e vigência.
 - Separar situação contratual, alerta de prazo e pendência documental.
 - Registrar a conferência antes de atualizar uma vigência.
-
-## Escopo público
-
-Descrição conceitual baseada na análise estrutural de planilhas. Não contém registros, valores, documentos, capturas, fórmulas de origem, identificadores ou vínculos internos. As etapas são explicativas e não reproduzem uma aplicação institucional. As melhorias são propostas, não alterações aplicadas aos arquivos de trabalho. Não se afirmam ganhos quantitativos medidos.

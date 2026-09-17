@@ -1,28 +1,13 @@
-# Revisão do posicionamento e dos cases
+# Revisão do posicionamento e dos projetos
 
-Revisão de 17/09/2026 a partir da correção de escopo profissional e da análise estrutural das planilhas fornecidas.
+Revisão de 17/09/2026.
 
-## Mudanças
+O posicionamento profissional é **Controle e acompanhamento administrativo**, preservando o cargo formal de Auxiliar de Escritório e as atividades de organização, conferência e apoio administrativo.
 
-- Posicionamento: Controle e acompanhamento administrativo.
-- Seis cases conectados, incluindo controle de imóveis e consolidação de informações para painéis.
-- Campo explícito para a contribuição profissional em cada case.
-- Separação entre estrutura observada e melhorias propostas.
-- Exploração das etapas sem registros, valores ou imagens operacionais.
-- Página inicial com método de trabalho, filtros e rotinas relacionadas.
-- Currículo público e link do LinkedIn alinhados à correção do titular.
-- Retirada dos antigos arquivos de exemplos fictícios e calculadoras da versão atual.
+Os seis projetos combinam contexto, contribuição profissional, etapas do processo e uma demonstração funcional. O visitante pode filtrar registros, alterar premissas, conferir documentos, acompanhar ocorrências e explorar painéis por período.
 
-## Escopo
+Os dados das demonstrações foram criados exclusivamente para o portfólio. A indicação aparece de forma discreta no rodapé. O currículo destaca as funcionalidades dos projetos e inclui links para as respectivas páginas.
 
-Os arquivos de trabalho foram analisados em modo de leitura e não foram alterados. A publicação contém explicações conceituais, sem exportações das fontes. O histórico do repositório permanece preservado.
+As planilhas utilizadas para compreender os processos permanecem inalteradas. As melhorias propostas na documentação não representam alterações aplicadas aos arquivos de trabalho.
 
-## Verificação desta revisão
-
-- Links e recursos locais: 176 referências em dez páginas verificadas.
-- Responsividade: 48 combinações de página e largura, sem transbordamento horizontal.
-- Menu, filtros, etapas, teclado, foco e páginas de compatibilidade verificados.
-- Conteúdo dos exploradores disponível sem JavaScript.
-- Nenhum erro de script, console, rede ou HTTP durante os testes de navegador.
-- Verificação automática de acessibilidade sem violações nas oito páginas principais avaliadas; não substitui uma auditoria manual completa.
-- Revisão estrutural para impedir planilhas, conjuntos de registros e conexões internas na publicação.
+Os testes cobrem cálculos, validação de entradas, atualização das interações, links locais, navegação por teclado e layout em celular e desktop.

@@ -1,6 +1,6 @@
 # Controle administrativo de imóveis e obrigações
 
-[Abrir case](https://kley22.github.io/KleytonG.github.io/projetos/controle-imoveis/)
+[Abrir projeto](https://kley22.github.io/KleytonG.github.io/projetos/controle-imoveis/)
 
 ## Contexto
 
@@ -14,7 +14,13 @@ Relacionar o cadastro do imóvel aos controles de aluguel, condomínio, IPTU e t
 
 Organização cadastral e documental, conferência de obrigações e acompanhamento de encaminhamentos. O case trata da rotina administrativa de acompanhamento das obrigações imobiliárias.
 
-## Fluxo conceitual
+## Demonstração interativa
+
+Filtre os imóveis e as despesas para consultar vencimentos, pagamentos e pendências documentais.
+
+Os exemplos foram criados para o portfólio. As interações são executadas no navegador; recarregar a página restaura os valores iniciais.
+
+## Etapas do processo
 
 ### 1. Organizar o cadastro
 
@@ -40,18 +46,14 @@ Organização cadastral e documental, conferência de obrigações e acompanhame
 - Acompanhamento: Reunir o acompanhamento por imóvel, mantendo acesso ao detalhe de cada obrigação.
 - Saída: Visão de apoio para consulta e encaminhamento.
 
-## Estrutura observada
+## Recursos do controle
 
 - Cadastro de imóveis e contratos de locação.
 - Controles distintos para aluguel, condomínio, IPTU e taxas.
 - Referências de competência, vencimento, recebimento e tramitação.
 
-## Melhorias propostas
+## Possibilidades de evolução
 
 - Relacionar cada obrigação a um identificador estável do imóvel.
 - Separar exercício, competência e vencimento.
 - Diferenciar obrigação sem lançamento de obrigação sem pendência.
-
-## Escopo público
-
-Descrição conceitual baseada na análise estrutural de planilhas. Não contém registros, valores, documentos, capturas, fórmulas de origem, identificadores ou vínculos internos. As etapas são explicativas e não reproduzem uma aplicação institucional. As melhorias são propostas, não alterações aplicadas aos arquivos de trabalho. Não se afirmam ganhos quantitativos medidos.

@@ -1,6 +1,6 @@
 # Controle operacional de frota e conferência de abastecimentos
 
-[Abrir case](https://kley22.github.io/KleytonG.github.io/projetos/controle-frota/)
+[Abrir projeto](https://kley22.github.io/KleytonG.github.io/projetos/controle-frota/)
 
 ## Contexto
 
@@ -14,7 +14,13 @@ Organizar os registros operacionais com apoio de bases auxiliares e consolidar a
 
 Atualização das planilhas, conferência dos registros e acompanhamento administrativo da frota. O acompanhamento organiza informações operacionais para apoiar os responsáveis pela frota.
 
-## Fluxo conceitual
+## Demonstração interativa
+
+Calcule o consumo por intervalo de abastecimento e acompanhe a revisão das ocorrências.
+
+Os exemplos foram criados para o portfólio. As interações são executadas no navegador; recarregar a página restaura os valores iniciais.
+
+## Etapas do processo
 
 ### 1. Relacionar o registro ao veículo
 
@@ -40,19 +46,15 @@ Atualização das planilhas, conferência dos registros e acompanhamento adminis
 - Acompanhamento: Consolidar consultas por período, distinguindo leituras, estimativas e registros ainda em conferência.
 - Saída: Informação organizada para apoiar a rotina.
 
-## Estrutura observada
+## Recursos do controle
 
 - Normalização cadastral e sequência cronológica de hodômetros.
 - Identificação de possíveis repetições, com motivos de conferência.
 - Situação da ocorrência vinculada a um identificador estável.
 - Consolidação por período e consultas de acompanhamento.
 
-## Melhorias propostas
+## Possibilidades de evolução
 
 - Alinhar a cobertura dos registros em todas as consultas.
 - Centralizar correspondências cadastrais usadas nas fórmulas.
 - Distinguir quilometragem medida de estimativa por intervalo.
-
-## Escopo público
-
-Descrição conceitual baseada na análise estrutural de planilhas. Não contém registros, valores, documentos, capturas, fórmulas de origem, identificadores ou vínculos internos. As etapas são explicativas e não reproduzem uma aplicação institucional. As melhorias são propostas, não alterações aplicadas aos arquivos de trabalho. Não se afirmam ganhos quantitativos medidos.
