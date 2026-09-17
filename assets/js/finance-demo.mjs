@@ -1,26 +1,7 @@
 import { REFERENCE_DATE, formatMoney, formatDate, validDate, contractAlert, parseMoney, projectComponent, paymentStatus, documentsComplete, paymentActionAllowed } from './finance-logic.mjs';
 
-// Independent demonstration records, created for this portfolio.
-const CONTRACTS = [
-  { id: 'CT-101', provider: 'Alameda Serviços', object: 'Conservação predial', cycle: 'V02', start: '2026-02-01', end: '2027-01-31', status: 'Em acompanhamento', history: ['V01 · 01/02/2025 a 31/01/2026 · período concluído', 'V02 · 01/02/2026 a 31/01/2027 · período em acompanhamento'] },
-  { id: 'CT-102', provider: 'Horizonte Climatização', object: 'Manutenção de climatização', cycle: 'V01', start: '2025-10-01', end: '2026-09-30', status: 'Em acompanhamento', history: ['V01 · 01/10/2025 a 30/09/2026 · período em acompanhamento', 'Próximo encaminhamento: reunir referências para análise do encerramento ou continuidade.'] },
-  { id: 'CT-103', provider: 'Cedro Instalações', object: 'Adequações elétricas', cycle: 'V01', start: '2026-06-01', end: '2026-09-10', status: 'Em acompanhamento', history: ['V01 · 01/06/2026 a 10/09/2026 · prazo terminado', 'Próximo encaminhamento: conferir a situação administrativa e os documentos de encerramento.'] },
-  { id: 'CT-104', provider: 'Ponte Apoio Técnico', object: 'Inspeções periódicas', cycle: 'V01', start: '2026-10-01', end: '2027-09-30', status: 'Em acompanhamento', history: ['V01 · 01/10/2026 a 30/09/2027 · início programado'] },
-  { id: 'CT-105', provider: 'Lume Conservação', object: 'Manutenção de áreas comuns', cycle: 'V01', start: '2025-09-01', end: '2026-08-31', status: 'Encerrado', history: ['V01 · 01/09/2025 a 31/08/2026 · período concluído', 'Encerramento administrativo registrado em 04/09/2026.'] },
-  { id: 'CT-106', provider: 'Aurora Equipamentos', object: 'Manutenção de elevadores', cycle: 'V03', start: '2026-05-18', end: '2026-09-17', status: 'Em acompanhamento', history: ['V02 · 18/01/2026 a 17/05/2026 · período concluído', 'V03 · 18/05/2026 a 17/09/2026 · período em acompanhamento'] }
-];
-const FORECASTS = [
-  { id: 'CT-101', label: 'CT-101 · Conservação predial', serviceBalance: '48000,00', serviceMonthly: '12500,00', materialBalance: '9600,00', materialMonthly: '1800,00' },
-  { id: 'CT-102', label: 'CT-102 · Climatização', serviceBalance: '18500,00', serviceMonthly: '7200,00', materialBalance: '3100,00', materialMonthly: '950,00' },
-  { id: 'CT-106', label: 'CT-106 · Elevadores', serviceBalance: '15200,00', serviceMonthly: '4200,00', materialBalance: '2800,00', materialMonthly: '' }
-];
-const PAYMENT_SEED = [
-  { id: 'PG-201', contract: 'CT-101', provider: 'Alameda Serviços', description: 'Conservação predial', competence: '2026-09', amount: 1250000, due: '2026-09-25', received: '2026-09-10', protocol: 'PR-1201', stage: 'Em conferência', paidAt: '', documents: { invoice: true, reference: true, confirmation: false } },
-  { id: 'PG-202', contract: 'CT-102', provider: 'Horizonte Climatização', description: 'Manutenção de climatização', competence: '2026-08', amount: 720000, due: '2026-09-12', received: '2026-09-02', protocol: 'PR-1202', stage: 'Encaminhado', paidAt: '', documents: { invoice: true, reference: true, confirmation: true } },
-  { id: 'PG-203', contract: 'CT-103', provider: 'Cedro Instalações', description: 'Adequações elétricas', competence: '2026-09', amount: 435000, due: '2026-09-17', received: '2026-09-11', protocol: 'PR-1203', stage: 'Em conferência', paidAt: '', documents: { invoice: true, reference: false, confirmation: false } },
-  { id: 'PG-204', contract: 'CT-106', provider: 'Aurora Equipamentos', description: 'Manutenção de elevadores', competence: '2026-08', amount: 420000, due: '2026-09-08', received: '2026-09-01', protocol: 'PR-1204', stage: 'Pago', paidAt: '2026-09-05', documents: { invoice: true, reference: true, confirmation: true } },
-  { id: 'PG-205', contract: 'CT-101', provider: 'Alameda Serviços', description: 'Materiais de conservação', competence: '2026-09', amount: 180000, due: '2026-09-28', received: '2026-09-15', protocol: 'PR-1205', stage: 'Encaminhado', paidAt: '', documents: { invoice: true, reference: true, confirmation: true } }
-];
+import { getWorkspace, getInitialWorkspace, updatePayment, updateForecast, resetWorkspace, subscribe } from './workspace.mjs';
+
 const fold = value => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('pt-BR');
 function node(tag, attributes = {}, children = []) {
   const element = document.createElement(tag);
@@ -49,9 +30,15 @@ function table(headers, label) {
   const tableNode = node('table', { class: 'demo-table' }, [node('caption', { class: 'sr-only', text: label }), node('thead', {}, node('tr', {}, headers.map(header => node('th', { scope: 'col', text: header })))), body]);
   return { wrapper: node('div', { class: 'demo-table-wrap', tabindex: '0', role: 'region', 'aria-label': label }, tableNode), body };
 }
+function labelRows(body) {
+  const headers = [...body.closest('table').querySelectorAll('thead th')].map(header => header.textContent);
+  for (const row of body.rows) for (const [index, cell] of [...row.cells].entries()) if (!cell.hasAttribute('colspan')) cell.dataset.label = headers[index];
+}
+const currentContract = () => new URLSearchParams(location.search).get('contrato') || '';
+const routeLink = (path, id, label) => node('a', { class: 'demo-button demo-link', href: `../${path}/?contrato=${encodeURIComponent(id)}`, text: label });
 function emptyRow(body, span) { body.append(node('tr', {}, node('td', { colspan: String(span), class: 'demo-empty', text: 'Nenhum registro corresponde aos filtros. Ajuste a consulta para continuar.' }))); }
 function contracts(root) {
-  const search = input('contract-search', 'search', '', { placeholder: 'Contrato, fornecedor ou objeto' });
+  const search = input('contract-search', 'search', currentContract(), { placeholder: 'Contrato, fornecedor ou objeto' });
   const reference = input('contract-reference', 'date', REFERENCE_DATE, { min: '2000-01-01', max: '2100-12-31' });
   const threshold = select('contract-threshold', [['30', '30 dias'], ['60', '60 dias'], ['90', '90 dias']]); threshold.value = '60';
   const situation = select('contract-situation', [['all', 'Todas'], ['Em acompanhamento', 'Em acompanhamento'], ['Encerrado', 'Encerrado']]);
@@ -69,23 +56,27 @@ function contracts(root) {
   function render() {
     const referenceValid = validDate(reference.value);
     reference.setAttribute('aria-invalid', String(!referenceValid));
-    const filtered = CONTRACTS.map(row => ({ ...row, alert: contractAlert(row, reference.value, Number(threshold.value)) })).filter(row => fold(`${row.id} ${row.provider} ${row.object}`).includes(fold(search.value.trim())) && (situation.value === 'all' || row.status === situation.value) && (alert.value === 'all' || row.alert.key === alert.value));
+    const filtered = getWorkspace().contracts.map(row => ({ ...row, alert: contractAlert(row, reference.value, Number(threshold.value)) })).filter(row => fold(`${row.id} ${row.provider} ${row.object}`).includes(fold(search.value.trim())) && (situation.value === 'all' || row.status === situation.value) && (alert.value === 'all' || row.alert.key === alert.value));
     const warnings = filtered.filter(row => ['attention', 'expired'].includes(row.alert.key)).length;
     summary.textContent = referenceValid ? `${filtered.length} contratos encontrados. ${warnings} com atenção ao prazo. Referência: ${formatDate(reference.value)}.` : 'Informe uma data de referência válida para calcular os alertas.';
     metrics.replaceChildren(metric('Contratos na consulta', String(filtered.length)), metric('Atenção ao prazo', referenceValid ? String(warnings) : '—', warnings ? 'is-warning' : ''), metric('Encerramentos registrados', String(filtered.filter(row => row.status === 'Encerrado').length)));
     rows.body.replaceChildren();
     for (const row of filtered) {
       const open = button('Ver histórico', () => { selected = row; renderDetail(); detail.focus(); }, { 'aria-label': `Ver histórico de ${row.id}` });
-      rows.body.append(node('tr', {}, [node('td', {}, [text('strong', row.id), text('small', `Vigência ${row.cycle}`)]), node('td', {}, [text('strong', row.provider), text('small', row.object)]), text('td', `${formatDate(row.start)} a ${formatDate(row.end)}`), node('td', {}, badge(row.status)), node('td', {}, badge(row.alert.label, row.alert.tone)), node('td', {}, open)]));
+      rows.body.append(node('tr', {}, [node('td', {}, [text('strong', row.id), text('small', `Vigência ${row.cycle}`)]), node('td', {}, [text('strong', row.provider), text('small', row.object)]), text('td', `${formatDate(row.start)} a ${formatDate(row.end)}`), node('td', {}, badge(row.status)), node('td', {}, badge(row.alert.label, row.alert.tone)), node('td', {}, node('div', { class: 'demo-row-actions' }, [open, routeLink('pagamentos', row.id, 'Ver pagamentos'), ...(getWorkspace().forecasts.some(item => item.id === row.id) ? [routeLink('previsao-contratual', row.id, 'Simular saldo')] : [])]))]));
     }
     if (!filtered.length) emptyRow(rows.body, 6);
+    labelRows(rows.body);
   }
-  root.replaceChildren(text('p', 'Pesquise contratos, altere a referência e acompanhe quais prazos precisam de conferência.', 'demo-help'), node('div', { class: 'demo-toolbar' }, [field('contract-search', 'Buscar contrato', search), field('contract-reference', 'Data de referência', reference), field('contract-threshold', 'Janela de atenção', threshold), field('contract-situation', 'Situação administrativa', situation), field('contract-alert', 'Alerta de prazo', alert)]), metrics, summary, rows.wrapper, detail, text('p', 'A situação administrativa e o alerta de prazo são acompanhados separadamente. Um prazo terminado sinaliza a necessidade de conferir o cadastro e os documentos.', 'demo-help'));
+  const challenge = button('Encontrar prazos que precisam de atenção', () => { search.value = ''; reference.value = REFERENCE_DATE; threshold.value = '60'; situation.value = 'Em acompanhamento'; alert.value = 'attention'; render(); summary.focus(); }, { class: 'demo-button demo-challenge' });
+  summary.tabIndex = -1;
+  root.replaceChildren(challenge, text('p', 'Pesquise contratos, altere a referência e acompanhe quais prazos precisam de conferência.', 'demo-help'), node('div', { class: 'demo-toolbar' }, [field('contract-search', 'Buscar contrato', search), field('contract-reference', 'Data de referência', reference), field('contract-threshold', 'Janela de atenção', threshold), field('contract-situation', 'Situação administrativa', situation), field('contract-alert', 'Alerta de prazo', alert)]), metrics, summary, rows.wrapper, detail, text('p', 'A situação administrativa e o alerta de prazo são acompanhados separadamente. Um prazo terminado sinaliza a necessidade de conferir o cadastro e os documentos.', 'demo-help'));
   for (const control of [search, reference, threshold, situation, alert]) control.addEventListener('input', render);
   render(); renderDetail();
 }
 function forecasts(root) {
-  const preset = select('forecast-contract', FORECASTS.map(row => [row.id, row.label]));
+  const preset = select('forecast-contract', getWorkspace().forecasts.map(row => [row.id, row.label]));
+  if (getWorkspace().forecasts.some(row => row.id === currentContract())) preset.value = currentContract();
   const months = input('forecast-months', 'number', '3', { min: '1', max: '60', step: '1', inputmode: 'numeric' });
   const serviceBalance = input('service-balance', 'text', '', { inputmode: 'decimal' });
   const serviceMonthly = input('service-monthly', 'text', '', { inputmode: 'decimal' });
@@ -115,21 +106,37 @@ function forecasts(root) {
     months.setAttribute('aria-invalid', String(months.value !== '' && (!/^\d+$/.test(months.value) || Number(months.value) < 1 || Number(months.value) > 60)));
   }
   function loadPreset() {
-    const data = FORECASTS.find(row => row.id === preset.value);
+    const data = getWorkspace().forecasts.find(row => row.id === preset.value);
+    months.value = data.months;
     serviceBalance.value = data.serviceBalance; serviceMonthly.value = data.serviceMonthly;
     materialBalance.value = data.materialBalance; materialMonthly.value = data.materialMonthly;
+    panelLink.href = `../paineis-acompanhamento/?contrato=${encodeURIComponent(preset.value)}`;
+    paymentLink.href = `../pagamentos/?contrato=${encodeURIComponent(preset.value)}`;
     render();
   }
+  function persist() {
+    updateForecast(preset.value, { serviceBalance: serviceBalance.value, serviceMonthly: serviceMonthly.value, materialBalance: materialBalance.value, materialMonthly: materialMonthly.value, months: months.value });
+    render();
+  }
+  const panelLink = routeLink('paineis-acompanhamento', preset.value, 'Ver impacto no painel');
+  const paymentLink = routeLink('pagamentos', preset.value, 'Ver pagamentos do contrato');
+  const challenge = button('Carregar um cenário com saldo insuficiente', () => { preset.value = 'CT-102'; const { id, label, ...values } = getInitialWorkspace().forecasts.find(row => row.id === preset.value); updateForecast(preset.value, values); loadPreset(); summary.focus(); }, { class: 'demo-button demo-challenge' });
+  summary.tabIndex = -1;
   const componentFields = (title, fields) => node('fieldset', { class: 'demo-component-fields' }, [text('legend', title), ...fields]);
-  root.replaceChildren(text('p', 'Altere os saldos, o consumo mensal e o horizonte para simular cada componente. Posição inicial em 17/09/2026; premissa de consumo constante nos meses seguintes.', 'demo-help'), node('div', { class: 'demo-toolbar' }, [field('forecast-contract', 'Cenário contratual', preset), field('forecast-months', 'Horizonte em meses', months)]), node('div', { class: 'demo-grid' }, [componentFields('Serviço', [field('service-balance', 'Saldo disponível de serviço (R$)', serviceBalance), field('service-monthly', 'Consumo mensal de serviço (R$)', serviceMonthly)]), componentFields('Material', [field('material-balance', 'Saldo disponível de material (R$)', materialBalance), field('material-monthly', 'Consumo mensal de material (R$)', materialMonthly)])]), summary, result, node('div', { class: 'demo-actions' }, button('Restaurar valores do cenário', () => { months.value = '3'; loadPreset(); })), text('p', 'Saldo previsto = saldo disponível − consumo mensal × meses. Serviço e material são calculados separadamente; um componente não cobre a insuficiência do outro. Campo em branco indica ausência de premissa, enquanto zero indica consumo previsto igual a zero.', 'demo-help'));
+  root.replaceChildren(challenge, text('p', 'Altere os saldos, o consumo mensal e o horizonte para simular cada componente. Posição inicial em 17/09/2026; premissa de consumo constante nos meses seguintes.', 'demo-help'), node('div', { class: 'demo-toolbar' }, [field('forecast-contract', 'Cenário contratual', preset), field('forecast-months', 'Horizonte em meses', months)]), node('div', { class: 'demo-grid' }, [componentFields('Serviço', [field('service-balance', 'Saldo disponível de serviço (R$)', serviceBalance), field('service-monthly', 'Consumo mensal de serviço (R$)', serviceMonthly)]), componentFields('Material', [field('material-balance', 'Saldo disponível de material (R$)', materialBalance), field('material-monthly', 'Consumo mensal de material (R$)', materialMonthly)])]), summary, result, node('div', { class: 'demo-actions' }, [panelLink, paymentLink, button('Restaurar valores do cenário', () => { const { id, label, ...values } = getInitialWorkspace().forecasts.find(row => row.id === preset.value); updateForecast(preset.value, values); loadPreset(); })]), text('p', 'Saldo previsto = saldo disponível − consumo mensal × meses. Serviço e material são calculados separadamente; um componente não cobre a insuficiência do outro. Campo em branco indica ausência de premissa, enquanto zero indica consumo previsto igual a zero.', 'demo-help'));
   preset.addEventListener('change', loadPreset);
-  for (const control of [months, serviceBalance, serviceMonthly, materialBalance, materialMonthly]) control.addEventListener('input', render);
+  for (const control of [months, serviceBalance, serviceMonthly, materialBalance, materialMonthly]) control.addEventListener('input', persist);
   loadPreset();
+  subscribe(() => loadPreset());
 }
 function payments(root) {
-  let records = structuredClone(PAYMENT_SEED);
-  let selectedId = records[0].id;
+  let records = getWorkspace().payments;
+  let selectedId = (records.find(row => row.contract === currentContract()) || records[0]).id;
+  let localChange = false;
+  function save(id, patch) { localChange = true; const result = updatePayment(id, patch); localChange = false; records = getWorkspace().payments; return result; }
   const search = input('payment-search', 'search', '', { placeholder: 'Protocolo, fornecedor ou contrato' });
+  const contractFilter = select('payment-contract', [['all', 'Todos os contratos'], ...getWorkspace().contracts.map(row => [row.id, `${row.id} · ${row.object}`])]);
+  if (getWorkspace().contracts.some(row => row.id === currentContract())) contractFilter.value = currentContract();
   const stage = select('payment-stage', [['all', 'Todas as etapas'], ['Em conferência', 'Em conferência'], ['Encaminhado', 'Encaminhado'], ['Pago', 'Pago']]);
   const dueFilter = select('payment-due-filter', [['all', 'Todos os prazos'], ['overdue', 'Vencido, sem pagamento'], ['today', 'Vence hoje'], ['open', 'A vencer'], ['paid', 'Pago']]);
   const period = select('payment-period', [['all', 'Todas as competências'], ['2026-09', 'Setembro de 2026'], ['2026-08', 'Agosto de 2026']]);
@@ -139,7 +146,7 @@ function payments(root) {
   const detail = node('section', { class: 'demo-detail', 'data-payment-detail': '', tabindex: '-1' });
   const rows = table(['Registro e protocolo', 'Fornecedor e competência', 'Valor', 'Vencimento', 'Documentos', 'Etapa e prazo', 'Consulta'], 'Documentos e andamento dos pagamentos');
   function renderRows() {
-    const filtered = records.filter(row => fold(`${row.id} ${row.protocol} ${row.provider} ${row.contract} ${row.description}`).includes(fold(search.value.trim())) && (stage.value === 'all' || row.stage === stage.value) && (dueFilter.value === 'all' || paymentStatus(row).key === dueFilter.value) && (period.value === 'all' || row.competence === period.value));
+    const filtered = records.filter(row => fold(`${row.id} ${row.protocol} ${row.provider} ${row.contract} ${row.description}`).includes(fold(search.value.trim())) && (contractFilter.value === 'all' || row.contract === contractFilter.value) && (stage.value === 'all' || row.stage === stage.value) && (dueFilter.value === 'all' || paymentStatus(row).key === dueFilter.value) && (period.value === 'all' || row.competence === period.value));
     const open = filtered.filter(row => paymentStatus(row).key !== 'paid');
     const overdue = filtered.filter(row => paymentStatus(row).key === 'overdue');
     metrics.replaceChildren(metric('Registros na consulta', String(filtered.length)), metric('Valor sem pagamento registrado', formatMoney(open.reduce((total, row) => total + row.amount, 0))), metric('Vencidos sem pagamento', String(overdue.length), overdue.length ? 'is-warning' : ''));
@@ -151,15 +158,18 @@ function payments(root) {
       rows.body.append(node('tr', {}, [node('td', {}, [text('strong', row.id), text('small', row.protocol)]), node('td', {}, [text('strong', row.provider), text('small', `${row.contract} · ${row.competence.split('-').reverse().join('/')}`)]), text('td', formatMoney(row.amount)), text('td', formatDate(row.due)), node('td', {}, badge(documentsComplete(row) ? 'Conferência completa' : 'Pendência documental', documentsComplete(row) ? 'is-success' : 'is-warning')), node('td', {}, [text('strong', row.stage), badge(status.label, status.tone)]), node('td', {}, view)]));
     }
     if (!filtered.length) emptyRow(rows.body, 7);
+    labelRows(rows.body);
+    if (!filtered.some(row => row.id === selectedId)) { selectedId = filtered[0]?.id || null; renderDetail(); }
   }
   function renderDetail() {
     const row = records.find(item => item.id === selectedId);
+    if (!row) { detail.replaceChildren(text('p', 'Ajuste os filtros para abrir um registro.', 'demo-help')); return; }
     detail.replaceChildren(text('h4', `${row.id} · Conferência e andamento`), text('p', `${row.provider} · ${row.description} · Recebido em ${formatDate(row.received)} · Protocolo ${row.protocol}`, 'demo-help'));
     const checklist = node('fieldset', { class: 'demo-checklist' }, text('legend', 'Conferência documental'));
     const docNames = { invoice: 'Nota fiscal recebida', reference: 'Contrato e competência conferidos', confirmation: 'Comprovante de conferência recebido' };
     for (const [key, label] of Object.entries(docNames)) {
       const checkbox = input(`document-${key}`, 'checkbox', key); checkbox.id = `payment-document-${key}`; checkbox.checked = row.documents[key]; checkbox.disabled = row.stage !== 'Em conferência';
-      checkbox.addEventListener('change', () => { row.documents[key] = checkbox.checked; actionStatus.textContent = `${label}: ${checkbox.checked ? 'concluído' : 'pendente'}.`; renderRows(); refreshActions(); });
+      checkbox.addEventListener('change', () => { row.documents[key] = checkbox.checked; save(row.id, { documents: { [key]: checkbox.checked } }); actionStatus.textContent = `${label}: ${checkbox.checked ? 'concluído' : 'pendente'}.`; renderRows(); refreshActions(); });
       checklist.append(node('label', { for: checkbox.id }, [checkbox, document.createTextNode(label)]));
     }
     const paidDate = input('payment-paid-date', 'date', row.paidAt || REFERENCE_DATE, { min: row.received, max: REFERENCE_DATE });
@@ -167,13 +177,13 @@ function payments(root) {
     const actionsHelp = text('p', '', 'demo-help');
     const forward = button('Registrar encaminhamento', () => {
       if (!paymentActionAllowed(row, 'forward')) return;
-      row.stage = 'Encaminhado'; actionStatus.textContent = `${row.id}: encaminhamento registrado em ${formatDate(REFERENCE_DATE)}.`;
+      save(row.id, { stage: 'Encaminhado' }); actionStatus.textContent = `${row.id}: encaminhamento registrado em ${formatDate(REFERENCE_DATE)}.`;
       renderRows(); renderDetail(); detail.focus();
     }, { 'data-payment-forward': '' });
     const pay = button('Registrar pagamento', () => {
       if (!paymentActionAllowed(row, 'pay', paidDate.value)) return;
-      row.stage = 'Pago'; row.paidAt = paidDate.value;
-      actionStatus.textContent = `${row.id}: pagamento de ${formatMoney(row.amount)} registrado em ${formatDate(row.paidAt)}.`;
+      save(row.id, { stage: 'Pago', paidAt: paidDate.value });
+      actionStatus.textContent = `${row.id}: pagamento de ${formatMoney(row.amount)} registrado em ${formatDate(paidDate.value)}.`;
       renderRows(); renderDetail(); detail.focus();
     }, { 'data-payment-pay': '' });
     function refreshActions() {
@@ -186,13 +196,15 @@ function payments(root) {
       else actionsHelp.textContent = dateInvalid ? 'Informe uma data de pagamento entre o recebimento e 17/09/2026.' : 'O registro está encaminhado. Atualize o pagamento quando houver confirmação da ocorrência.';
     }
     paidDate.addEventListener('input', refreshActions);
-    detail.append(checklist, field('payment-paid-date', 'Data do pagamento confirmado', paidDate), actionsHelp, node('div', { class: 'demo-actions' }, [forward, pay]));
+    detail.append(node('div', { class: 'demo-actions' }, [routeLink('vigencia-contratual', row.contract, 'Abrir contrato'), ...(getWorkspace().forecasts.some(item => item.id === row.contract) ? [routeLink('previsao-contratual', row.contract, 'Simular saldo')] : []), routeLink('paineis-acompanhamento', row.contract, 'Ver no painel')]), checklist, field('payment-paid-date', 'Data do pagamento confirmado', paidDate), actionsHelp, node('div', { class: 'demo-actions' }, [forward, pay]));
     refreshActions();
   }
-  const reset = button('Restaurar registros', () => { records = structuredClone(PAYMENT_SEED); selectedId = records[0].id; search.value = ''; stage.value = 'all'; dueFilter.value = 'all'; period.value = 'all'; actionStatus.textContent = 'Os registros foram restaurados.'; renderRows(); renderDetail(); });
-  root.replaceChildren(text('p', 'Consulte competências e protocolos. Abra um registro para conferir os documentos e atualizar o andamento. Referência em 17/09/2026.', 'demo-help'), node('div', { class: 'demo-toolbar' }, [field('payment-search', 'Buscar pagamento', search), field('payment-stage', 'Etapa administrativa', stage), field('payment-due-filter', 'Situação do prazo', dueFilter), field('payment-period', 'Competência', period)]), metrics, summary, rows.wrapper, detail, actionStatus, node('div', { class: 'demo-actions' }, reset), text('p', 'Documento conferido, encaminhamento e pagamento são registros distintos. As alterações valem nesta visita; use Restaurar registros para recomeçar.', 'demo-help'));
-  for (const control of [search, stage, dueFilter, period]) control.addEventListener('input', renderRows);
+  const reset = button('Recomeçar demonstração', () => { resetWorkspace(); records = getWorkspace().payments; selectedId = records[0].id; search.value = ''; contractFilter.value = 'all'; stage.value = 'all'; dueFilter.value = 'all'; period.value = 'all'; actionStatus.textContent = 'Demonstração reiniciada: pagamentos e previsões restaurados.'; renderRows(); renderDetail(); });
+  const challenge = button('Conferir uma pendência documental', () => { const pending = records.find(row => !documentsComplete(row)); if (!pending) { actionStatus.textContent = 'Todos os documentos estão conferidos nesta visita.'; return; } contractFilter.value = pending.contract; search.value = ''; stage.value = 'all'; dueFilter.value = 'all'; period.value = 'all'; selectedId = pending.id; renderRows(); renderDetail(); detail.focus(); }, { class: 'demo-button demo-challenge' });
+  root.replaceChildren(challenge, text('p', 'Consulte competências e protocolos. Abra um registro para conferir os documentos e atualizar o andamento. Referência em 17/09/2026.', 'demo-help'), node('div', { class: 'demo-toolbar' }, [field('payment-contract', 'Contrato', contractFilter), field('payment-search', 'Buscar pagamento', search), field('payment-stage', 'Etapa administrativa', stage), field('payment-due-filter', 'Situação do prazo', dueFilter), field('payment-period', 'Competência', period)]), metrics, summary, rows.wrapper, detail, actionStatus, node('div', { class: 'demo-actions' }, reset), text('p', 'Documento conferido, encaminhamento e pagamento são registros distintos. Suas alterações acompanham esta visita e aparecem no painel consolidado.', 'demo-help'));
+  for (const control of [contractFilter, search, stage, dueFilter, period]) control.addEventListener('input', renderRows);
   renderRows(); renderDetail();
+  subscribe(() => { if (localChange) return; records = getWorkspace().payments; renderRows(); renderDetail(); });
 }
 export function mount(slug, root) {
   const implementations = { 'vigencia-contratual': contracts, 'previsao-contratual': forecasts, pagamentos: payments };

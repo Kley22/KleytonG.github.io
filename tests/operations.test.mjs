@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { validDate, normalizeText, obligationStatus, filterObligations, summarizeObligations, groupObligations, calculateConsumption } from '../assets/js/operations-logic.mjs';
+import { validDate, normalizeText, obligationStatus, filterObligations, summarizeObligations, groupObligations, calculateConsumption, summarizeForecasts } from '../assets/js/operations-logic.mjs';
 
 const obligations = [
   { id: 'a', property: 'Pátio', category: 'imoveis', type: 'Aluguel', month: '2026-09', due: '2026-09-17', paidOn: '', cents: 101, documents: false },
@@ -56,3 +56,49 @@ test('efficiency uses the full interval, rejects reversed/equal readings and abs
   assert.match(calculateConsumption({ previous: 0, current: 100, liters: Number.MIN_VALUE, fullToFull: true }).error, /escala/);
 });
 test('search normalization is accent-insensitive', () => assert.equal(normalizeText('  VEÍCULO 01 '), 'veiculo 01'));
+
+test('contract selection intersects competence and excludes unrelated operations', () => {
+  const linked = obligations.map((row, index) => ({ ...row, ...(index === 0 ? { contract: 'CT-101' } : {}) }));
+  assert.deepEqual(filterObligations(linked, { contract: 'CT-101', month: '2026-09' }).map(row => row.id), ['a']);
+  assert.deepEqual(filterObligations(linked, { contract: 'CT-101', category: 'frota' }), []);
+  assert.deepEqual(filterObligations(linked, { contract: 'CT-101', month: '2026-08' }), []);
+});
+test('forecast risk cannot be offset by another component and missing premises remain unavailable', () => {
+  const base = { id: 'CT-101', months: '3', serviceBalance: '300,03', serviceMonthly: '100,00', materialBalance: '1000,00', materialMonthly: '1,00' };
+  const [positive, zero, negative, missing] = summarizeForecasts([
+    base,
+    { ...base, serviceBalance: '300,00' },
+    { ...base, serviceBalance: '299,99' },
+    { ...base, serviceMonthly: '' }
+  ]);
+  assert.equal(positive.service.remaining, 3);
+  assert.equal(positive.risk, false);
+  assert.equal(zero.risk, false);
+  assert.equal(negative.risk, true);
+  assert.equal(negative.material.risk, false);
+  assert.equal(missing.unavailable, true);
+  assert.equal(missing.service.remaining, undefined);
+  assert.equal(missing.risk, false);
+});
+test('dashboard ledger uses shared payments once and reconciles settlement changes', async () => {
+  const { getDashboardRecords } = await import('../assets/js/operations-demo.mjs');
+  const { resetWorkspace, updatePayment } = await import('../assets/js/workspace.mjs');
+  resetWorkspace();
+  const before = summarizeObligations(filterObligations(getDashboardRecords(), { month: '2026-09' }));
+  assert.equal(before.count, 14);
+  assert.equal(before.totalCents, 3485550);
+  assert.equal(before.paidCents, 1068500);
+  assert.equal(before.openCents, 2417050);
+  assert.equal(before.pendingDocuments, 6);
+  updatePayment('PG-201', { documents: { confirmation: true } });
+  updatePayment('PG-201', { stage: 'Encaminhado' });
+  updatePayment('PG-201', { stage: 'Pago', paidAt: '2026-09-17' });
+  const after = summarizeObligations(filterObligations(getDashboardRecords(), { month: '2026-09' }));
+  assert.equal(after.count, before.count);
+  assert.equal(after.totalCents, before.totalCents);
+  assert.equal(after.paidCents - before.paidCents, 1250000);
+  assert.equal(before.openCents - after.openCents, 1250000);
+  assert.equal(after.pendingDocuments, before.pendingDocuments - 1);
+  assert.equal(after.paidCents + after.openCents, after.totalCents);
+  resetWorkspace();
+});

@@ -1,6 +1,6 @@
 # Consolidação e painéis de acompanhamento
 
-[Abrir projeto](https://kley22.github.io/KleytonG.github.io/projetos/paineis-acompanhamento/)
+[Abrir projeto](https://kleyton-gsilva.netlify.app/projetos/paineis-acompanhamento/)
 
 ## Contexto
 
@@ -18,7 +18,7 @@ Organização e manutenção dos controles e das informações que apoiam as con
 
 Escolha o período e a origem para acompanhar os valores e conferir a composição dos indicadores.
 
-Os exemplos foram criados para o portfólio. As interações são executadas no navegador; recarregar a página restaura os valores iniciais.
+Os exemplos foram criados para o portfólio. As alterações de pagamentos e previsões acompanham a navegação na mesma aba. Use a opção de restaurar a demonstração para voltar ao cenário inicial.
 
 ## Etapas do processo
 

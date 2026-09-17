@@ -20,7 +20,14 @@ for source,page in pages.items():
         url=urlsplit(link)
         if url.scheme or url.netloc: continue
         path=unquote(url.path)
-        target=(ROOT/path.removeprefix('/KleytonG.github.io/')) if path.startswith('/KleytonG.github.io/') else (source.parent/path if path else source)
+        if path in ('/KleytonG.github.io', '/KleytonG.github.io/'):
+            target=ROOT/'index.html'
+        elif path.startswith('/KleytonG.github.io/'):
+            target=ROOT/path.removeprefix('/KleytonG.github.io/')
+        elif path.startswith('/'):
+            target=ROOT/path.lstrip('/')
+        else:
+            target=source.parent/path if path else source
         target=target.resolve()
         if target.is_dir():target=target/'index.html'
         assert target.is_file(),f'Missing path in {source.relative_to(ROOT)}: {link}'

@@ -1,6 +1,6 @@
 # Controle operacional de frota e conferência de abastecimentos
 
-[Abrir projeto](https://kley22.github.io/KleytonG.github.io/projetos/controle-frota/)
+[Abrir projeto](https://kleyton-gsilva.netlify.app/projetos/controle-frota/)
 
 ## Contexto
 
@@ -18,7 +18,7 @@ Atualização das planilhas, conferência dos registros e acompanhamento adminis
 
 Calcule o consumo por intervalo de abastecimento e acompanhe a revisão das ocorrências.
 
-Os exemplos foram criados para o portfólio. As interações são executadas no navegador; recarregar a página restaura os valores iniciais.
+Os exemplos foram criados para o portfólio. As alterações de pagamentos e previsões acompanham a navegação na mesma aba. Use a opção de restaurar a demonstração para voltar ao cenário inicial.
 
 ## Etapas do processo
 

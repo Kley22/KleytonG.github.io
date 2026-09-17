@@ -1,6 +1,6 @@
-import { validDate, normalizeText, filterObligations, summarizeObligations, groupObligations, calculateConsumption, obligationStatus } from './operations-logic.mjs';
+import { validDate, normalizeText, filterObligations, summarizeObligations, groupObligations, calculateConsumption, obligationStatus, summarizeForecasts } from './operations-logic.mjs';
 
-const REFERENCE = '2026-09-17';
+import { REFERENCE_DATE as REFERENCE, getWorkspace, getLedgerRecords, subscribe } from './workspace.mjs';
 const money = cents => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(cents / 100);
 const decimal = value => new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value);
 const dateLabel = value => value.split('-').reverse().join('/');
@@ -28,9 +28,9 @@ const occurrences = [
   { id: 'OC-105', vehicle: 'Veículo 04', date: '2026-09-08', reason: 'Leitura do hodômetro conferida com o comprovante.', state: 'reviewed' }
 ];
 
-const dashboardRecords = [...propertyRecords];
+const standaloneRecords = [...propertyRecords];
 for (const [month, multiplier] of [['2026-08', 0.96], ['2026-10', 1.02]]) {
-  propertyRecords.forEach((record, index) => dashboardRecords.push({
+  propertyRecords.forEach((record, index) => standaloneRecords.push({
     ...record,
     id: `${record.id}-${month}`,
     month,
@@ -42,20 +42,19 @@ for (const [month, multiplier] of [['2026-08', 0.96], ['2026-10', 1.02]]) {
 }
 for (const [month, multiplier] of [['2026-08', 0.92], ['2026-09', 1], ['2026-10', 1.04]]) {
   const templates = [
-    ['CT-01', 'contratos', 'Conservação predial · serviços', 780000, '10', true],
-    ['CT-02', 'contratos', 'Manutenção de equipamentos · serviços', 245000, '22', false],
-    ['CT-03', 'contratos', 'Conservação predial · materiais', 64000, '28', false],
     ['FR-01', 'frota', 'Abastecimentos · Veículo 01', 36500, '08', true],
     ['FR-02', 'frota', 'Abastecimentos · Veículo 02', 28700, '18', false],
     ['FR-03', 'frota', 'Revisão · Veículo 03', 89500, '24', false]
   ];
-  templates.forEach(([id, category, description, cents, day, settled], index) => dashboardRecords.push({
+  templates.forEach(([id, category, description, cents, day, settled], index) => standaloneRecords.push({
     id: `${id}-${month}`, category, description, type: category === 'contratos' ? 'Contrato' : 'Despesa de frota', month,
     cents: Math.round(cents * multiplier), due: `${month}-${day}`,
     paidOn: month === '2026-08' || (month === '2026-09' && settled) ? `${month}-${day}` : '',
     documents: month === '2026-08' || index !== 2
   }));
 }
+
+export const getDashboardRecords = () => [...structuredClone(standaloneRecords), ...getLedgerRecords()];
 
 function node(tag, className = '', text = '') {
   const result = document.createElement(tag);
@@ -139,8 +138,9 @@ function table(label, headers, id = '') {
 }
 function addRow(body, values) {
   const row = document.createElement('tr');
-  values.forEach(value => {
+  values.forEach((value, index) => {
     const cell = document.createElement('td');
+    cell.dataset.label = body.closest('table').tHead.rows[0].cells[index]?.textContent || '';
     if (value instanceof Node) cell.append(value);
     else cell.textContent = String(value);
     row.append(cell);
@@ -181,8 +181,11 @@ function mountProperties(root) {
   error.setAttribute('role', 'alert');
   const grid = table('Obrigações imobiliárias filtradas', ['Imóvel', 'Obrigação', 'Vencimento', 'Valor', 'Situação', 'Documentos'], 'property-records');
   const reset = button('Restaurar filtros', 'property-reset');
+  const challenge = button('Encontrar documentos pendentes', 'property-challenge');
+  const actions = node('div', 'demo-actions');
+  actions.append(challenge, reset);
   const help = node('p', 'demo-help', 'Em aberto inclui obrigações vencidas e ainda em prazo. Documentação pendente é acompanhada separadamente da situação do pagamento.');
-  root.replaceChildren(intro, toolbar, cards.wrapper, summary, error, grid.region, help, reset);
+  root.replaceChildren(intro, toolbar, cards.wrapper, summary, error, grid.region, help, actions);
   function update() {
     const isValid = validDate(reference.value);
     error.textContent = isValid ? '' : 'Selecione uma data de referência válida.';
@@ -203,6 +206,7 @@ function mountProperties(root) {
   }
   [property, type, status, reference].forEach(control => control.addEventListener('change', update));
   reference.addEventListener('input', update);
+  challenge.addEventListener('click', () => { property.value = 'all'; type.value = 'all'; status.value = 'documents'; reference.value = REFERENCE; update(); status.focus(); });
   reset.addEventListener('click', () => { property.value = 'all'; type.value = 'all'; status.value = 'all'; reference.value = REFERENCE; update(); });
   update();
 }
@@ -247,7 +251,16 @@ function mountFleet(root) {
   const grid = table('Ocorrências de frota filtradas', ['Ocorrência', 'Veículo', 'Data', 'Ponto de conferência', 'Situação', 'Ação'], 'fleet-records');
   const reset = button('Restaurar demonstração', 'fleet-reset');
   const states = new Map(occurrences.map(record => [record.id, record.state]));
-  review.append(reviewHeading, reviewIntro, reviewToolbar, summary, grid.region, node('p', 'demo-help', 'As marcações ficam nesta página enquanto ela estiver aberta. Use “Restaurar demonstração” para começar de novo.'), reset);
+  const fleetStorageKey = 'kleyton-portfolio-fleet-v1';
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(fleetStorageKey) || '{}');
+    occurrences.forEach(record => { if (['pending', 'reviewed'].includes(saved[record.id])) states.set(record.id, saved[record.id]); });
+  } catch { /* A browser with disabled storage can still use the demonstration. */ }
+  function saveStates() { try { sessionStorage.setItem(fleetStorageKey, JSON.stringify(Object.fromEntries(states))); } catch { /* Keep the in-memory state. */ } }
+  const challenge = button('Localizar leituras para conferir', 'fleet-challenge');
+  const actions = node('div', 'demo-actions');
+  actions.append(challenge, reset);
+  review.append(reviewHeading, reviewIntro, reviewToolbar, summary, grid.region, node('p', 'demo-help', 'As conferências são mantidas nesta aba durante a navegação. Use “Restaurar demonstração” para começar de novo.'), actions);
   root.replaceChildren(calculator, review);
   function calculate() {
     const result = calculateConsumption({ previous: previous.value, current: current.value, liters: liters.value, fullToFull: full.checked });
@@ -269,6 +282,7 @@ function mountFleet(root) {
       action.setAttribute('aria-label', `${reviewed ? 'Reabrir' : 'Marcar conferida'} a ocorrência ${record.id}`);
       action.addEventListener('click', () => {
         states.set(record.id, reviewed ? 'pending' : 'reviewed');
+        saveStates();
         renderOccurrences(`Ocorrência ${record.id} ${reviewed ? 'reaberta' : 'conferida'}. `);
         const updatedAction = [...grid.body.querySelectorAll('button')].find(item => item.dataset.occurrence === record.id);
         (updatedAction || status).focus();
@@ -281,8 +295,10 @@ function mountFleet(root) {
   full.addEventListener('change', calculate);
   search.addEventListener('input', () => renderOccurrences());
   status.addEventListener('change', () => renderOccurrences());
+  challenge.addEventListener('click', () => { search.value = 'hodômetro'; status.value = 'all'; renderOccurrences('Confira a sequência das leituras antes de concluir. '); search.focus(); });
   reset.addEventListener('click', () => {
     occurrences.forEach(record => states.set(record.id, record.state));
+    saveStates();
     search.value = ''; status.value = 'all'; previous.value = '12400'; current.value = '12820'; liters.value = '35'; full.checked = true;
     calculate(); renderOccurrences('Demonstração restaurada. ');
   });
@@ -291,33 +307,88 @@ function mountFleet(root) {
 }
 
 function mountDashboard(root) {
-  const intro = node('p', 'demo-help', 'Mude a competência ou a origem para consultar os valores e chegar aos registros que compõem o painel.');
+  const intro = node('p', 'demo-help', 'Do panorama ao lançamento: filtre a competência e a origem ou acompanhe um contrato. As conferências e simulações feitas nos outros projetos aparecem aqui.');
   const toolbar = node('div', 'demo-toolbar');
   const month = select([['2026-08', 'Agosto de 2026'], ['2026-09', 'Setembro de 2026'], ['2026-10', 'Outubro de 2026']]);
   month.value = '2026-09';
   const category = select([['all', 'Todas as origens'], ...Object.entries(categories)]);
-  toolbar.append(field('dashboard-month', 'Competência', month), field('dashboard-category', 'Origem', category));
+  const contract = select([['all', 'Todos os contratos'], ...getWorkspace().contracts.map(item => [item.id, `${item.id} · ${item.object}`])]);
+  const status = select([['all', 'Todas as situações'], ['documents', 'Documentação pendente'], ['overdue', 'Vencido em aberto'], ['open', 'Em prazo'], ['paid', 'Pago']]);
+  const requested = new URLSearchParams(location.search).get('contrato');
+  if (getWorkspace().contracts.some(item => item.id === requested)) { contract.value = requested; category.value = 'contratos'; }
+  toolbar.append(field('dashboard-month', 'Competência', month), field('dashboard-category', 'Origem', category), field('dashboard-contract', 'Contrato', contract), field('dashboard-status', 'Situação', status));
   const cards = metrics([['dashboard-total', 'Valor registrado'], ['dashboard-paid', 'Pago até 17/09/2026'], ['dashboard-open', 'Em aberto'], ['dashboard-documents', 'Documentação pendente']]);
   const summary = live('dashboard-results');
   const bars = node('div', 'demo-bars');
   bars.setAttribute('aria-label', 'Valores registrados por origem');
   const breakdown = table('Consolidação por origem', ['Origem', 'Obrigações', 'Registrado', 'Pago', 'Em aberto'], 'dashboard-breakdown');
   const details = document.createElement('details');
+  details.id = 'dashboard-ledger';
   details.append(node('summary', '', 'Ver registros que compõem o painel'));
-  const recordsTable = table('Registros que compõem o painel', ['Referência', 'Origem', 'Descrição', 'Vencimento', 'Valor', 'Situação'], 'dashboard-records');
+  const recordsTable = table('Registros que compõem o painel', ['Referência', 'Origem', 'Descrição', 'Vencimento', 'Valor', 'Situação', 'Consulta'], 'dashboard-records');
   details.append(recordsTable.region);
-  const help = node('p', 'demo-help', 'Uma linha por obrigação, agrupada pela competência. Registrado = pago + em aberto. Pagamentos considerados até 17/09/2026; a documentação é conferida em separado.');
+  const help = node('p', 'demo-help', 'Uma linha por obrigação, agrupada pela competência. Registrado = pago + em aberto. Documentação e previsão de saldo são acompanhadas separadamente.');
+  const forecasts = node('section', 'dashboard-forecast');
+  forecasts.setAttribute('aria-labelledby', 'dashboard-forecast-title');
+  const forecastTitle = node('h3', '', 'Projeção de saldos por contrato');
+  forecastTitle.id = 'dashboard-forecast-title';
+  const forecastSummary = live('dashboard-forecast-results');
+  const forecastGrid = table('Projeções de serviço e material por contrato', ['Contrato', 'Horizonte', 'Serviço · saldo projetado', 'Material · saldo projetado', 'Consulta'], 'dashboard-forecasts');
+  const forecastHelp = node('p', 'demo-help', 'Posição em 17/09/2026, com as premissas da simulação. Serviço e material não se compensam. As projeções não são somadas aos valores registrados acima.');
+  forecasts.append(forecastTitle, forecastSummary, forecastGrid.region, forecastHelp);
+  const links = node('div', 'demo-actions');
   const reset = button('Restaurar filtros', 'dashboard-reset');
-  root.replaceChildren(intro, toolbar, cards.wrapper, summary, bars, breakdown.region, details, help, reset);
+  const challenge = button('Encontrar saldo insuficiente', 'dashboard-challenge');
+  const challengeDocuments = button('Conferir documentos pendentes', 'dashboard-documents-challenge');
+  const challenges = node('div', 'demo-actions');
+  challenges.append(challenge, challengeDocuments, reset);
+  const challengeStatus = live('dashboard-challenge-results');
+  root.replaceChildren(intro, toolbar, challenges, challengeStatus, cards.wrapper, summary, bars, breakdown.region, details, help, forecasts, links);
+  function projectLink(slug, label, id = '') {
+    const link = node('a', 'text-link', label);
+    link.href = `../${slug}/${id ? `?contrato=${encodeURIComponent(id)}` : ''}#demonstracao`;
+    return link;
+  }
+  function projectedCell(result) {
+    const cell = node('div');
+    if (result.status !== 'valid') {
+      cell.append(node('span', 'demo-status is-warning', 'Projeção indisponível'));
+      return cell;
+    }
+    cell.append(node('strong', '', money(result.remaining)), node('small', `demo-status ${result.risk ? 'is-danger' : result.remaining === 0 ? 'is-warning' : 'is-success'}`, result.risk ? 'Saldo insuficiente' : result.remaining === 0 ? 'Saldo comprometido' : 'Saldo suficiente'));
+    return cell;
+  }
+  function updateForecasts() {
+    const matchingOrigin = ['all', 'contratos'].includes(category.value);
+    forecasts.hidden = !matchingOrigin;
+    if (!matchingOrigin) return;
+    forecastGrid.body.replaceChildren();
+    forecastGrid.region.hidden = month.value !== '2026-09';
+    forecastHelp.hidden = month.value !== '2026-09';
+    if (month.value !== '2026-09') {
+      forecastSummary.textContent = 'As simulações têm posição em setembro de 2026. Selecione essa competência para consultar as projeções.';
+      return;
+    }
+    const rows = summarizeForecasts(getWorkspace().forecasts.filter(item => contract.value === 'all' || item.id === contract.value));
+    const risks = rows.filter(item => item.risk).length;
+    const incomplete = rows.filter(item => item.unavailable).length;
+    forecastSummary.textContent = `${rows.length} cenários · ${risks} com saldo insuficiente · ${incomplete} com premissa pendente ou inválida. A situação documental filtra os lançamentos acima.`;
+    rows.forEach(item => {
+      const row = addRow(forecastGrid.body, [item.label, `${item.months} meses`, projectedCell(item.service), projectedCell(item.material), projectLink('previsao-contratual', `Simular ${item.id} ↗`, item.id)]);
+      row.dataset.forecast = item.id;
+      row.dataset.risk = String(item.risk);
+    });
+    if (!rows.length) emptyRow(forecastGrid.body, 5, 'Este contrato ainda não tem um cenário de projeção cadastrado.');
+  }
   function update() {
-    const records = filterObligations(dashboardRecords, { month: month.value, category: category.value });
+    const records = filterObligations(getDashboardRecords(), { month: month.value, category: category.value, contract: contract.value, status: status.value, reference: REFERENCE });
     const totals = summarizeObligations(records, REFERENCE);
     const groups = groupObligations(records, REFERENCE);
     cards.values['dashboard-total'].textContent = money(totals.totalCents);
     cards.values['dashboard-paid'].textContent = money(totals.paidCents);
     cards.values['dashboard-open'].textContent = money(totals.openCents);
     cards.values['dashboard-documents'].textContent = String(totals.pendingDocuments);
-    summary.textContent = `${records.length} obrigações · ${month.options[month.selectedIndex].text} · ${category.options[category.selectedIndex].text} · ${money(totals.overdueCents)} vencidos em aberto.`;
+    summary.textContent = `${records.length} obrigações · ${month.options[month.selectedIndex].text} · ${category.options[category.selectedIndex].text}${contract.value !== 'all' ? ` · ${contract.value}` : ''} · ${money(totals.overdueCents)} vencidos em aberto.`;
     bars.replaceChildren();
     breakdown.body.replaceChildren();
     groups.forEach(group => {
@@ -333,12 +404,34 @@ function mountDashboard(root) {
       addRow(breakdown.body, [categories[group.category], group.count, money(group.totalCents), money(group.paidCents), money(group.openCents)]);
     });
     recordsTable.body.replaceChildren();
-    records.forEach(record => addRow(recordsTable.body, [record.id, categories[record.category], record.description, dateLabel(record.due), money(record.cents), statusBadge(obligationStatus(record, REFERENCE))]));
-    if (!records.length) { emptyRow(breakdown.body, 5); emptyRow(recordsTable.body, 6); }
+    records.forEach(record => addRow(recordsTable.body, [record.id, categories[record.category], record.description, dateLabel(record.due), money(record.cents), statusBadge(obligationStatus(record, REFERENCE)), record.contract ? projectLink('pagamentos', `Conferir ${record.id} ↗`, record.contract) : projectLink(record.category === 'imoveis' ? 'controle-imoveis' : 'controle-frota', 'Abrir controle ↗')]));
+    if (!records.length) { emptyRow(breakdown.body, 5); emptyRow(recordsTable.body, 7); }
+    const id = contract.value === 'all' ? '' : contract.value;
+    const forecastAvailable = !id || getWorkspace().forecasts.some(item => item.id === id);
+    links.replaceChildren(projectLink('vigencia-contratual', 'Consultar vigências ↗', id), projectLink('pagamentos', 'Conferir pagamentos ↗', id), ...(forecastAvailable ? [projectLink('previsao-contratual', 'Ajustar previsões ↗', id)] : []));
+    updateForecasts();
   }
   month.addEventListener('change', update);
-  category.addEventListener('change', update);
-  reset.addEventListener('click', () => { month.value = '2026-09'; category.value = 'all'; update(); });
+  status.addEventListener('change', update);
+  category.addEventListener('change', () => { if (!['all', 'contratos'].includes(category.value)) contract.value = 'all'; update(); });
+  contract.addEventListener('change', () => { if (contract.value !== 'all') category.value = 'contratos'; update(); });
+  reset.addEventListener('click', () => { month.value = '2026-09'; category.value = 'all'; contract.value = 'all'; status.value = 'all'; challengeStatus.textContent = ''; update(); });
+  challenge.addEventListener('click', () => {
+    const risk = summarizeForecasts(getWorkspace().forecasts).find(item => item.risk);
+    month.value = '2026-09'; category.value = 'contratos'; status.value = 'all';
+    contract.value = risk?.id || 'all';
+    update();
+    challengeStatus.textContent = risk ? `${risk.id} tem saldo projetado negativo. Abra a simulação para conferir serviço e material e ajustar as premissas.` : 'Nenhum componente calculado tem saldo negativo. As projeções indisponíveis continuam exigindo conferência.';
+    forecastTitle.tabIndex = -1;
+    forecastTitle.focus();
+  });
+  challengeDocuments.addEventListener('click', () => {
+    month.value = '2026-09'; category.value = 'contratos'; contract.value = 'all'; status.value = 'documents'; details.open = true;
+    update();
+    challengeStatus.textContent = 'Abra um pagamento, conclua a conferência documental e volte ao painel para acompanhar a atualização.';
+    status.focus();
+  });
+  subscribe(update);
   update();
 }
 

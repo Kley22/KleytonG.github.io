@@ -1,6 +1,6 @@
 # Acompanhamento de saldos e previsões
 
-[Abrir projeto](https://kley22.github.io/KleytonG.github.io/projetos/previsao-contratual/)
+[Abrir projeto](https://kleyton-gsilva.netlify.app/projetos/previsao-contratual/)
 
 ## Contexto
 
@@ -18,7 +18,7 @@ Conferência dos lançamentos, atualização dos controles e acompanhamento de s
 
 Ajuste os saldos, os custos mensais e o horizonte para comparar serviços e materiais.
 
-Os exemplos foram criados para o portfólio. As interações são executadas no navegador; recarregar a página restaura os valores iniciais.
+Os exemplos foram criados para o portfólio. As alterações de pagamentos e previsões acompanham a navegação na mesma aba. Use a opção de restaurar a demonstração para voltar ao cenário inicial.
 
 ## Etapas do processo
 

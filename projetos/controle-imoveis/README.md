@@ -1,6 +1,6 @@
 # Controle administrativo de imóveis e obrigações
 
-[Abrir projeto](https://kley22.github.io/KleytonG.github.io/projetos/controle-imoveis/)
+[Abrir projeto](https://kleyton-gsilva.netlify.app/projetos/controle-imoveis/)
 
 ## Contexto
 
@@ -18,7 +18,7 @@ Organização cadastral e documental, conferência de obrigações e acompanhame
 
 Filtre os imóveis e as despesas para consultar vencimentos, pagamentos e pendências documentais.
 
-Os exemplos foram criados para o portfólio. As interações são executadas no navegador; recarregar a página restaura os valores iniciais.
+Os exemplos foram criados para o portfólio. As alterações de pagamentos e previsões acompanham a navegação na mesma aba. Use a opção de restaurar a demonstração para voltar ao cenário inicial.
 
 ## Etapas do processo
 

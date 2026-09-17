@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://kley22.github.io/KleytonG.github.io/sitemap.xml
+Sitemap: https://kleyton-gsilva.netlify.app/sitemap.xml

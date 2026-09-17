@@ -3,6 +3,7 @@
 import {createRequire} from 'node:module';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import {getInitialWorkspace} from '../assets/js/workspace.mjs';
 const require=createRequire(import.meta.url);
 const {chromium}=require('playwright');
 const url=process.env.PORTFOLIO_URL||'http://127.0.0.1:8765/KleytonG.github.io/';
@@ -10,11 +11,32 @@ const projects=JSON.parse(fs.readFileSync(new URL('../content/projects.json',imp
 const viewports=[375,390,430,768,1366,1920];
 const routes=['','404.html',...projects.map(project=>'projetos/'+project.slug+'/')];
 const legacyRoutes={'gestao-frota':'controle-frota','aditivos-repactuacoes':'vigencia-contratual'};
-const browser=await chromium.launch({headless:true,executablePath:process.env.PORTFOLIO_BROWSER||chromium.executablePath(),args:['--no-sandbox']});
+const browser=await chromium.launch({headless:true,executablePath:process.env.PORTFOLIO_BROWSER||chromium.executablePath(),args:['--no-sandbox','--disable-dev-shm-usage','--disable-gpu']});
 const failures=[],sourceRequests=[];
 const sourcePattern=/(?:\.xlsx?(?:[?#]|$)|docs\.google\.com\/spreadsheets|drive\.google\.com\/(?:file|open))/i;
-let checked=0,explorersChecked=0,stepsChecked=0,keyboardChecks=0,staticPanelsChecked=0,demoChecks=0;
+let checked=0,explorersChecked=0,stepsChecked=0,keyboardChecks=0,staticPanelsChecked=0,demoChecks=0,connectedChecks=0;
 const normalize=text=>text.replace(/\s+/g,' ').trim();
+const moneyCents=text=>Math.round(Number(text.replace(/[^\d,-]/g,'').replace(',','.'))*100);
+const rowsIn=locator=>locator.locator('tbody tr:not(:has(td[colspan]))');
+const initialWorkspace=getInitialWorkspace();
+async function resetVisit(page){
+  // Existing isolated scenarios must not inherit a previous visitor action.
+  await page.evaluate(()=>sessionStorage.clear());
+}
+async function dashboardReconciles(app){
+  const items=await rowsIn(app.locator('#dashboard-records')).evaluateAll(rows=>rows.map(row=>Array.from(row.cells,cell=>cell.textContent.trim())));
+  const unique=new Set(items.map(row=>row[0]));
+  assert.equal(unique.size,items.length,'The dashboard ledger includes each obligation exactly once');
+  const total=items.reduce((sum,row)=>sum+moneyCents(row[4]),0);
+  const paid=items.filter(row=>row[5]==='Pago').reduce((sum,row)=>sum+moneyCents(row[4]),0);
+  const metric=async key=>moneyCents(await app.locator('[data-metric="'+key+'"]').innerText());
+  assert.equal(await metric('dashboard-total'),total,'Registered metric reconciles to the visible ledger');
+  assert.equal(await metric('dashboard-paid'),paid,'Paid metric includes only paid ledger records');
+  assert.equal(await metric('dashboard-open'),total-paid,'Open metric excludes paid records');
+  const groups=await rowsIn(app.locator('#dashboard-breakdown')).evaluateAll(rows=>rows.map(row=>Array.from(row.cells,cell=>cell.textContent.trim())));
+  assert.equal(groups.reduce((sum,row)=>sum+moneyCents(row[2]),0),total,'Grouped origins reconcile without double counting');
+  return {items,total,paid,open:total-paid};
+}
 
 function monitor(page){
   page.on('pageerror',error=>failures.push({type:'pageerror',message:error.message}));
@@ -29,6 +51,8 @@ async function visit(page,route,{interactive=true}={}){
   const response=await page.goto(url+route);
   assert.equal(response.status(),200,`HTTP status for ${route||'home'}`);
   assert.equal(await page.locator('h1').count(),1,`One main heading: ${route||'home'}`);
+  assert.match(await page.locator('link[rel="canonical"]').getAttribute('href'),/^https:\/\/kleyton-gsilva\.netlify\.app\//,'Canonical URLs use the published Netlify domain');
+  if(interactive&&await page.locator('[data-overview]').count())await page.locator('[data-overview][data-ready="true"]').waitFor({state:'visible'});
   if(interactive&&await page.locator('.demo-app[data-demo]').count())await page.locator('.demo-app[data-demo][data-ready="true"]').waitFor({state:'visible'});
 }
 async function assertCase(page,project,{interactive=true}={}){
@@ -144,33 +168,41 @@ async function checkOperations(app,slug){
     assert.equal(await rows('fleet-records'),3,'Reset restores the original occurrence states');
     demoChecks+=7;
   }else if(slug==='paineis-acompanhamento'){
-    assert.equal(await metricText('dashboard-total'),'R$ 27.095,50');
-    assert.equal(await metricText('dashboard-paid'),'R$ 18.485,00');
-    assert.equal(await metricText('dashboard-open'),'R$ 8.610,50');
-    assert.equal(await metricText('dashboard-documents'),'4');
+    const baseline=await dashboardReconciles(app);
     assert.equal(await rows('dashboard-breakdown'),3);
-    await app.locator('details summary').click();
+    await app.locator('#dashboard-ledger summary').click();
     assert.equal(await app.locator('#dashboard-records').isVisible(),true);
-    assert.equal(await rows('dashboard-records'),14,'Drill-down exposes each obligation exactly once');
+    assert.equal(baseline.items.length,14,'Three September contract records join property and fleet obligations');
+    const contractRows=baseline.items.filter(row=>row[1]==='Contratos');
+    assert.deepEqual(contractRows.map(row=>row[0]).sort(),initialWorkspace.payments.filter(row=>row.competence==='2026-09').map(row=>row.id).sort(),'The panel uses the same contract ledger as payments');
+    assert.equal(await rows('dashboard-forecasts'),3);
+    assert.equal(await app.locator('#dashboard-forecasts [data-risk="true"]').count(),1);
     await app.locator('#dashboard-category').selectOption('frota');
     assert.equal(await metricText('dashboard-total'),'R$ 1.547,00');
     assert.equal(await metricText('dashboard-paid'),'R$ 365,00');
     assert.equal(await metricText('dashboard-open'),'R$ 1.182,00');
     assert.equal(await rows('dashboard-records'),3);
     assert.equal(await rows('dashboard-breakdown'),1);
+    assert.equal(await app.locator('.dashboard-forecast').isVisible(),false,'Fleet results do not present contract forecasts');
+    await dashboardReconciles(app);
     await app.locator('#dashboard-category').selectOption('all');
     await app.locator('#dashboard-month').selectOption('2026-08');
-    assert.equal(await metricText('dashboard-total'),'R$ 25.514,20');
-    assert.equal(await metricText('dashboard-paid'),'R$ 25.514,20');
-    assert.equal(await metricText('dashboard-open'),'R$ 0,00');
+    const august=await dashboardReconciles(app);
+    assert.equal(august.open,720000,'The unpaid August climate record remains open in its actual competence');
+    assert.equal(await app.locator('#dashboard-forecasts').isVisible(),false,'September forecast is not mislabeled as August');
     await app.locator('#dashboard-month').selectOption('2026-10');
-    assert.equal(await metricText('dashboard-total'),'R$ 27.886,15');
-    assert.equal(await metricText('dashboard-paid'),'R$ 0,00');
-    assert.equal(await metricText('dashboard-open'),'R$ 27.886,15','Future obligations remain open at the fixed reference');
+    const october=await dashboardReconciles(app);
+    assert.equal(october.paid,0,'Future obligations remain open at the fixed reference');
+    assert.equal(october.items.filter(row=>row[1]==='Contratos').length,0,'A forecast must not fabricate contract payment records');
     await app.locator('#dashboard-reset').click();
-    assert.equal(await metricText('dashboard-total'),'R$ 27.095,50');
-    assert.equal(await rows('dashboard-records'),14);
-    demoChecks+=5;
+    assert.deepEqual(await dashboardReconciles(app),baseline,'Restoring filters recovers the same September ledger');
+    await app.locator('#dashboard-challenge').click();
+    assert.equal(await app.locator('#dashboard-contract').inputValue(),'CT-102');
+    assert.match(await app.locator('#dashboard-challenge-results').innerText(),/CT-102/);
+    await app.locator('#dashboard-documents-challenge').click();
+    assert.equal(await app.locator('#dashboard-status').inputValue(),'documents');
+    assert.deepEqual((await dashboardReconciles(app)).items.map(row=>row[0]).sort(),['PG-201','PG-203']);
+    demoChecks+=9;
   }else assert.fail('No interaction check defined for '+slug);
 }
 
@@ -239,6 +271,7 @@ async function checkDemo(page,slug){
     assert.match(await app.locator('tbody').innerText(),/Nenhum registro/);
     await app.locator('#payment-period').selectOption('all');
     await app.locator('#payment-due-filter').selectOption('all');
+    await app.getByRole('button',{name:'Conferir PG-201',exact:true}).click();
     assert.equal(await app.locator('[data-payment-forward]').isDisabled(),true);
     await app.locator('#payment-document-confirmation').check();
     assert.equal(await app.locator('[data-payment-forward]').isEnabled(),true);
@@ -254,11 +287,109 @@ async function checkDemo(page,slug){
     assert.match(await app.locator('[data-payment-action-status]').innerText(),/PG-201: pagamento de/);
     await app.locator('#payment-due-filter').selectOption('paid');
     assert.equal(await rowCount(),2,'Newly registered payment enters the paid filter');
-    await app.getByRole('button',{name:'Restaurar registros',exact:true}).click();
+    await app.getByRole('button',{name:'Recomeçar demonstração',exact:true}).click();
     assert.equal(await rowCount(),5);
     assert.equal(await app.locator('#payment-document-confirmation').isChecked(),false,'Reset restores the original document checklist');
     demoChecks+=7;
   }else await checkOperations(app,slug);
+}
+
+async function checkConnectedJourney(page){
+  await resetVisit(page);
+  await visit(page,'projetos/paineis-acompanhamento/');
+  const baseline=await dashboardReconciles(page.locator('.demo-app'));
+  await visit(page,'');
+  const overview=page.locator('[data-overview]');
+  const overviewValue=key=>overview.locator('[data-overview-metric="'+key+'"] strong');
+  const initialOpen=initialWorkspace.payments.filter(row=>!row.paidAt).reduce((sum,row)=>sum+row.amount,0);
+  assert.equal(moneyCents(await overviewValue('payments').innerText()),initialOpen,'Home shows the shared unpaid ledger');
+  assert.equal(await overviewValue('deadlines').innerText(),'3');
+  await overview.locator('[data-overview-task]').click();
+  assert.equal(await overview.locator('[data-overview-filter]').inputValue(),'CT-102');
+  assert.match(await overview.locator('[data-overview-feedback]').innerText(),/CT-102/);
+  assert.equal(await overview.locator('[data-overview-feedback]').evaluate(element=>document.activeElement===element),true,'The home challenge moves focus to its answer');
+  await overview.locator('[data-overview-filter]').selectOption('CT-103');
+  assert.equal(await overviewValue('risk').innerText(),'—','An unavailable forecast is distinct from a healthy zero');
+  assert.equal(await overview.locator('[data-overview-forecast-link]').count(),0);
+  await overview.locator('[data-overview-filter]').selectOption('CT-101');
+  assert.equal(moneyCents(await overviewValue('payments').innerText()),1430000);
+  await overview.locator('[data-overview-contract-link]').click();
+  await page.locator('.demo-app[data-ready="true"]').waitFor();
+  assert.equal(new URL(page.url()).searchParams.get('contrato'),'CT-101');
+  assert.equal(await page.locator('#contract-search').inputValue(),'CT-101','A home selection follows the visitor into contracts');
+  assert.equal(await rowsIn(page.locator('.demo-table')).count(),1);
+  await page.getByRole('link',{name:'Ver pagamentos',exact:true}).click();
+  await page.locator('.demo-app[data-ready="true"]').waitFor();
+  assert.equal(await page.locator('#payment-contract').inputValue(),'CT-101');
+  assert.equal(await rowsIn(page.locator('.demo-table')).count(),2,'Only the selected contract payment records appear');
+  await page.getByRole('button',{name:'Conferir PG-201',exact:true}).click();
+  await page.locator('#payment-document-confirmation').check();
+  await page.locator('[data-payment-forward]').click();
+  await page.locator('[data-payment-pay]').click();
+  assert.match(await page.locator('[data-payment-action-status]').innerText(),/PG-201: pagamento de/);
+  await page.goBack();
+  await page.locator('.demo-app[data-ready="true"]').waitFor();
+  await page.goBack();
+  await page.locator('[data-overview][data-ready="true"]').waitFor();
+  await overview.locator('[data-overview-filter]').selectOption('CT-101');
+  assert.equal(moneyCents(await overviewValue('payments').innerText()),180000,'Back navigation must not resurrect stale payment state');
+  await page.goForward();
+  await page.locator('.demo-app[data-ready="true"]').waitFor();
+  await page.goForward();
+  await page.locator('.demo-app[data-ready="true"]').waitFor();
+  await page.reload();
+  await page.locator('.demo-app[data-ready="true"]').waitFor();
+  assert.equal(await page.locator('[data-payment-pay]').isDisabled(),true,'A confirmed payment survives page reload');
+  assert.equal(await page.locator('#payment-paid-date').inputValue(),'2026-09-17');
+  await page.getByRole('link',{name:'Ver no painel',exact:true}).click();
+  await page.locator('.demo-app[data-ready="true"]').waitFor();
+  assert.equal(await page.locator('#dashboard-contract').inputValue(),'CT-101');
+  const contractPaid=await dashboardReconciles(page.locator('.demo-app'));
+  assert.equal(contractPaid.paid,1250000);
+  assert.equal(contractPaid.open,180000);
+  assert.equal(contractPaid.total,1430000,'Registering a payment changes its situation, not the registered total');
+  await page.locator('#dashboard-reset').click();
+  const updated=await dashboardReconciles(page.locator('.demo-app'));
+  assert.equal(updated.total,baseline.total);
+  assert.equal(updated.paid,baseline.paid+1250000,'The consolidated paid total responds to the same confirmation');
+  assert.equal(updated.open,baseline.open-1250000);
+  assert.equal(await page.locator('[data-metric="dashboard-documents"]').innerText(),'5','Completing a document removes one pending item');
+  await page.locator('#dashboard-forecasts [data-forecast="CT-101"] a').click();
+  await page.locator('.demo-app[data-ready="true"]').waitFor();
+  assert.equal(await page.locator('#forecast-contract').inputValue(),'CT-101');
+  await page.locator('#forecast-months').fill('4');
+  assert.match(await page.locator('[data-forecast-component="service"]').innerText(),/-R\$\s*2\.000,00/);
+  await page.getByRole('link',{name:'Ver impacto no painel',exact:true}).click();
+  await page.locator('.demo-app[data-ready="true"]').waitFor();
+  const projected=page.locator('#dashboard-forecasts [data-forecast="CT-101"]');
+  assert.equal(await projected.getAttribute('data-risk'),'true');
+  assert.match(await projected.innerText(),/4 meses/);
+  assert.match(await projected.innerText(),/-R\$\s*2\.000,00/);
+  assert.equal((await dashboardReconciles(page.locator('.demo-app'))).paid,1250000,'A changed projection is never added to the actual payment ledger');
+  await visit(page,'');
+  await overview.locator('[data-overview-filter]').selectOption('CT-101');
+  assert.equal(moneyCents(await overviewValue('payments').innerText()),180000);
+  assert.equal(await overviewValue('risk').innerText(),'1');
+  assert.match(await overview.locator('[data-overview-component="service"]').innerText(),/-R\$\s*2\.000,00/,'Home shows the same modified projection');
+  await page.reload();
+  await page.locator('[data-overview][data-ready="true"]').waitFor();
+  assert.equal(moneyCents(await overviewValue('payments').innerText()),initialOpen-1250000,'Home retains changes across reload');
+  await overview.locator('[data-overview-filter]').selectOption('CT-101');
+  await overview.locator('[data-overview-forecast-link]').click();
+  await page.locator('.demo-app[data-ready="true"]').waitFor();
+  assert.equal(await page.locator('#forecast-months').inputValue(),'4','The forecast form retains its own modified premise');
+  await page.getByRole('link',{name:'Ver pagamentos do contrato',exact:true}).click();
+  await page.locator('.demo-app[data-ready="true"]').waitFor();
+  await page.getByRole('button',{name:'Recomeçar demonstração',exact:true}).click();
+  assert.equal(await page.locator('#payment-document-confirmation').isChecked(),false);
+  await visit(page,'projetos/paineis-acompanhamento/');
+  assert.deepEqual(await dashboardReconciles(page.locator('.demo-app')),baseline,'Reset restores the original shared ledger');
+  assert.match(await page.locator('#dashboard-forecasts [data-forecast="CT-101"]').innerText(),/3 meses/);
+  assert.equal(await page.locator('#dashboard-forecasts [data-forecast="CT-101"]').getAttribute('data-risk'),'false');
+  await visit(page,'');
+  assert.equal(moneyCents(await overviewValue('payments').innerText()),initialOpen);
+  assert.equal(await overviewValue('risk').innerText(),'1');
+  connectedChecks+=13;
 }
 
 try{
@@ -296,12 +427,14 @@ try{
   const homeExplorers=page.locator('.method-explorer[data-explorer]');
   assert.equal(await homeExplorers.count(),1);await checkExplorer(homeExplorers,'home method');
   for(const project of projects){
+    await resetVisit(page);
     await visit(page,'projetos/'+project.slug+'/');await assertCase(page,project);
     await checkDemo(page,project.slug);
     const explorer=page.locator('.workflow-explorer[data-explorer]');
     assert.equal(await explorer.count(),1,`One workflow explorer: ${project.slug}`);
     await checkExplorer(explorer,project.slug,project.steps);
   }
+  await checkConnectedJourney(page);
   for(const [legacy,current] of Object.entries(legacyRoutes)){
     const route='projetos/'+legacy+'/';await visit(page,route);
     assert.equal(page.url(),url+route,`Legacy URL remains open until a visitor follows its link: ${legacy}`);
@@ -336,5 +469,5 @@ try{
   }finally{await nojs.close();}
   assert.deepEqual(sourceRequests,[],'No operational workbook or internal Drive source is requested');
   assert.deepEqual(failures,[],'No browser console, script, network or HTTP errors');
-  console.log(JSON.stringify({viewport_checks:checked,viewports,projects:projects.length,explorers:explorersChecked,steps:stepsChecked,keyboard_checks:keyboardChecks,legacy_routes:Object.keys(legacyRoutes).length,no_javascript_panels:staticPanelsChecked,interactions:'passed',no_javascript:'passed',demo_checks:demoChecks,source_requests:sourceRequests.length,console_and_network_errors:failures.length},null,2));
+  console.log(JSON.stringify({viewport_checks:checked,viewports,projects:projects.length,explorers:explorersChecked,steps:stepsChecked,keyboard_checks:keyboardChecks,legacy_routes:Object.keys(legacyRoutes).length,no_javascript_panels:staticPanelsChecked,interactions:'passed',no_javascript:'passed',demo_checks:demoChecks,connected_checks:connectedChecks,source_requests:sourceRequests.length,console_and_network_errors:failures.length},null,2));
 }finally{await browser.close();}

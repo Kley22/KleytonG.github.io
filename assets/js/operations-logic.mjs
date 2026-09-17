@@ -1,3 +1,5 @@
+import { projectComponent } from './finance-logic.mjs';
+
 /** Calculations used by the interactive portfolio examples. Amounts are integer cents. */
 export function normalizeText(value) {
   return String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('pt-BR').trim();
@@ -15,12 +17,13 @@ export function obligationStatus(record, reference) {
   return record.due < reference ? 'overdue' : 'open';
 }
 
-export function filterObligations(records, { property = 'all', type = 'all', status = 'all', month = 'all', category = 'all', reference = '2026-09-17' } = {}) {
+export function filterObligations(records, { property = 'all', type = 'all', status = 'all', month = 'all', category = 'all', contract = 'all', reference = '2026-09-17' } = {}) {
   return records.filter(record =>
     (property === 'all' || record.property === property) &&
     (type === 'all' || record.type === type) &&
     (month === 'all' || record.month === month) &&
     (category === 'all' || record.category === category) &&
+    (contract === 'all' || record.contract === contract) &&
     (status === 'all' || (status === 'documents' ? !record.documents : obligationStatus(record, reference) === status))
   );
 }
@@ -62,4 +65,20 @@ export function calculateConsumption({ previous, current, liters, fullToFull }) 
   const efficiency = (end - start) / volume;
   if (!Number.isFinite(efficiency)) return { error: 'Confira a escala dos valores informados antes de calcular o consumo.' };
   return { distance: end - start, efficiency };
+}
+
+/** Project each financial component independently; missing premises never become zero. */
+export function summarizeForecasts(forecasts) {
+  return forecasts.map(forecast => {
+    const service = projectComponent(forecast.serviceBalance, forecast.serviceMonthly, forecast.months);
+    const material = projectComponent(forecast.materialBalance, forecast.materialMonthly, forecast.months);
+    const components = [service, material];
+    return {
+      ...forecast,
+      service,
+      material,
+      risk: components.some(component => component.status === 'valid' && component.risk),
+      unavailable: components.some(component => component.status !== 'valid')
+    };
+  });
 }
