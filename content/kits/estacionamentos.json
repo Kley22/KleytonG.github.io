@@ -1,0 +1,157 @@
+{
+  "title": "Contratos de estacionamento",
+  "filenames": [
+    "planilha-exemplo.xlsx",
+    "planilha-em-branco.xlsx"
+  ],
+  "sheets": [
+    {
+      "name": "Painel",
+      "purpose": "Contratos ativos, vagas, mensalidade contratada, cobranças e pendências.",
+      "inputs": "Nenhum. Resultados calculados."
+    },
+    {
+      "name": "Contratos",
+      "purpose": "Cadastro de contratos, vigências, vagas e tarifas.",
+      "editable": "A7:H56",
+      "inputs": "A7:H56"
+    },
+    {
+      "name": "Pagamentos",
+      "purpose": "Cobranças por competência, documentos e datas de pagamento.",
+      "editable": "A7:I56",
+      "inputs": "A7:I56"
+    },
+    {
+      "name": "Auxiliar",
+      "purpose": "Mês, data de referência e prazo do alerta.",
+      "editable": "B4:B5 e B8",
+      "inputs": "B4:B5 e B8"
+    }
+  ],
+  "settings": [
+    "Auxiliar B4: referência. B5: primeiro dia do mês da competência. B8: alerta de vencimento em dias, inicialmente 30."
+  ],
+  "capacity": "50 contratos e 50 pagamentos preparados nas linhas 7:56. Dados abaixo da linha 56 exigem ampliação das fórmulas, validações e intervalos do Painel.",
+  "steps": [
+    {
+      "title": "Passo 1",
+      "text": "Abra a versão de exemplo para conhecer o preenchimento. Use a versão em branco para iniciar seu controle."
+    },
+    {
+      "title": "Passo 2",
+      "text": "Defina a data de referência, competência e número de dias do alerta em Auxiliar."
+    },
+    {
+      "title": "Passo 3",
+      "text": "Cadastre um ID único por contrato em Contratos A:H. Informe vigência, situação, quantidade de vagas e tarifa mensal por vaga."
+    },
+    {
+      "title": "Passo 4",
+      "text": "Confira a mensalidade calculada e a situação na referência. Contratos futuros ou encerrados ficam fora do compromisso ativo."
+    },
+    {
+      "title": "Passo 5",
+      "text": "Registre cada cobrança em Pagamentos com ID único, contrato e valor efetivamente cobrado. Digite a competência como primeiro dia do mês."
+    },
+    {
+      "title": "Passo 6",
+      "text": "Acompanhe documentação e etapa administrativa nos campos próprios."
+    },
+    {
+      "title": "Passo 7",
+      "text": "Preencha a data de pagamento quando o pagamento ocorrer. A etapa Pago, isoladamente, não altera o total financeiro."
+    },
+    {
+      "title": "Passo 8",
+      "text": "Confira os indicadores de competência e as linhas a conferir no Painel."
+    }
+  ],
+  "exercise": [
+    "Na versão de exemplo, altere Contratos G7 de 12 para 14 vagas: mensalidade contratada ativa passa de R$ 5.220,00 para R$ 5.780,00. As cobranças já lançadas continuam R$ 5.220,00. Restaure 12. Depois, informe 17/09/2026 em Pagamentos G7: o total pago passa de R$ 1.860,00 para R$ 5.220,00, mantendo a pendência documental."
+  ],
+  "rules": [
+    "Mensalidade contratada = vagas × tarifa mensal por vaga. Compromisso ativo soma apenas contratos Ativo cuja vigência inclui a referência.",
+    "A situação Encerrado ou Suspenso, prazo encerrado e início futuro retiram o contrato da quantidade e mensalidade ativa.",
+    "O alerta inclui contratos ativos com zero até o número configurado de dias restantes.",
+    "Cobranças respeitam a competência selecionada. Não são geradas automaticamente a partir das vagas ou tarifas.",
+    "Pago exige data válida de pagamento até a referência. Data futura fica em aberto e sinalizada para conferência.",
+    "Documentação é independente do pagamento. Uma cobrança paga pode continuar com documentos pendentes.",
+    "Valores ou chaves inválidas não entram nas somas calculadas e ficam sinalizados."
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Conferir contrato",
+      "solution": "verifique se o ID existe uma única vez em Contratos."
+    },
+    {
+      "problem": "Conferir competência",
+      "solution": "informe uma data real no primeiro dia do mês, como 01/09/2026."
+    },
+    {
+      "problem": "Em aberto após marcar etapa Pago",
+      "solution": "preencha a data real do pagamento."
+    },
+    {
+      "problem": "Mensalidade diferente da cobrança",
+      "solution": "os indicadores medem compromisso contratual e lançamento financeiro, respectivamente. Confira reajustes e a competência."
+    },
+    {
+      "problem": "Alerta ausente",
+      "solution": "confira vigência, situação cadastral, referência e Auxiliar B8."
+    }
+  ],
+  "slug": "estacionamentos",
+  "checks": [
+    {
+      "sheet": "Painel",
+      "cell": "B8",
+      "expected": 2
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B9",
+      "expected": 18
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B10",
+      "expected": 5220
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B11",
+      "expected": 1
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B12",
+      "expected": 5220
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B13",
+      "expected": 1860
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B14",
+      "expected": 3360
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B15",
+      "expected": 1
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B16",
+      "expected": 0
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B17",
+      "expected": 0
+    }
+  ]
+}

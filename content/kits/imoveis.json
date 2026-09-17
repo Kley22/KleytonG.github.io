@@ -1,0 +1,213 @@
+{
+  "slug": "imoveis",
+  "title": "Imóveis",
+  "files": [
+    "planilha-exemplo.xlsx",
+    "planilha-em-branco.xlsx"
+  ],
+  "sheets": [
+    {
+      "name": "Painel",
+      "purpose": "Resumo dos pagamentos por competência, pendências e gráfico.",
+      "inputs": "Nenhum. Aba calculada."
+    },
+    {
+      "name": "Imoveis",
+      "purpose": "Cadastro dos imóveis locados e próprios.",
+      "inputs": "A7:F56"
+    },
+    {
+      "name": "Obrigacoes",
+      "purpose": "Aluguéis, condomínio, IPTU e taxas por imóvel.",
+      "inputs": "A7:H56"
+    },
+    {
+      "name": "Auxiliar",
+      "purpose": "Data de referência, competência e listas de preenchimento.",
+      "inputs": "B5:B6"
+    }
+  ],
+  "editable": {
+    "Imoveis": "A7:F56",
+    "Obrigacoes": "A7:H56"
+  },
+  "capacity": "50 registros por aba operacional, da linha 7 à 56.",
+  "firstRow": 7,
+  "lastRow": 56,
+  "settings": [
+    "Auxiliar!B5: data de referência",
+    "Auxiliar!B6: primeiro dia do mês de competência"
+  ],
+  "steps": [
+    {
+      "title": "Etapa 1",
+      "text": "Extraia o ZIP e abra planilha-exemplo.xlsx para conhecer o preenchimento. Use planilha-em-branco.xlsx para iniciar o seu controle."
+    },
+    {
+      "title": "Etapa 2",
+      "text": "Em Auxiliar!B5, informe a data de referência. Em B6, informe o primeiro dia do mês desejado. O painel usa a competência e considera pagamentos efetivados até a referência."
+    },
+    {
+      "title": "Etapa 3",
+      "text": "Cadastre os imóveis em Imoveis!A7:F56. Escolha Locado ou Próprio. Contrato, início e fim são obrigatórios para locados."
+    },
+    {
+      "title": "Etapa 4",
+      "text": "Lance aluguel, condomínio, IPTU e taxas em Obrigacoes!A7:H56. Use o ID do imóvel. Imóvel próprio aceita obrigações, mas não aluguel."
+    },
+    {
+      "title": "Etapa 5",
+      "text": "Confira as colunas Cadastro e Situação. Corrija campos incompletos e IDs duplicados antes de interpretar os totais. Documentação pendente permanece visível mesmo quando há pagamento."
+    },
+    {
+      "title": "Etapa 6",
+      "text": "Abra Painel para acompanhar os totais e o gráfico. Use os filtros da linha 6 para localizar pendências nas abas operacionais."
+    },
+    {
+      "title": "Etapa 7",
+      "text": "Para acrescentar registros, use a próxima linha vazia entre 7 e 56. Preencha somente as células amarelas. As células verdes já contêm fórmulas. Mantenha o conjunto da tabela ao ordenar."
+    },
+    {
+      "title": "Etapa 8",
+      "text": "Para excluir um registro, apague apenas suas células amarelas com Delete. Não exclua a linha da planilha nem as fórmulas. Para recomeçar, abra novamente a versão em branco."
+    }
+  ],
+  "limits": [
+    "Cada aba operacional aceita até 50 registros nas linhas preparadas. Registros além da linha 56 não participam dos indicadores sem ampliar fórmulas e validações.",
+    "O painel agrupa por competência mensal. Ele não é um extrato de fluxo de caixa por data de pagamento.",
+    "Datas devem ser datas válidas, valores devem ser numéricos e IDs devem ser únicos. Pagamentos futuros em relação à referência exigem conferência.",
+    "Arquivo sem macros, sem conexão externa e sem dependência de outras pastas. Cálculos e exportação verificados no motor de criação; não houve teste direto no Excel ou Google Planilhas. Após importar para outro aplicativo, confira fórmulas, listas, datas e gráfico antes do uso."
+  ],
+  "tests": [
+    {
+      "cell": "Painel!B7",
+      "expected": 9398.5,
+      "actual": 9398.5
+    },
+    {
+      "cell": "Painel!B8",
+      "expected": 5060,
+      "actual": 5060
+    },
+    {
+      "cell": "Painel!B9",
+      "expected": 4338.5,
+      "actual": 4338.5
+    },
+    {
+      "cell": "Painel!B10",
+      "expected": 680,
+      "actual": 680
+    },
+    {
+      "cell": "Painel!B12",
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "cell": "Imoveis!H9",
+      "expected": "Próprio",
+      "actual": "Próprio"
+    },
+    {
+      "cell": "Obrigacoes!J13",
+      "expected": "Aluguel indevido",
+      "actual": "Aluguel indevido"
+    },
+    {
+      "cell": "Painel!B8",
+      "expected": 5740,
+      "actual": 5740
+    },
+    {
+      "cell": "Painel!B12",
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "cell": "Obrigacoes!J8",
+      "expected": "Conferir data",
+      "actual": "Conferir data"
+    },
+    {
+      "cell": "Painel!B7",
+      "expected": 9498.5,
+      "actual": 9498.5
+    },
+    {
+      "cell": "Obrigacoes!J7",
+      "expected": "Informe ID",
+      "actual": "Informe ID"
+    },
+    {
+      "cell": "Painel!B7",
+      "expected": "Revisar dados",
+      "actual": "Revisar dados"
+    },
+    {
+      "cell": "Painel!B7",
+      "expected": "Conferir Auxiliar",
+      "actual": "Conferir Auxiliar"
+    },
+    {
+      "cell": "Painel!B7",
+      "expected": "",
+      "actual": ""
+    }
+  ],
+  "rules": [
+    "Cada aba operacional aceita até 50 registros nas linhas preparadas. Registros além da linha 56 não participam dos indicadores sem ampliar fórmulas e validações.",
+    "O painel agrupa por competência mensal. Ele não é um extrato de fluxo de caixa por data de pagamento.",
+    "Datas devem ser datas válidas, valores devem ser numéricos e IDs devem ser únicos. Pagamentos futuros em relação à referência exigem conferência.",
+    "Arquivo sem macros, sem conexão externa e sem dependência de outras pastas. Cálculos e exportação verificados no motor de criação; não houve teste direto no Excel ou Google Planilhas. Após importar para outro aplicativo, confira fórmulas, listas, datas e gráfico antes do uso."
+  ],
+  "exercise": [
+    "No exemplo, registre 17/09/2026 em Obrigacoes!G8. O valor pago em Painel!B8 passa de R$ 5.060,00 para R$ 5.740,00. A documentação pendente continua em 3. Apague G8 para restaurar."
+  ],
+  "troubleshooting": [
+    {
+      "problem": "O painel mostra Revisar dados.",
+      "solution": "Verifique a coluna Cadastro nas abas operacionais. Corrija ID vazio ou duplicado, vínculo sem cadastro, datas e valores. Em Imóveis, confira também aluguel lançado para imóvel próprio."
+    },
+    {
+      "problem": "O resultado ficou vazio.",
+      "solution": "Confira a competência no Auxiliar e se há obrigações lançadas nesse mês. Verifique o cadastro do imóvel, o valor e as datas da obrigação."
+    },
+    {
+      "problem": "O painel mostra Conferir Auxiliar.",
+      "solution": "Informe datas válidas em Auxiliar!B5 e B6. B6 deve ser o primeiro dia do mês. Não apague as fórmulas verdes."
+    }
+  ],
+  "checks": [
+    {
+      "sheet": "Painel",
+      "cell": "B7",
+      "expected": 9398.5
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B8",
+      "expected": 5060
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B9",
+      "expected": 4338.5
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B10",
+      "expected": 680
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B12",
+      "expected": 3
+    },
+    {
+      "sheet": "Imoveis",
+      "cell": "H9",
+      "expected": "Próprio"
+    }
+  ]
+}

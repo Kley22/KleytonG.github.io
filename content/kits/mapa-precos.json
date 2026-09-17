@@ -1,0 +1,149 @@
+{
+  "slug": "mapa-precos",
+  "title": "Pesquisa e mapa comparativo de preços",
+  "capacity": "20 itens por arquivo. Cada item aceita três pesquisas de mercado e três propostas de fornecedores.",
+  "purpose": "Organizar pesquisas e comparar propostas da mesma cesta, separando material e serviço.",
+  "files": [
+    "planilha-exemplo.xlsx: quatro itens preenchidos para conhecer o funcionamento.",
+    "planilha-em-branco.xlsx: a mesma estrutura sem os registros de exemplo."
+  ],
+  "sheets": [
+    {
+      "name": "Painéis",
+      "purpose": "Exibe referência da cesta, cobertura das propostas, totais por fornecedor, variação e separação de material e serviço.",
+      "inputs": "Nenhum. Os resultados e o gráfico são calculados."
+    },
+    {
+      "name": "Auxiliar",
+      "purpose": "Mantém o método de referência e identifica as fontes.",
+      "inputs": "B6: Média ou Mediana. C13:E18: nomes, datas e documentos das três pesquisas (P1–P3) e das três propostas (F1–F3)."
+    },
+    {
+      "name": "Operacional",
+      "purpose": "Recebe os itens e preços e mostra os cálculos por item.",
+      "inputs": "A7:K26: ID, categoria, descrição, unidade, quantidade, P1, P2, P3, F1, F2 e F3. A32:K51 contém fórmulas e deve ser preservado."
+    }
+  ],
+  "steps": [
+    {
+      "title": "Abrir o arquivo",
+      "text": "Extraia o ZIP e abra primeiro planilha-exemplo.xlsx para explorar. Use planilha-em-branco.xlsx para seu próprio controle e salve com outro nome."
+    },
+    {
+      "title": "Identificar as fontes",
+      "text": "Em Auxiliar, escolha Média ou Mediana na célula B6. Preencha o nome, a data e o documento de cada fonte em C13:E18."
+    },
+    {
+      "title": "Cadastrar os itens",
+      "text": "Em Operacional, preencha uma linha por item em A7:K26. Use um ID único, escolha Material ou Serviço e informe a unidade e a quantidade positiva."
+    },
+    {
+      "title": "Informar as pesquisas",
+      "text": "Registre preços unitários positivos em Pesquisa P1, P2 e P3. Deixe sem preenchimento o preço que ainda não possui. Não use zero como cotação."
+    },
+    {
+      "title": "Informar as propostas",
+      "text": "Preencha as propostas F1, F2 e F3 para os mesmos itens e condições. Verifique se tributos, frete e demais custos usam a mesma base."
+    },
+    {
+      "title": "Conferir os registros",
+      "text": "Confira Cadastro e Conferência na seção de cálculos (linhas 32 a 51). Corrija IDs duplicados, campos faltantes, quantidades e preços inválidos."
+    },
+    {
+      "title": "Ler o painel",
+      "text": "Abra Painéis. Uma proposta só recebe total da cesta quando possui preço para todos os itens cadastrados com cadastro válido."
+    },
+    {
+      "title": "Salvar outro mapa",
+      "text": "Salve o arquivo. Para outro mapa, faça uma nova cópia da versão em branco. O limite desta edição é de 20 itens."
+    }
+  ],
+  "rules": [
+    "Média e mediana consideram apenas valores numéricos positivos nas três pesquisas P1–P3. Fornecedores F1–F3 não entram no cálculo da referência.",
+    "Média: soma dos preços válidos dividida pela quantidade de preços válidos. Mediana: valor central de três preços; média dos dois quando restam dois; o único preço quando resta um.",
+    "A referência unitária é arredondada para duas casas decimais. A referência total de cada item é quantidade × referência unitária, também arredondada para duas casas.",
+    "O total de cada proposta por item é quantidade × preço unitário da proposta. O total da cesta soma os totais arredondados de todos os itens.",
+    "A variação é (total da proposta ÷ total de referência) − 1. Variação negativa indica valor abaixo da referência.",
+    "Uma pesquisa parcial pode formar referência com os preços válidos disponíveis e fica indicada como Parcial. Sem nenhum preço válido, não há referência do item nem total completo da cesta.",
+    "Propostas incompletas ficam sem total e sem variação. O gráfico mostra a variação das propostas completas em relação à referência. A referência é a base de 0%. O menor valor observado não define automaticamente a contratação.",
+    "Preço numérico zero, negativo ou texto recebe o aviso Preço inválido na coluna Conferência. A célula é destacada. Preços inválidos não entram na referência e não completam uma proposta.",
+    "Nome e data das fontes documentam a pesquisa; não substituem a conferência de escopo, unidade, quantidade e condições comerciais.",
+    "A coluna Quantidade aceita valores decimais positivos. As datas devem ser datas de planilha, apresentadas no formato dia/mês/ano.",
+    "Cada linha de entradas mantém o item junto das seis cotações. Ao ordenar, selecione toda a faixa A7:K26, preservando a correspondência entre os dados."
+  ],
+  "exercise": [
+    "No arquivo de exemplo, altere a quantidade do Filtro de ar de 4 para 5 e a Pesquisa P1 de 80 para 100. Mantenha o método Média.",
+    "A referência unitária do item passa a R$ 91,67 e a referência total a R$ 458,35. O total da proposta do Fornecedor A passa a R$ 1.482,00. Restaure quantidade 4 e Pesquisa P1 80 para retornar ao exemplo.",
+    "Apague a Proposta F1 do Filtro de ar. O Fornecedor A deverá aparecer como Incompleta, sem total da cesta. Preencha novamente 82 para restabelecer a comparação."
+  ],
+  "troubleshooting": [
+    {
+      "problem": "O total da referência não aparece.",
+      "solution": "Confira a situação do cadastro e as pesquisas. Todos os itens precisam de quantidade, unidade, categoria, descrição, ID único e ao menos uma pesquisa positiva."
+    },
+    {
+      "problem": "Um fornecedor aparece como Incompleta.",
+      "solution": "Existe um item sem proposta positiva ou com cadastro incompleto. Preencha a proposta de todos os itens ou corrija o cadastro."
+    },
+    {
+      "problem": "Uma fonte não muda o resultado.",
+      "solution": "Os nomes e as datas ficam em Auxiliar. Os preços que movem os cálculos ficam em Operacional. O método de referência afeta as pesquisas, não os preços ofertados."
+    },
+    {
+      "problem": "Preciso de mais de 20 itens ou mais fornecedores.",
+      "solution": "Este modelo tem capacidade delimitada. Não escreva fora das faixas esperando inclusão automática. Amplie fórmulas e resumos em uma cópia com conferência técnica ou use outro arquivo."
+    },
+    {
+      "problem": "O programa mostra números diferentes ou fórmulas sem atualizar.",
+      "solution": "Ative o cálculo automático ou solicite recálculo no aplicativo. Os arquivos foram recalculados no ambiente de geração; a abertura e a importação em cada versão do Excel ou Google Planilhas precisam ser conferidas."
+    }
+  ],
+  "limitations": "Arquivo XLSX sem macros e sem vínculos com outros arquivos. O modelo cobre comparação de preços e registro de fontes. Não calcula frete ou tributos em campos separados e não faz seleção automática de fornecedor.",
+  "settings": [
+    "Método da referência: Auxiliar!B6 (Média ou Mediana).",
+    "Fontes de pesquisa P1–P3: Auxiliar!C13:E15.",
+    "Fornecedores F1–F3: Auxiliar!C16:E18."
+  ],
+  "checks": [
+    {
+      "sheet": "Painéis",
+      "cell": "B6",
+      "expected": 4
+    },
+    {
+      "sheet": "Painéis",
+      "cell": "B8",
+      "expected": 1458.71
+    },
+    {
+      "sheet": "Painéis",
+      "cell": "B15",
+      "expected": 1400
+    },
+    {
+      "sheet": "Painéis",
+      "cell": "B16",
+      "expected": 1405
+    },
+    {
+      "sheet": "Painéis",
+      "cell": "B17",
+      "expected": 1410
+    },
+    {
+      "sheet": "Painéis",
+      "cell": "C22",
+      "expected": 1182.04
+    },
+    {
+      "sheet": "Painéis",
+      "cell": "C23",
+      "expected": 276.67
+    },
+    {
+      "sheet": "Operacional",
+      "cell": "F33",
+      "expected": 452.04
+    }
+  ]
+}

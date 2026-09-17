@@ -1,0 +1,179 @@
+[
+  {
+    "slug": "obras-facilities",
+    "number": "01",
+    "name": "Obras e facilities",
+    "tag": "Contratos e serviços",
+    "purpose": "Acompanhe contratos, prazos e pagamentos de obras e serviços de apoio.",
+    "summary": "Vigências, documentos, pagamentos e previsões de serviços e materiais, no mesmo controle.",
+    "contribution": "Organizo as informações contratuais, confiro documentos e acompanho vigências, saldos e encaminhamentos de pagamento.",
+    "demo_title": "Quais contratos precisam de atenção?",
+    "demo_hint": "Comece pela situação dos contratos. Depois, explore pagamentos e a previsão de saldo.",
+    "steps": [
+      [
+        "Cadastre o contrato",
+        "Registre o identificador, o objeto, as datas e os valores de serviço e material."
+      ],
+      [
+        "Atualize a rotina",
+        "Lance documentos, competências, pagamentos e alterações do contrato."
+      ],
+      [
+        "Confira os prazos e saldos",
+        "Consulte pendências, vencimentos e a previsão de cada componente."
+      ],
+      [
+        "Acompanhe o painel",
+        "Use o resumo para localizar os registros que precisam de conferência."
+      ]
+    ],
+    "features": [
+      "Cadastro de contratos de obras e facilities.",
+      "Controle de vigências e acompanhamento de alterações contratuais.",
+      "Conferência documental e acompanhamento de pagamentos.",
+      "Previsão separada de serviços e materiais.",
+      "Painel exclusivo desse assunto."
+    ]
+  },
+  {
+    "slug": "imoveis",
+    "number": "02",
+    "name": "Imóveis",
+    "tag": "Locações e obrigações",
+    "purpose": "Encontre as despesas e os vencimentos de cada imóvel.",
+    "summary": "Aluguéis, condomínios, IPTU e taxas organizados por imóvel e competência.",
+    "contribution": "Organizo os vínculos entre imóveis, contratos e obrigações, confiro a documentação e acompanho os vencimentos e pagamentos.",
+    "demo_title": "O que vence em cada imóvel?",
+    "demo_hint": "Escolha um imóvel e consulte suas obrigações. Use a situação para localizar as pendências.",
+    "steps": [
+      [
+        "Cadastre o imóvel",
+        "Identifique a unidade e, quando aplicável, o contrato de locação."
+      ],
+      [
+        "Registre as obrigações",
+        "Separe aluguel, condomínio, IPTU e taxas por competência."
+      ],
+      [
+        "Confira os lançamentos",
+        "Verifique vencimentos, documentação e datas de pagamento."
+      ],
+      [
+        "Consulte o painel",
+        "Acompanhe as despesas por imóvel e localize as obrigações em aberto."
+      ]
+    ],
+    "features": [
+      "Cadastro próprio de imóveis.",
+      "Despesas separadas por natureza e competência.",
+      "Documentação e vencimentos por obrigação.",
+      "Histórico e painel de acompanhamento de imóveis."
+    ]
+  },
+  {
+    "slug": "frota",
+    "number": "03",
+    "name": "Frota",
+    "tag": "Uso e manutenção",
+    "purpose": "Confira abastecimentos, consumo e cuidados com os veículos.",
+    "summary": "Quilometragem, abastecimentos e manutenções em um controle operacional próprio.",
+    "contribution": "Atualizo os registros de utilização, abastecimento e manutenção, confiro os intervalos de quilometragem e acompanho as ocorrências.",
+    "demo_title": "O abastecimento faz sentido?",
+    "demo_hint": "Escolha um veículo e experimente o cálculo de consumo. Confira também as ocorrências e os registros de manutenção.",
+    "steps": [
+      [
+        "Cadastre os veículos",
+        "Use um identificador único para relacionar os registros de cada veículo."
+      ],
+      [
+        "Lance a utilização",
+        "Registre a quilometragem, os abastecimentos e as manutenções."
+      ],
+      [
+        "Confira os intervalos",
+        "Verifique a sequência do hodômetro e o volume abastecido antes de interpretar o consumo."
+      ],
+      [
+        "Acompanhe as ocorrências",
+        "Consulte as pendências, as ocorrências e os registros de manutenção no painel de frota."
+      ]
+    ],
+    "features": [
+      "Cadastro e referências dos veículos.",
+      "Lançamentos de abastecimento e hodômetro.",
+      "Cálculo de consumo por intervalo.",
+      "Acompanhamento de manutenções e ocorrências."
+    ]
+  },
+  {
+    "slug": "estacionamentos",
+    "number": "04",
+    "name": "Contratos de estacionamento",
+    "tag": "Vagas e mensalidades",
+    "purpose": "Acompanhe as vagas contratadas, mensalidades e vigências de estacionamento.",
+    "summary": "Contratos de estacionamento com vagas, documentação e pagamentos mensais organizados.",
+    "contribution": "Organizo os dados dos contratos de estacionamento, acompanho vigências e mensalidades e confiro os documentos para encaminhamento.",
+    "demo_title": "Como está cada contrato de estacionamento?",
+    "demo_hint": "Escolha um contrato para conferir vagas, valor mensal, vencimento e acompanhamento do pagamento.",
+    "steps": [
+      [
+        "Cadastre o contrato",
+        "Registre o estacionamento, as vagas contratadas, a vigência e o valor mensal."
+      ],
+      [
+        "Atualize a competência",
+        "Organize as mensalidades e a documentação correspondente."
+      ],
+      [
+        "Confira a obrigação",
+        "Compare o valor lançado, o vencimento e a situação documental."
+      ],
+      [
+        "Acompanhe o contrato",
+        "Consulte pagamentos em aberto e as próximas vigências no painel próprio."
+      ]
+    ],
+    "features": [
+      "Cadastro de contratos de estacionamento.",
+      "Quantidade de vagas e valor mensal contratados.",
+      "Acompanhamento de vigências e mensalidades.",
+      "Conferência documental e painel de pagamentos."
+    ]
+  },
+  {
+    "slug": "mapa-precos",
+    "number": "05",
+    "name": "Pesquisa e mapa de preços",
+    "tag": "Cotações e comparação",
+    "purpose": "Compare referências de pesquisa e propostas para o mesmo item.",
+    "summary": "Itens, quantidades e cotações organizados para comparar preços unitários e totais.",
+    "contribution": "Pesquiso valores, organizo referências e propostas e apoio a elaboração de estimativas de preços com informações comparáveis.",
+    "demo_title": "Como as cotações mudam a comparação?",
+    "demo_hint": "Escolha um item e ajuste os valores das cotações para acompanhar a média, a mediana e os totais.",
+    "steps": [
+      [
+        "Descreva os itens",
+        "Registre especificação, unidade e quantidade para comparar o mesmo objeto."
+      ],
+      [
+        "Reúna as referências",
+        "Organize as fontes de pesquisa, as propostas e suas datas."
+      ],
+      [
+        "Confira os valores",
+        "Distinga preço unitário e total e verifique campos ausentes ou inconsistentes."
+      ],
+      [
+        "Compare as cotações",
+        "Consulte média, mediana e valores por item como apoio à análise."
+      ]
+    ],
+    "features": [
+      "Itens e quantidades organizados por categoria.",
+      "Referências de pesquisa e propostas de fornecedores.",
+      "Comparação de valores unitários e totais.",
+      "Média e mediana das cotações válidas.",
+      "Identidade visual própria do portfólio."
+    ]
+  }
+]

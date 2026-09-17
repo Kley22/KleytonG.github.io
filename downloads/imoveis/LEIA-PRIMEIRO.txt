@@ -1,0 +1,15 @@
+Imóveis
+Versão 1.0
+
+COMECE AQUI
+1. Extraia esta pasta do ZIP.
+2. Leia 02-Guia/guia-de-uso.pdf.
+3. Abra 01-Planilhas/planilha-exemplo.xlsx para experimentar.
+4. Use 01-Planilhas/planilha-em-branco.xlsx para começar seu controle.
+
+Operacional, auxiliares e painéis estão em abas do mesmo arquivo.
+Nenhum outro kit precisa ser aberto. As alterações no site e na planilha são independentes.
+
+50 registros por aba operacional, da linha 7 à 56.
+
+Projeto: https://kleyton-gsilva.netlify.app/projetos/imoveis/

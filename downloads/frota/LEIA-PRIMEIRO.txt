@@ -1,0 +1,15 @@
+Controle de frota
+Versão 1.0
+
+COMECE AQUI
+1. Extraia esta pasta do ZIP.
+2. Leia 02-Guia/guia-de-uso.pdf.
+3. Abra 01-Planilhas/planilha-exemplo.xlsx para experimentar.
+4. Use 01-Planilhas/planilha-em-branco.xlsx para começar seu controle.
+
+Operacional, auxiliares e painéis estão em abas do mesmo arquivo.
+Nenhum outro kit precisa ser aberto. As alterações no site e na planilha são independentes.
+
+50 linhas em cada aba operacional e 50 veículos em Auxiliar. As fórmulas estão preparadas até a linha 56; inserir dados abaixo exige estender fórmulas, validações e os intervalos do Painel.
+
+Projeto: https://kleyton-gsilva.netlify.app/projetos/frota/

@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "estacionamentos",
+    "title": "Contratos de estacionamento",
+    "version": "1.0",
+    "file": "downloads/estacionamentos/kit-estacionamentos.zip",
+    "bytes": 90198,
+    "sha256": "1fba259977d3e41f731203a0ffbcaa02ebbbb119525a44f127d27f8855bf5209",
+    "contents": [
+      "estacionamentos/01-Planilhas/planilha-exemplo.xlsx",
+      "estacionamentos/01-Planilhas/planilha-em-branco.xlsx",
+      "estacionamentos/02-Guia/guia-de-uso.pdf",
+      "estacionamentos/LEIA-PRIMEIRO.txt"
+    ]
+  },
+  {
+    "slug": "frota",
+    "title": "Controle de frota",
+    "version": "1.0",
+    "file": "downloads/frota/kit-frota.zip",
+    "bytes": 86199,
+    "sha256": "b5281142db1b1373fbfdc6e0ed052a082377294fd2c03a07412128b180400e3e",
+    "contents": [
+      "frota/01-Planilhas/planilha-exemplo.xlsx",
+      "frota/01-Planilhas/planilha-em-branco.xlsx",
+      "frota/02-Guia/guia-de-uso.pdf",
+      "frota/LEIA-PRIMEIRO.txt"
+    ]
+  },
+  {
+    "slug": "imoveis",
+    "title": "Imóveis",
+    "version": "1.0",
+    "file": "downloads/imoveis/kit-imoveis.zip",
+    "bytes": 83061,
+    "sha256": "e32c04b44dd43fc041105114f710e526eec76b7b261c407ecc41fe5043c05d57",
+    "contents": [
+      "imoveis/01-Planilhas/planilha-exemplo.xlsx",
+      "imoveis/01-Planilhas/planilha-em-branco.xlsx",
+      "imoveis/02-Guia/guia-de-uso.pdf",
+      "imoveis/LEIA-PRIMEIRO.txt"
+    ]
+  },
+  {
+    "slug": "mapa-precos",
+    "title": "Pesquisa e mapa comparativo de preços",
+    "version": "1.0",
+    "file": "downloads/mapa-precos/kit-mapa-precos.zip",
+    "bytes": 76907,
+    "sha256": "2009434cc2b5158f72681accdcdd62623a2858f42610c60bbee1314c50ba8f3e",
+    "contents": [
+      "mapa-precos/01-Planilhas/planilha-exemplo.xlsx",
+      "mapa-precos/01-Planilhas/planilha-em-branco.xlsx",
+      "mapa-precos/02-Guia/guia-de-uso.pdf",
+      "mapa-precos/LEIA-PRIMEIRO.txt"
+    ]
+  },
+  {
+    "slug": "obras-facilities",
+    "title": "Obras e facilities",
+    "version": "1.0",
+    "file": "downloads/obras-facilities/kit-obras-facilities.zip",
+    "bytes": 102717,
+    "sha256": "e8001c0ad76a42a769fdee8815c86646272a2a23a248085398d92a745da4ac17",
+    "contents": [
+      "obras-facilities/01-Planilhas/planilha-exemplo.xlsx",
+      "obras-facilities/01-Planilhas/planilha-em-branco.xlsx",
+      "obras-facilities/02-Guia/guia-de-uso.pdf",
+      "obras-facilities/LEIA-PRIMEIRO.txt"
+    ]
+  }
+]

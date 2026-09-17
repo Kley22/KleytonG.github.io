@@ -1,85 +1,78 @@
-"""Generate static, accessible pages using only Python's standard library."""
+"""Generate the portfolio and five independent subject pages with download kits."""
 from pathlib import Path
 from html import escape
 import json
 
-ROOT=Path(__file__).resolve().parents[1]
-BASE='https://kleyton-gsilva.netlify.app/'
-REPO='https://github.com/Kley22/KleytonG.github.io'
-LINKEDIN='https://www.linkedin.com/in/kleyton-gon%C3%A7alves-silva/'
-PROJECTS=json.loads((ROOT/'content/projects.json').read_text())
+ROOT = Path(__file__).resolve().parents[1]
+BASE = 'https://kleyton-gsilva.netlify.app/'
+REPO = 'https://github.com/Kley22/KleytonG.github.io'
+LINKEDIN = 'https://www.linkedin.com/in/kleyton-gon%C3%A7alves-silva/'
+TOPICS = json.loads((ROOT / 'content/topics.json').read_text())
+CV_VERSION = '20260917-kits'
 
-def write(path,text):
-    dest=ROOT/path
-    dest.parent.mkdir(parents=True,exist_ok=True)
-    dest.write_text(text,encoding='utf-8')
 
-def head(title,description,path='',prefix='./',demo=False,overview=False):
-    demo_script=f'<script type="module" src="{prefix}assets/js/demos.mjs"></script>' if demo else ''
-    overview_script=f'<script type="module" src="{prefix}assets/js/overview.mjs"></script>' if overview else ''
+def write(path, text):
+    dest = ROOT / path
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(text, encoding='utf-8')
+
+
+def head(title, description, path='', prefix='./', demo=False):
+    demo_script = f'<script type="module" src="{prefix}assets/js/topics-demo.mjs"></script>' if demo else ''
     return f'''<!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{escape(title)}</title><meta name="description" content="{escape(description)}"><meta name="theme-color" content="#17372e">
-<link rel="canonical" href="{BASE+path}"><link rel="icon" href="{prefix}assets/images/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="{BASE + path}"><link rel="icon" href="{prefix}assets/images/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website"><meta property="og:locale" content="pt_BR"><meta property="og:site_name" content="Kleyton Gonçalves Silva | Portfólio">
-<meta property="og:title" content="{escape(title)}"><meta property="og:description" content="{escape(description)}"><meta property="og:url" content="{BASE+path}">
-<meta property="og:image" content="{BASE}assets/images/social-preview.png?v=controle-2026"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Kleyton Gonçalves Silva — Controle e acompanhamento administrativo: contratos, pagamentos, imóveis e frota">
+<meta property="og:title" content="{escape(title)}"><meta property="og:description" content="{escape(description)}"><meta property="og:url" content="{BASE + path}">
+<meta property="og:image" content="{BASE}assets/images/social-preview.png?v=controle-2026"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Kleyton Gonçalves Silva — Controle e acompanhamento administrativo">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{escape(title)}"><meta name="twitter:description" content="{escape(description)}"><meta name="twitter:image" content="{BASE}assets/images/social-preview.png?v=controle-2026">
-<link rel="stylesheet" href="{prefix}assets/css/site.css"><link rel="stylesheet" href="{prefix}assets/css/experience.css"><script src="{prefix}assets/js/site.js" defer></script>{demo_script}{overview_script}
-
+<link rel="stylesheet" href="{prefix}assets/css/site.css"><link rel="stylesheet" href="{prefix}assets/css/experience.css"><link rel="stylesheet" href="{prefix}assets/css/topics.css"><script src="{prefix}assets/js/site.js" defer></script>{demo_script}
 </head><body><a href="#main" class="skip-link">Ir para o conteúdo</a>'''
+
 
 def header(prefix='./'):
     return f'''<header class="site-header"><div class="wrap header-inner">
 <a class="brand" href="{prefix}" aria-label="Kleyton Gonçalves Silva — início"><span class="brand-mark" aria-hidden="true">K.</span><span>Kleyton Gonçalves<small>Portfólio profissional</small></span></a>
 <button class="menu-toggle" aria-expanded="false" aria-controls="navigation" hidden>Menu <span aria-hidden="true">☰</span></button>
-<nav class="nav" id="navigation" aria-label="Navegação principal"><a href="{prefix}#projetos">Projetos</a><a href="{prefix}#metodo">Método</a><a href="{prefix}#sobre">Sobre</a><a href="{prefix}#experiencia">Experiência</a><a href="{prefix}#formacao">Formação</a><a class="nav-contact" href="{prefix}#contato">Vamos conversar <span aria-hidden="true">↗</span></a></nav>
+<nav class="nav" id="navigation" aria-label="Navegação principal"><a href="{prefix}#projetos">Projetos</a><a href="{prefix}#sobre">Sobre</a><a href="{prefix}#experiencia">Experiência</a><a class="nav-contact" href="{prefix}#contato">Contato <span aria-hidden="true">↗</span></a></nav>
 </div></header>'''
 
+
 def footer(prefix='./'):
-    return f'''<nav class="quick-actions" aria-label="Atalhos de contato"><a href="{prefix}cv/kleyton-goncalves-silva.pdf?v=20260917-conectado" aria-label="Baixar currículo em PDF">Currículo <span aria-hidden="true">↓</span></a><a href="{prefix}#contato">Contato <span aria-hidden="true">↗</span></a></nav><footer class="site-footer"><div class="wrap footer-inner"><p>© 2026 Kleyton Gonçalves Silva</p><span>Demonstrações com dados de exemplo.</span><a href="{prefix}#main">Voltar ao início ↑</a></div></footer></body></html>'''
+    return f'<footer class="site-footer"><div class="wrap footer-inner"><p>© 2026 Kleyton Gonçalves Silva</p><span>Demonstrações com dados de exemplo.</span><a href="{prefix}#main">Voltar ao início ↑</a></div></footer></body></html>'
+
 
 def mini(p):
-    slug=p['slug']
-    if slug=='vigencia-contratual':
-        visual='<div class="preview-calendar"><div class="preview-calendar-head"><span>SETEMBRO / 2026</span><b>30</b></div><div class="preview-week">'+''.join('<span>'+x+'</span>' for x in ['S','T','Q','Q','S','S','D'])+'</div><div class="preview-days"><span></span>'+''.join(f'<span class="{("day-focus" if i==17 else "day-alert" if i==30 else "")}">{i}</span>' for i in range(1,31))+'</div></div><div class="preview-float"><i></i><span>CT-102<strong>Vigência próxima do fim</strong></span><b>13 dias</b></div>'
-    elif slug=='previsao-contratual':
-        visual='<div class="preview-forecast"><div><small>HORIZONTE DE 3 MESES</small><strong>Um saldo.<br>Cada componente.</strong></div><div class="preview-component"><span>Serviço <b>78% previsto</b></span><div><i style="width:78%"></i></div><small>R$ 10.500,00 após a previsão</small></div><div class="preview-component material"><span>Material <b>56% previsto</b></span><div><i style="width:56%"></i></div><small>R$ 4.200,00 após a previsão</small></div></div>'
-    elif slug=='pagamentos':
-        visual='<div class="preview-payment"><div class="preview-receipt"><span>PG-201 / COMPETÊNCIA 09.2026</span><strong>Conferência documental</strong><div>✓ <span>Nota fiscal recebida</span></div><div>✓ <span>Contrato e competência</span></div><div class="waiting">○ <span>Comprovante de conferência</span></div></div><div class="preview-stages"><span class="active">Conferir</span><i>→</i><span>Encaminhar</span><i>→</i><span>Acompanhar</span></div></div>'
-    elif slug=='controle-imoveis':
-        visual='<div class="preview-property"><div class="building-silhouette">'+''.join('<i></i>' for _ in range(12))+'</div><div class="property-list"><small>UNIDADE AURORA</small><div><span>Aluguel</span><b class="done">Pago</b></div><div><span>Condomínio</span><b class="pending">Conferir</b></div><div><span>IPTU</span><b>Em prazo</b></div></div></div>'
-    elif slug=='controle-frota':
-        visual='<div class="preview-fleet"><div class="preview-dial"><div><small>CONSUMO MÉDIO</small><strong>12,00<span>km/l</span></strong></div></div><div class="fleet-values"><div><span>Distância</span><b>420 km</b></div><div><span>Abastecimento</span><b>35 litros</b></div><p>Hodômetro → Conferência → Ocorrência</p></div></div>'
+    slug = p['slug']
+    if slug == 'obras-facilities':
+        visual = '<div class="subject-contract"><div class="contract-sheet"><span>ACOMPANHAMENTO DO CONTRATO</span><strong>Etapas organizadas.</strong><div><i>01</i> Vigências e documentos <b>✓</b></div><div><i>02</i> Pagamentos <b>✓</b></div><div><i>03</i> Serviços e materiais <b>→</b></div></div><div class="contract-seal">Da referência<br><b>ao painel.</b></div></div>'
+    elif slug == 'imoveis':
+        visual = '<div class="preview-property"><div class="building-silhouette">' + ''.join('<i></i>' for _ in range(12)) + '</div><div class="property-list"><small>OBRIGAÇÕES DO IMÓVEL</small><div><span>Aluguel</span><b class="done">Pago</b></div><div><span>Condomínio</span><b class="pending">Conferir</b></div><div><span>IPTU</span><b>Em prazo</b></div></div></div>'
+    elif slug == 'frota':
+        visual = '<div class="preview-fleet"><div class="preview-dial"><div><small>CONSUMO MÉDIO</small><strong>12,00<span>km/l</span></strong></div></div><div class="fleet-values"><div><span>Distância</span><b>420 km</b></div><div><span>Abastecimento</span><b>35 litros</b></div><p>Registrar · Conferir · Acompanhar</p></div></div>'
+    elif slug == 'estacionamentos':
+        visual = '<div class="subject-parking"><div class="parking-sign">P</div><div class="parking-info"><small>CONTRATO DE ESTACIONAMENTO</small><strong>Vagas.<br>Prazos.<br>Mensalidades.</strong><div class="parking-bays"><i></i><i></i><i></i><i></i></div></div></div>'
     else:
-        visual='<div class="preview-dashboard"><div class="preview-dashboard-top"><span>VISÃO CONSOLIDADA</span><b>09 / 2026</b></div><div class="preview-spark-bars">'+''.join(f'<i style="height:{h}%"></i>' for h in [30,46,38,64,57,75,68,90,79,100])+'</div><div class="preview-dashboard-bottom"><span>Contratos</span><span>Imóveis</span><span>Frota</span></div></div>'
-    return f'<div class="project-cover preview-{slug}" aria-hidden="true"><div class="cover-label"><span>{p["tag"]}</span><span>0{PROJECTS.index(p)+1} / INTERATIVO</span></div>{visual}</div>'
+        visual = '<div class="subject-prices"><div class="price-paper"><span>O MESMO ITEM. TRÊS COTAÇÕES.</span><div><small>Referência A</small><i style="width:calc(83% - 75px)"></i></div><div><small>Referência B</small><i style="width:calc(68% - 75px)"></i></div><div><small>Referência C</small><i style="width:calc(93% - 75px)"></i></div><p>Quantidade × valor unitário <b>= total</b></p></div><span class="price-tag">Comparar<br><strong>com clareza.</strong></span></div>'
+    return f'<div class="project-cover topic-cover topic-cover-{slug}" aria-hidden="true"><div class="cover-label"><span>{p["tag"]}</span><span>{p["number"]} / PROJETO</span></div>{visual}</div>'
+
 
 def project_card(p):
-    return f'''<article class="project-card" data-category="{p['category']}">{mini(p)}<div class="project-body"><div class="project-type"><span>{p['tag']}</span><span>Projeto {p['number']}</span></div><h3>{p['title']}</h3><p>{p['short']}</p><div class="project-bottom"><span>Explore na prática</span><a href="./projetos/{p['slug']}/" aria-label="Abrir projeto: {p['name']}">Experimentar</a></div></div></article>'''
+    return f'''<article class="project-card" data-project="{p['slug']}">{mini(p)}<div class="project-body"><div class="project-type"><span>{p['tag']}</span><span>Projeto {p['number']}</span></div><h3>{p['name']}</h3><p>{p['summary']}</p><div class="project-bottom"><span>Demonstração + planilhas</span><a href="./projetos/{p['slug']}/" aria-label="Conhecer o projeto: {p['name']}">Conhecer o projeto</a></div></div></article>'''
 
-
-def method():
-    items=[
-      ('bases','Bases de referência','Uma referência comum para os controles.','Cadastros e tabelas auxiliares organizam os vínculos utilizados no dia a dia. Um identificador consistente ajuda a localizar a informação entre diferentes consultas.',['Padronizar os campos de cadastro.','Relacionar os registros por identificadores.','Manter referências fáceis de conferir.'],'Meu foco: organizar e manter as referências do acompanhamento.'),
-      ('operacao','Controles operacionais','Cada etapa deixa um registro localizável.','Contratos, documentos, obrigações e lançamentos têm contextos diferentes. O controle preserva essas distinções para apoiar a conferência e o encaminhamento.',['Registrar a competência e o vínculo correto.','Distinguir situação, prazo e documentação.','Acompanhar pendências e atualizações.'],'Meu foco: atualizar, conferir e acompanhar a rotina.'),
-      ('paineis','Painéis de acompanhamento','O resumo precisa continuar ligado à origem.','As consultas reúnem informações dos controles. A referência de atualização e o caminho até o registro de origem ajudam a interpretar o que está sendo apresentado.',['Consolidar por finalidade de consulta.','Acompanhar as verificações das bases.','Sinalizar pontos de atenção para os responsáveis.'],'Meu foco: preparar informações claras para apoiar a análise.')]
-    controls=''.join(f'<button hidden data-panel="metodo-{key}" aria-controls="metodo-{key}" aria-pressed="false">{i+1:02d} · {label}</button>' for i,(key,label,*_) in enumerate(items))
-    panels=''.join(f'<article class="explorer-panel" id="metodo-{key}" aria-labelledby="titulo-{key}"><div class="eyebrow">{label}</div><h3 id="titulo-{key}">{title}</h3><p>{desc}</p><ul class="feature-list">'+''.join(f'<li>{x}</li>' for x in features)+f'</ul><p class="panel-role">{role}</p></article>' for key,label,title,desc,features,role in items)
-    return '<section class="section method-section" id="metodo"><div class="wrap"><div class="section-heading"><div><div class="eyebrow">Por dentro do controle</div><h2>Da informação<br>ao acompanhamento.</h2></div><p>Três camadas que se complementam. Explore a função de cada uma e como contribuo para a rotina.</p></div><div class="method-explorer" data-explorer><div class="explorer-controls" role="group" aria-label="Explorar as camadas do método">'+controls+'</div><div>'+panels+'</div></div></div></section>'
 
 def home():
-    title='Kleyton Gonçalves Silva | Controle e acompanhamento administrativo'
-    desc='Portfólio de Kleyton Gonçalves Silva: controle e acompanhamento administrativo de contratos, pagamentos, imóveis e frota. Explore projetos interativos e conheça minha trajetória.'
-    out=head(title,desc,overview=True)+header()
-    out+='''<main id="main"><section class="hero"><div class="wrap"><div class="hero-grid"><div><div class="eyebrow">Portfólio / Kleyton Gonçalves Silva</div><h1>Kleyton<br><em>Gonçalves Silva.</em></h1><p class="hero-role">Controle e acompanhamento administrativo<br>Contratos · Pagamentos · Imóveis · Frota</p><p class="hero-description">Informação organizada.<br><strong>Clareza para o próximo passo.</strong></p><p class="hero-intro">Contratos, documentos e prazos conectados por um trabalho de conferência, organização e acompanhamento.</p><div class="actions"><a class="button" href="#projetos">Explore os projetos <span aria-hidden="true">↗</span></a><a class="button secondary" href="./cv/kleyton-goncalves-silva.pdf?v=20260917-conectado" download>Baixar currículo <span aria-hidden="true">↓</span></a></div><div class="hero-meta"><span><i class="small-dot" aria-hidden="true"></i>Niterói, RJ</span><span>Auxiliar de Escritório · CREA-RJ</span></div></div>
-<div class="hero-visual"><div class="overview-frame"><div class="overview-chrome" aria-hidden="true"><span class="chrome-dots"><i></i><i></i><i></i></span><span>CONTROLE EM MOVIMENTO</span><span>↗</span></div><div data-overview class="overview-app"><div class="overview-fallback"><span>Da informação ao acompanhamento</span><h2>Organizar.<br>Conferir.<br>Acompanhar.</h2><p>Explore contratos, pagamentos e previsões nos projetos abaixo. Ative o JavaScript para usar o painel.</p></div></div></div><div class="hero-caption"><span class="caption-line"></span>Explore um contrato. Acompanhe o próximo passo.</div></div></div>
-<div class="intro-strip"><p>Ferramentas<br>no dia a dia</p><ul><li>Google Planilhas</li><li>Excel</li><li>SEI</li><li>PNCP</li><li>Compras.gov.br</li></ul></div></div></section>
-<section class="section projects-section" id="projetos"><div class="wrap"><div class="section-heading"><div><div class="eyebrow">Soluções administrativas</div><h2>Veja o trabalho<br><em>acontecer.</em></h2></div><p>Seis formas de transformar informação em acompanhamento. Abra um projeto, teste um cenário e veja o que muda.</p></div><div class="filter-bar" role="group" aria-label="Filtrar projetos"><button hidden class="filter-button" data-filter="all" aria-pressed="true">Todos os projetos</button><button hidden class="filter-button" data-filter="contratos" aria-pressed="false">Contratos</button><button hidden class="filter-button" data-filter="financeiro" aria-pressed="false">Pagamentos e saldos</button><button hidden class="filter-button" data-filter="operacoes" aria-pressed="false">Frota</button><button hidden class="filter-button" data-filter="paineis" aria-pressed="false">Bases e painéis</button></div><p id="filter-status" class="sr-only" role="status" aria-live="polite"></p><div class="project-grid">'''
-    out+=''.join(project_card(p) for p in PROJECTS)
-    out+='''</div><div class="journey-banner"><div><div class="eyebrow">Uma rotina conectada</div><h3>Do contrato<br>ao panorama.</h3><p>Confira um pagamento, altere uma previsão e acompanhe o efeito no painel.</p></div><ol><li><a href="./projetos/vigencia-contratual/?contrato=CT-101"><span>01</span>Abra o contrato ↗</a></li><li><a href="./projetos/pagamentos/?contrato=CT-101"><span>02</span>Confira o pagamento ↗</a></li><li><a href="./projetos/previsao-contratual/?contrato=CT-101"><span>03</span>Simule o saldo ↗</a></li><li><a href="./projetos/paineis-acompanhamento/?contrato=CT-101"><span>04</span>Veja o painel ↗</a></li></ol></div></div></section>'''+method()+'''
-<section class="section about-section" id="sobre"><div class="wrap about-grid"><div><div class="eyebrow">Sobre mim</div><h2>Clareza para acompanhar.<br>Organização para agir.</h2></div><div><p>Sou profissional da área administrativa, com atuação no CREA-RJ no acompanhamento de contratos de obras, facilities e locação de imóveis, acompanhamento de pagamentos e controle operacional de frota.</p><p>Minha rotina reúne conferência de documentos, controle de vigências e saldos, protocolos, notas fiscais e provisões de pagamento. A experiência em licitações e processos administrativos complementa essa visão do trabalho, da informação inicial ao acompanhamento de cada etapa.</p><p class="about-foot">Em formação contínua <span>— Administração e Gestão de Serviços Judiciais</span></p></div></div></section>
-<section class="section" id="experiencia"><div class="wrap experience-grid"><div class="sticky-copy"><div class="eyebrow">Experiência profissional</div><h2>Uma trajetória<br>em construção.</h2><p>Da organização documental ao acompanhamento de contratos e pagamentos.</p><div class="actions"><a class="text-link" href="./cv/kleyton-goncalves-silva.pdf?v=20260917-conectado">Ver currículo completo ↗</a></div></div><div class="timeline">
+    title = 'Kleyton Gonçalves Silva | Controle e acompanhamento administrativo'
+    description = 'Conheça minha trajetória e projetos de controle administrativo por assunto: obras e facilities, imóveis, frota, contratos de estacionamento e mapa de preços. Demonstrações e planilhas para baixar.'
+    out = head(title, description) + header()
+    out += '''<main id="main"><section class="hero subject-hero"><div class="wrap"><div class="hero-grid"><div><div class="eyebrow">Portfólio profissional</div><h1>Kleyton<br><em>Gonçalves Silva.</em></h1><p class="hero-role">Controle e acompanhamento administrativo</p><p class="hero-intro">Organizo informações, confiro documentos e acompanho contratos, pagamentos e prazos. Aqui você conhece minha trajetória e explora os controles que desenvolvo para a rotina administrativa.</p><div class="actions"><a class="button" href="#projetos">Conhecer meus projetos <span aria-hidden="true">↗</span></a><a class="button secondary" href="./cv/kleyton-goncalves-silva.pdf?v=20260917-kits">Ver currículo <span aria-hidden="true">↗</span></a></div><div class="hero-meta"><span><i class="small-dot" aria-hidden="true"></i>Niterói, RJ</span><span>Auxiliar de Escritório · CREA-RJ</span></div></div><div class="hero-method-art" aria-hidden="true"><span class="method-art-label">O CUIDADO EM CADA ETAPA</span><div class="method-art-orbit"></div><div class="method-art-paper"><div><small>01</small><span>Organizar</span><i>↗</i></div><div><small>02</small><span>Conferir</span><i>✓</i></div><div><small>03</small><span>Acompanhar</span><i>→</i></div></div><p>Informação clara.<br><em>Próximo passo à vista.</em></p><span class="method-art-signature">K.</span></div></div><div class="intro-strip"><p>Ferramentas<br>no dia a dia</p><ul><li>Google Planilhas</li><li>Excel</li><li>SEI</li><li>PNCP</li><li>Compras.gov.br</li></ul></div></div></section>
+<section class="section projects-section" id="projetos"><div class="wrap"><div class="section-heading"><div><div class="eyebrow">Projetos por assunto</div><h2>Escolha uma rotina.<br><em>Veja como funciona.</em></h2></div><p>Cada projeto tem uma demonstração, planilhas organizadas e um guia para começar a usar.</p></div><div class="project-grid subject-project-grid">'''
+    out += ''.join(project_card(p) for p in TOPICS)
+    out += '</div></div></section>'
+    out += '''
+<section class="section about-section" id="sobre"><div class="wrap about-grid"><div><div class="eyebrow">Sobre mim</div><h2>Clareza para acompanhar.<br>Organização para agir.</h2></div><div><p>Sou profissional da área administrativa, com atuação no CREA-RJ no acompanhamento de contratos de obras, facilities, locação de imóveis e estacionamentos, acompanhamento de pagamentos e controle operacional de frota.</p><p>Minha rotina reúne conferência de documentos, controle de vigências e saldos, protocolos, notas fiscais e provisões de pagamento. A experiência em licitações e processos administrativos complementa essa visão do trabalho, da informação inicial ao acompanhamento de cada etapa.</p><p class="about-foot">Em formação contínua <span>— Administração e Gestão de Serviços Judiciais</span></p></div></div></section>
+<section class="section" id="experiencia"><div class="wrap experience-grid"><div class="sticky-copy"><div class="eyebrow">Experiência profissional</div><h2>Uma trajetória<br>em construção.</h2><p>Da organização documental ao acompanhamento de contratos e pagamentos.</p><div class="actions"><a class="text-link" href="./cv/kleyton-goncalves-silva.pdf?v=20260917-kits">Ver currículo completo ↗</a></div></div><div class="timeline">
 <article class="experience"><div class="experience-head"><h3>CREA-RJ</h3><time>jun/2026 — atual</time></div><p class="role">Auxiliar de Escritório · Tempo integral</p><ul><li>Acompanhamento de contratos de obras, facilities e locação de imóveis, incluindo vigências, renovações, saldos, aditivos e distratos.</li><li>Controle de notas fiscais, provisões de pagamento, contas a pagar e documentação para liquidação de despesas.</li><li>Organização e acompanhamento de protocolos e conferência de certidões fiscais, trabalhistas e documentos de regularidade.</li><li>Atualização de indicadores e planilhas de frota: quilometragem, abastecimento, utilização e manutenções preventivas e corretivas.</li></ul><div class="tags"><span class="tag">Contratos</span><span class="tag">Pagamentos</span><span class="tag">Frota</span></div></article>
 <article class="experience"><div class="experience-head"><h3>CREA-RJ</h3><time>ago/2025 — jun/2026</time></div><p class="role">Estagiário Administrativo · Licitações e Contratos (CLIC)</p><ul><li>Pesquisa de preços para contratações públicas com PNCP, Compras.gov.br, editais e mídia especializada.</li><li>Levantamento de valores de mercado e apoio à elaboração de estimativas de preços.</li><li>Apoio à análise de Termos de Referência, especificações técnicas e critérios de contratação.</li></ul><div class="tags"><span class="tag">Pesquisa de preços</span><span class="tag">Contratações públicas</span></div></article>
 <article class="experience"><div class="experience-head"><h3>INSS</h3><time>2023 — 2025</time></div><p class="role">Estagiário Administrativo · Perícia Médica</p><ul><li>Abertura, tramitação e acompanhamento de processos administrativos no SEI.</li><li>Organização de processos simultâneos, apoio à instrução de processos previdenciários e encaminhamento entre setores.</li><li>Tratamento de documentos sigilosos conforme as normas institucionais.</li></ul><div class="tags"><span class="tag">SEI</span><span class="tag">Organização documental</span></div></article>
@@ -90,57 +83,54 @@ def home():
 <details class="course-group" open><summary>Contratos, licitações e administração pública</summary><ul><li>Programa Gestão Estratégica e Contratos — Escola Virtual.Gov · 365 h</li><li>Nova Lei de Licitações e Contratos Administrativos — Udemy · 15 h</li><li>Licitações e Contratos Administrativos — EV.G/ENAP · 40 h</li><li>Direito Administrativo — EV.G/ENAP · 40 h</li><li>Elaboração de Termos de Referência para Contratação de Bens e Serviços na Nova Lei de Licitações — ENAP · 20 h</li></ul></details>
 <details class="course-group"><summary>Inteligência artificial e produtividade</summary><ul><li>Engenharia de Prompt — Gran Faculdade · 30 h · 2026</li><li>Agentes Inteligentes: do Simples ao Avançado — Gran Faculdade · 30 h · 2026</li><li>Inteligência Artificial na Prática: Domine as Ferramentas e Saia na Frente — Gran Faculdade · 30 h · 2026</li></ul></details>
 <details class="course-group"><summary>Desenvolvimento profissional</summary><ul><li>Liderança — Gran Faculdade · 30 h · 2026</li><li>Posicionamento Profissional e Empregabilidade — Gran Faculdade · 30 h · 2026</li><li>Performance, Emoções e Relações no Trabalho — Gran Faculdade · 30 h · 2026</li><li>Carreira, Futuro e Protagonismo Profissional — Gran Faculdade · 30 h · 2026</li><li>Educação Financeira - Dinheiro em Movimento — Gran Faculdade · 30 h · 2026</li><li>Nivelamento: Inglês Instrumental — Gran Faculdade · 15 h · 2026</li><li>Nivelamento: Matemática — Gran Faculdade · 15 h · 2026</li></ul></details></div></div></div></section>
-<section class="contact" id="contato"><div class="wrap contact-grid"><div><div class="eyebrow">Contato profissional</div><h2>Vamos conversar<br>sobre o próximo passo?</h2><p>Interesse em oportunidades como Auxiliar ou Assistente Administrativo, com foco em controle de contratos, acompanhamento de pagamentos, organização documental e processos administrativos.</p><div class="actions"><a class="button secondary" href="./cv/kleyton-goncalves-silva.pdf?v=20260917-conectado" download>Currículo em PDF <span aria-hidden="true">↓</span></a></div></div><div class="contact-links"><a class="contact-link" href="mailto:kleytons67@gmail.com"><span><small>E-MAIL</small>kleytons67@gmail.com</span><span aria-hidden="true">↗</span></a>'''
+<section class="contact" id="contato"><div class="wrap contact-grid"><div><div class="eyebrow">Contato profissional</div><h2>Vamos conversar<br>sobre o próximo passo?</h2><p>Interesse em oportunidades como Auxiliar ou Assistente Administrativo, com foco em controle de contratos, acompanhamento de pagamentos, organização documental e processos administrativos.</p><div class="actions"><a class="button secondary" href="./cv/kleyton-goncalves-silva.pdf?v=20260917-kits" download>Currículo em PDF <span aria-hidden="true">↓</span></a></div></div><div class="contact-links"><a class="contact-link" href="mailto:kleytons67@gmail.com"><span><small>E-MAIL</small>kleytons67@gmail.com</span><span aria-hidden="true">↗</span></a>'''
     out+=f'''<a class="contact-link" href="{LINKEDIN}"><span><small>REDE PROFISSIONAL</small>LinkedIn</span><span aria-hidden="true">↗</span></a><a class="contact-link" href="https://github.com/Kley22"><span><small>PROJETOS & DOCUMENTAÇÃO</small>GitHub / Kley22</span><span aria-hidden="true">↗</span></a></div></div></section></main>'''
     schema={'@context':'https://schema.org','@type':'Person','name':'Kleyton Gonçalves Silva','url':BASE,'jobTitle':'Auxiliar de Escritório','worksFor':{'@type':'Organization','name':'CREA-RJ'},'sameAs':[LINKEDIN,'https://github.com/Kley22']}
     out+='<script type="application/ld+json">'+json.dumps(schema,ensure_ascii=False)+'</script>'+footer()
     write('index.html',out)
 
-def explorer(p):
-    controls=''.join(f'<button hidden data-panel="etapa-{i}" aria-controls="etapa-{i}" aria-pressed="false">{i:02d} · {s["label"]}</button>' for i,s in enumerate(p['steps'],1))
-    panels=''
-    for i,s in enumerate(p['steps'],1):
-        panels+=f'<article class="explorer-panel" id="etapa-{i}" aria-labelledby="etapa-titulo-{i}"><div class="eyebrow">Etapa {i:02d}</div><h3 id="etapa-titulo-{i}">{s["title"]}</h3><dl class="scope-list"><div><dt>O que entra</dt><dd>{s["input"]}</dd></div><div><dt>O que faço</dt><dd>{s["action"]}</dd></div><div><dt>O que fica organizado</dt><dd>{s["output"]}</dd></div></dl></article>'
-    return '<section class="demo-section" id="fluxo"><div class="demo-heading"><div><div class="eyebrow">Explore as etapas</div><h2>Como o controle funciona.</h2></div></div><div class="workflow-explorer" data-explorer><div class="explorer-controls" role="group" aria-label="Explorar as etapas do controle">'+controls+'</div><div>'+panels+'</div></div></section>'
+def case(p):
+    path = f'projetos/{p["slug"]}/'
+    prefix = '../../'
+    download = f'{prefix}downloads/{p["slug"]}/'
+    out = head(p['name'] + ' | Kleyton Gonçalves Silva', p['purpose'], path, prefix, demo=True) + header(prefix)
+    out += f'''<main id="main"><div class="wrap topic-page"><nav class="breadcrumb" aria-label="Caminho da página"><a href="../../#projetos">← Todos os projetos</a><span>Projeto {p['number']}</span></nav><section class="case-hero topic-hero"><div class="eyebrow">{p['tag']}</div><h1>{p['name']}</h1><p>{p['purpose']}</p><div class="actions"><a class="button" href="#demonstracao">Experimentar <span aria-hidden="true">↓</span></a><a class="button secondary" href="#baixar">Baixar kit <span aria-hidden="true">↓</span></a></div></section><div class="topic-contribution"><span>Minha contribuição</span><p>{p['contribution']}</p></div><section class="demo-section interactive-section" id="demonstracao" aria-labelledby="demo-title"><div class="demo-heading"><div><div class="eyebrow">Experimente na prática</div><h2 id="demo-title">{p['demo_title']}</h2></div></div><div class="demo-app" data-topic="{p['slug']}"><p class="demo-fallback">O exemplo interativo está carregando. Você também pode baixar as planilhas e seguir o guia de uso abaixo.</p><noscript><p>Ative o JavaScript para usar a demonstração no navegador.</p></noscript></div></section>
+<section class="topic-download" id="baixar" aria-labelledby="download-title"><div class="download-copy"><div class="eyebrow">Leve o controle para sua rotina</div><h2 id="download-title">Tudo para começar.<br>Em uma pasta.</h2><p>Baixe o kit de {p['name'].lower()} e siga o guia de uso, do primeiro cadastro à leitura do painel.</p><div class="actions"><a class="button" data-download="kit" href="{download}kit-{p['slug']}.zip" download>Baixar kit completo <span aria-hidden="true">↓</span></a><a class="text-link" data-download="guide" href="{download}guia-de-uso.pdf">Ver guia de uso <span aria-hidden="true">↗</span></a></div><small class="download-version">Versão 1.0 · ZIP · Planilhas Excel e guia PDF</small></div><div class="download-contents"><h3>O que vem no kit</h3><ul><li><span>01</span><div><strong>Planilha com exemplos</strong><p>Operacional, Auxiliar e Painéis em abas do mesmo arquivo.</p></div></li><li><span>02</span><div><strong>Planilha para preencher</strong><p>A mesma estrutura, pronta para seus próprios registros.</p></div></li><li><span>03</span><div><strong>Guia de uso em PDF</strong><p>Passo a passo, campos de entrada e leitura dos resultados.</p></div></li><li><span>04</span><div><strong>Leia primeiro</strong><p>Um ponto de partida para localizar os arquivos do kit.</p></div></li></ul></div></section>
+<details class="project-notes topic-notes" id="estrutura"><summary>Entenda a estrutura e as etapas do controle</summary><div class="topic-notes-grid"><section><h2>O que este projeto reúne</h2><ul class="feature-list">{''.join(f'<li>{escape(item)}</li>' for item in p['features'])}</ul></section><section><h2>Da entrada ao acompanhamento</h2><ol class="topic-steps">{''.join(f'<li><h3>{escape(step[0])}</h3><p>{escape(step[1])}</p></li>' for step in p['steps'])}</ol></section></div></details><div class="topic-return"><a class="text-link" href="../../#projetos">← Voltar aos projetos</a></div></div></main>''' + footer(prefix)
+    write(path + 'index.html', out)
+    write(path + 'README.md', f"# {p['name']}\n\n[Abrir projeto]({BASE + path})\n\n{p['purpose']}\n\n## Contribuição profissional\n\n{p['contribution']}\n\n## Demonstração\n\n{p['demo_hint']}\n\nEste assunto usa seus próprios registros de exemplo e seus próprios indicadores.\n\n## Kit para baixar\n\n- [Kit ZIP]({BASE}downloads/{p['slug']}/kit-{p['slug']}.zip)\n- [Guia de uso]({BASE}downloads/{p['slug']}/guia-de-uso.pdf)\n\nVersão 1.0. O kit reúne duas planilhas Excel (exemplo e para preencher), guia em PDF e arquivo de orientação inicial. Os controles operacionais, as referências auxiliares e os painéis ficam em abas de cada planilha.\n\n## Etapas\n\n" + '\n\n'.join(f"### {i}. {step[0]}\n\n{step[1]}" for i, step in enumerate(p['steps'], 1)) + '\n')
 
-DEMO_GUIDES={
-    'vigencia-contratual':('Os prazos, à vista.','Escolha uma data de referência, filtre a situação e localize os contratos que precisam de atenção.'),
-    'previsao-contratual':('Uma previsão para cada cenário.','Ajuste os saldos, os custos mensais e o horizonte para comparar serviços e materiais.'),
-    'pagamentos':('Acompanhe cada etapa.','Localize um lançamento, confira a documentação e experimente o acompanhamento de um pagamento.'),
-    'controle-imoveis':('Obrigações em um só lugar.','Filtre os imóveis e as despesas para consultar vencimentos, pagamentos e pendências documentais.'),
-    'controle-frota':('Conferência que faz diferença.','Calcule o consumo por intervalo de abastecimento e acompanhe a revisão das ocorrências.'),
-    'paineis-acompanhamento':('Do registro ao panorama.','Escolha o período e a origem para acompanhar os valores e conferir a composição dos indicadores.')
+
+LEGACY = {
+    'vigencia-contratual': 'obras-facilities',
+    'previsao-contratual': 'obras-facilities',
+    'pagamentos': 'obras-facilities',
+    'paineis-acompanhamento': 'obras-facilities',
+    'controle-imoveis': 'imoveis',
+    'controle-frota': 'frota',
+    'gestao-frota': 'frota',
+    'aditivos-repactuacoes': 'obras-facilities',
 }
 
-def demo(p):
-    title,description=DEMO_GUIDES[p['slug']]
-    return f'''<section class="demo-section interactive-section" id="demonstracao" aria-labelledby="demo-title"><div class="demo-heading"><div><div class="eyebrow">Experimente na prática</div><h2 id="demo-title">{title}</h2></div><a class="text-link" href="#fluxo">Entenda as etapas ↓</a></div><p class="demo-intro">{description}</p><div class="demo-app" data-demo="{p['slug']}"><p class="demo-fallback">Para usar os filtros e as simulações, ative o JavaScript. As etapas do projeto estão disponíveis logo abaixo.</p></div></section>'''
 
-def case(p,index):
-    prefix='../../'; path=f'projetos/{p["slug"]}/'
-    out=head(p['name']+' | Kleyton Gonçalves Silva',p['short'],path,prefix,demo=True)+header(prefix)
-    out+=f'''<main id="main"><div class="wrap"><nav class="breadcrumb" aria-label="Caminho da página"><a href="../../#projetos">← Todos os projetos</a><span>Projeto {p['number']} / {p['tag']}</span></nav><section class="case-hero"><div class="eyebrow">Controle & acompanhamento</div><h1>{p['name']}</h1><p>{p['short']}</p></section><nav class="case-nav" aria-label="Neste projeto"><a href="#demonstracao">01 / Experimentar</a><a href="#contribuicao">02 / Minha contribuição</a><a href="#fluxo">03 / Entender o processo</a><a href="#conexoes">04 / Continuar explorando</a></nav>'''
-    out+=demo(p)
-    out+=f'''<aside class="case-scope" id="contribuicao"><div><div class="eyebrow">Minha contribuição</div><h2>O cuidado<br>por trás do controle.</h2></div><div><p>{p['role']}</p><p>{p['scope']}</p></div></aside><div class="case-story"><section><div class="eyebrow">O contexto</div><h2>O que precisa de atenção.</h2><p>{p['problem']}</p></section><section><div class="eyebrow">A estrutura</div><h2>Organizar para acompanhar.</h2><p>{p['solution']}</p></section></div>'''
-    out+=explorer(p)
-    out+=f'''<details class="project-notes" id="estrutura"><summary>Recursos do controle e possibilidades de evolução <span aria-hidden="true">+</span></summary><div class="case-story"><section><h2>O que o controle reúne</h2><ul class="feature-list">{''.join(f'<li>{x}</li>' for x in p['observed'])}</ul></section><section><h2>Finalidade do controle</h2><p>{p['benefit']}</p></section></div><section class="next-steps"><h2>Melhorias propostas</h2><ul class="feature-list">{''.join(f'<li>{x}</li>' for x in p['future'])}</ul></section></details><section class="case-resources"><div><div class="eyebrow">Por dentro do projeto</div><h2>Entenda a lógica.</h2><p>Filtros, premissas dos cálculos e etapas do acompanhamento.</p></div><div class="actions"><a class="button secondary" href="{REPO}/blob/main/{path}README.md">Ler a documentação <span aria-hidden="true">↗</span></a><a class="text-link" href="../../#metodo">Conheça meu método ↗</a></div></section>'''
-    related=[x for x in PROJECTS if x['slug'] in p['related']]
-    out+='<section class="related-projects" id="conexoes"><div class="eyebrow">Rotinas conectadas</div><h2>Este controle se conecta a…</h2><div class="actions">'+''.join(f'<a class="button secondary" href="../{r["slug"]}/">{r["title"]} ↗</a>' for r in related)+'</div></section></div>'
-    nxt=PROJECTS[(index+1)%len(PROJECTS)]
-    out+=f'<aside class="next-project"><div class="wrap"><a href="../{nxt["slug"]}/"><span><small>Próximo case</small>{nxt["title"]}</span><span aria-hidden="true">↗</span></a></div></aside></main>'+footer(prefix)
-    write(path+'index.html',out)
-    write(path+'README.md',f"# {p['name']}\n\n[Abrir projeto]({BASE+path})\n\n## Contexto\n\n{p['problem']}\n\n## Estrutura\n\n{p['solution']}\n\n## Papel profissional\n\n{p['role']} {p['scope']}\n\n## Demonstração interativa\n\n{DEMO_GUIDES[p['slug']][1]}\n\nOs exemplos foram criados para o portfólio. As alterações de pagamentos e previsões acompanham a navegação na mesma aba. Use a opção de restaurar a demonstração para voltar ao cenário inicial.\n\n## Etapas do processo\n\n"+'\n\n'.join(f"### {i}. {s['title']}\n\n- Entrada: {s['input']}\n- Acompanhamento: {s['action']}\n- Saída: {s['output']}" for i,s in enumerate(p['steps'],1))+"\n\n## Recursos do controle\n\n"+'\n'.join('- '+x for x in p['observed'])+"\n\n## Possibilidades de evolução\n\n"+'\n'.join('- '+x for x in p['future'])+"\n")
-    write(path+'documentacao/regras.md',f"# Funcionamento\n\n{p['scope']}\n\n{DEMO_GUIDES[p['slug']][1]}\n\nA demonstração usa registros de exemplo e funciona localmente no navegador. Pagamentos e previsões compartilham o estado da demonstração na mesma aba. Os filtros pertencem a cada consulta. A restauração retorna os registros aos valores iniciais. As etapas do processo continuam disponíveis sem JavaScript.\n\nAs regras de cada cálculo são apresentadas junto aos seus campos. Os testes dos módulos verificam os cálculos e casos de entrada inválida.\n")
+def compatibility(old, new):
+    dest = next(p for p in TOPICS if p['slug'] == new)
+    target = f'../{new}/#demonstracao'
+    out = head('Projeto reorganizado | Kleyton Gonçalves Silva', 'Encontre este controle no projeto correspondente.', f'projetos/{new}/', '../../') + header('../../')
+    out += f'<main id="main" class="wrap error-page"><div class="eyebrow">Projetos por assunto</div><h1>{dest["name"]}</h1><p>Este controle agora faz parte do projeto de {dest["name"].lower()}, com demonstração, planilhas para baixar e guia de uso.</p><div class="actions"><a class="button" data-legacy-target="{new}" href="{target}">Conhecer o projeto ↗</a></div></main>' + footer('../../')
+    write(f'projetos/{old}/index.html', out)
+    write(f'projetos/{old}/README.md', f'# Projeto reorganizado\n\n[Abrir {dest["name"]}]({BASE}projetos/{new}/)\n\nO conteúdo agora está organizado por assunto. Consulte a página atual para acessar a demonstração, o kit de planilhas e o guia.\n')
+    old_rules = ROOT / f'projetos/{old}/documentacao/regras.md'
+    if old_rules.exists():
+        write(f'projetos/{old}/documentacao/regras.md', f'# Documentação reorganizada\n\n[Abrir {dest["name"]}]({BASE}projetos/{new}/)\n\nAs regras, a demonstração e o guia de uso estão no projeto correspondente.\n')
+
 
 home()
-for i,p in enumerate(PROJECTS): case(p,i)
-for old,new in [('gestao-frota','controle-frota'),('aditivos-repactuacoes','vigencia-contratual')]:
-    path=f'projetos/{old}/'
-    dest=next(p for p in PROJECTS if p['slug']==new)
-    out=head('Case atualizado | Kleyton Gonçalves Silva','Conheça a versão atualizada deste case.',f'projetos/{new}/','../../')+header('../../')
-    out+=f'<main id="main" class="wrap error-page"><div class="eyebrow">Case atualizado</div><h1>{dest["name"]}</h1><p>O conteúdo foi reorganizado para apresentar o processo e o papel de acompanhamento administrativo.</p><div class="actions"><a class="button" href="../{new}/">Conhecer o case atualizado ↗</a></div></main>'+footer('../../')
-    write(path+'index.html',out)
-write('404.html',head('Página não encontrada | Kleyton Gonçalves Silva','Volte ao portfólio profissional de Kleyton Gonçalves Silva.','404.html','/')+header('/')+'<main id="main" class="wrap error-page"><div class="eyebrow">Página não encontrada</div><h1>Vamos retomar<br>o caminho?</h1><p>O endereço pode ter mudado. Você encontra os projetos e a trajetória profissional na página inicial.</p><div class="actions"><a class="button" href="/">Voltar ao portfólio ↗</a></div></main>'+footer('/'))
-write('sitemap.xml','<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join(f'<url><loc>{BASE+path}</loc></url>' for path in ['']+[f'projetos/{p["slug"]}/' for p in PROJECTS])+'</urlset>\n')
-write('robots.txt',f'User-agent: *\nAllow: /\nSitemap: {BASE}sitemap.xml\n')
-print('Generated home, six interactive projects, two compatibility pages, documentation, 404 and sitemap.')
+for topic in TOPICS:
+    case(topic)
+for old, new in LEGACY.items():
+    compatibility(old, new)
+write('404.html', head('Página não encontrada | Kleyton Gonçalves Silva', 'Volte ao portfólio profissional de Kleyton Gonçalves Silva.', '404.html', '/') + header('/') + '<main id="main" class="wrap error-page"><div class="eyebrow">Página não encontrada</div><h1>Vamos retomar<br>o caminho?</h1><p>O endereço pode ter mudado. Você encontra os projetos e a trajetória profissional na página inicial.</p><div class="actions"><a class="button" href="/">Voltar ao portfólio ↗</a></div></main>' + footer('/'))
+write('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + ''.join(f'<url><loc>{BASE + path}</loc></url>' for path in [''] + [f'projetos/{p["slug"]}/' for p in TOPICS]) + '</urlset>\n')
+write('robots.txt', f'User-agent: *\nAllow: /\nSitemap: {BASE}sitemap.xml\n')
+print('Generated home, five subject projects, eight compatibility pages, documentation, 404 and sitemap.')

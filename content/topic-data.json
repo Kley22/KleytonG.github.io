@@ -1,0 +1,85 @@
+{
+  "reference": "2026-09-17",
+  "period": "2026-09",
+  "version": "1.0",
+  "obras-facilities": {
+    "contracts": [
+      {"id":"OF-101","description":"Conservação predial","supplier":"Alameda Serviços","start":"2026-02-01","end":"2027-01-31","status":"Ativo","serviceBalance":48000,"serviceMonthly":12500,"materialBalance":9600,"materialMonthly":1800},
+      {"id":"OF-102","description":"Manutenção de climatização","supplier":"Horizonte Climatização","start":"2025-10-01","end":"2026-09-30","status":"Ativo","serviceBalance":18500,"serviceMonthly":7200,"materialBalance":3100,"materialMonthly":950},
+      {"id":"OF-103","description":"Adequações elétricas","supplier":"Cedro Instalações","start":"2026-06-01","end":"2026-09-10","status":"Ativo","serviceBalance":6000,"serviceMonthly":1500,"materialBalance":1200,"materialMonthly":0},
+      {"id":"OF-104","description":"Manutenção de elevadores","supplier":"Aurora Equipamentos","start":"2026-05-18","end":"2026-09-17","status":"Ativo","serviceBalance":15200,"serviceMonthly":4200,"materialBalance":2800,"materialMonthly":null}
+    ],
+    "payments": [
+      {"id":"OF-P01","contract":"OF-101","description":"Serviço de conservação","competence":"2026-09","amount":12500,"due":"2026-09-25","paidOn":"","documents":"Pendente","stage":"Em conferência"},
+      {"id":"OF-P02","contract":"OF-102","description":"Manutenção de climatização","competence":"2026-09","amount":7200,"due":"2026-09-12","paidOn":"","documents":"Completa","stage":"Encaminhado"},
+      {"id":"OF-P03","contract":"OF-103","description":"Adequações elétricas","competence":"2026-09","amount":1500,"due":"2026-09-17","paidOn":"","documents":"Pendente","stage":"Em conferência"},
+      {"id":"OF-P04","contract":"OF-104","description":"Manutenção de elevadores","competence":"2026-09","amount":4200,"due":"2026-09-08","paidOn":"2026-09-05","documents":"Completa","stage":"Pago"},
+      {"id":"OF-P05","contract":"OF-101","description":"Materiais de conservação","competence":"2026-09","amount":1800,"due":"2026-09-28","paidOn":"","documents":"Completa","stage":"Encaminhado"}
+    ],
+    "changes": [
+      {"id":"OF-A01","contract":"OF-101","date":"2026-02-01","type":"Prorrogação","description":"Novo período de acompanhamento cadastrado até 31/01/2027."},
+      {"id":"OF-A02","contract":"OF-102","date":"2026-08-20","type":"Acompanhamento","description":"Conferência dos documentos para análise da continuidade."},
+      {"id":"OF-A03","contract":"OF-103","date":"2026-09-11","type":"Encerramento em análise","description":"Prazo encerrado; conferir o registro administrativo."}
+    ]
+  },
+  "imoveis": {
+    "properties": [
+      {"id":"IM-001","name":"Unidade Aurora","ownership":"Locado","contract":"IL-101","start":"2026-01-01","end":"2026-12-31"},
+      {"id":"IM-002","name":"Unidade Jardim","ownership":"Locado","contract":"IL-102","start":"2025-10-01","end":"2026-09-30"},
+      {"id":"IM-003","name":"Unidade Horizonte","ownership":"Próprio","contract":"","start":"","end":""}
+    ],
+    "obligations": [
+      {"id":"IM-P01","property":"IM-001","type":"Aluguel","competence":"2026-09","amount":4200,"due":"2026-09-10","paidOn":"2026-09-09","documents":"Completa"},
+      {"id":"IM-P02","property":"IM-001","type":"Condomínio","competence":"2026-09","amount":680,"due":"2026-09-12","paidOn":"","documents":"Pendente"},
+      {"id":"IM-P03","property":"IM-001","type":"IPTU","competence":"2026-09","amount":235,"due":"2026-09-25","paidOn":"","documents":"Completa"},
+      {"id":"IM-P04","property":"IM-002","type":"Aluguel","competence":"2026-09","amount":3150,"due":"2026-09-20","paidOn":"","documents":"Completa"},
+      {"id":"IM-P05","property":"IM-002","type":"Condomínio","competence":"2026-09","amount":520,"due":"2026-09-15","paidOn":"2026-09-16","documents":"Completa"},
+      {"id":"IM-P06","property":"IM-002","type":"IPTU","competence":"2026-09","amount":187.5,"due":"2026-09-25","paidOn":"","documents":"Pendente"},
+      {"id":"IM-P07","property":"IM-003","type":"IPTU","competence":"2026-09","amount":340,"due":"2026-09-05","paidOn":"2026-09-04","documents":"Completa"},
+      {"id":"IM-P08","property":"IM-003","type":"Taxa","competence":"2026-09","amount":86,"due":"2026-09-30","paidOn":"","documents":"Pendente"}
+    ]
+  },
+  "frota": {
+    "vehicles": [{"id":"FR-01","name":"Veículo 01"},{"id":"FR-02","name":"Veículo 02"},{"id":"FR-03","name":"Veículo 03"}],
+    "fuel": [
+      {"id":"FR-A01","vehicle":"FR-01","date":"2026-09-05","previous":12000,"current":12420,"liters":35,"pricePerLiter":6.2,"full":true},
+      {"id":"FR-A02","vehicle":"FR-01","date":"2026-09-14","previous":12420,"current":12810,"liters":32.5,"pricePerLiter":6.3,"full":true},
+      {"id":"FR-A03","vehicle":"FR-02","date":"2026-09-08","previous":8500,"current":8810,"liters":28,"pricePerLiter":6.15,"full":true},
+      {"id":"FR-A04","vehicle":"FR-03","date":"2026-09-12","previous":21500,"current":21780,"liters":20,"pricePerLiter":6.25,"full":false}
+    ],
+    "occurrences": [
+      {"id":"FR-O01","vehicle":"FR-01","date":"2026-09-15","type":"Abastecimento","description":"Conferir dois comprovantes registrados no mesmo dia.","status":"Pendente"},
+      {"id":"FR-O02","vehicle":"FR-02","date":"2026-09-14","type":"Hodômetro","description":"Conferir a sequência das leituras informadas.","status":"Pendente"},
+      {"id":"FR-O03","vehicle":"FR-03","date":"2026-09-12","type":"Documento","description":"Comprovante de abastecimento aguardando conferência.","status":"Pendente"},
+      {"id":"FR-O04","vehicle":"FR-01","date":"2026-09-10","type":"Manutenção","description":"Documento da revisão conferido.","status":"Conferido"}
+    ]
+  },
+  "estacionamentos": {
+    "contracts": [
+      {"id":"ES-101","description":"Vagas mensais na região central","supplier":"Jardim Estacionamentos","start":"2026-01-01","end":"2026-12-31","status":"Ativo","spaces":12,"rate":280},
+      {"id":"ES-102","description":"Vagas mensais na unidade de apoio","supplier":"Pátio Horizonte","start":"2025-10-01","end":"2026-09-30","status":"Ativo","spaces":6,"rate":310},
+      {"id":"ES-103","description":"Contrato anterior de vagas mensais","supplier":"Alameda Vagas","start":"2025-09-01","end":"2026-08-31","status":"Encerrado","spaces":4,"rate":275}
+    ],
+    "payments": [
+      {"id":"ES-P01","contract":"ES-101","description":"Mensalidade das vagas contratadas","competence":"2026-09","amount":3360,"due":"2026-09-20","paidOn":"","documents":"Pendente","stage":"Em conferência"},
+      {"id":"ES-P02","contract":"ES-102","description":"Mensalidade das vagas contratadas","competence":"2026-09","amount":1860,"due":"2026-09-15","paidOn":"2026-09-15","documents":"Completa","stage":"Pago"},
+      {"id":"ES-P03","contract":"ES-103","description":"Última mensalidade do período anterior","competence":"2026-08","amount":1100,"due":"2026-09-05","paidOn":"2026-09-04","documents":"Completa","stage":"Pago"}
+    ]
+  },
+  "mapa-precos": {
+    "items": [
+      {"id":"MP-01","description":"Filtro de ar","unit":"Unidade","quantity":4,"research":[80,85,90],"suppliers":[82,79,88],"kind":"Material"},
+      {"id":"MP-02","description":"Óleo lubrificante","unit":"Litro","quantity":12,"research":[35,38,40],"suppliers":[36,37,34],"kind":"Material"},
+      {"id":"MP-03","description":"Jogo de pastilhas","unit":"Jogo","quantity":2,"research":[180,195,210],"suppliers":[190,185,205],"kind":"Material"},
+      {"id":"MP-04","description":"Serviço de substituição e inspeção","unit":"Serviço","quantity":1,"research":[250,280,300],"suppliers":[260,275,240],"kind":"Serviço"}
+    ],
+    "sources": [
+      {"id":"P1","type":"Pesquisa","name":"Referência de mercado A","date":"2026-09-10","reference":"Pesquisa A"},
+      {"id":"P2","type":"Pesquisa","name":"Referência de mercado B","date":"2026-09-11","reference":"Pesquisa B"},
+      {"id":"P3","type":"Pesquisa","name":"Referência de mercado C","date":"2026-09-12","reference":"Pesquisa C"},
+      {"id":"F1","type":"Proposta","name":"Fornecedor A","date":"2026-09-13","reference":"Proposta A"},
+      {"id":"F2","type":"Proposta","name":"Fornecedor B","date":"2026-09-14","reference":"Proposta B"},
+      {"id":"F3","type":"Proposta","name":"Fornecedor C","date":"2026-09-15","reference":"Proposta C"}
+    ]
+  }
+}

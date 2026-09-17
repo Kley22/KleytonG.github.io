@@ -1,0 +1,314 @@
+{
+  "slug": "obras-facilities",
+  "title": "Obras e facilities",
+  "files": [
+    "planilha-exemplo.xlsx",
+    "planilha-em-branco.xlsx"
+  ],
+  "sheets": [
+    {
+      "name": "Painel",
+      "purpose": "Resumo dos pagamentos por competência, pendências e gráfico.",
+      "inputs": "Nenhum. Aba calculada."
+    },
+    {
+      "name": "Contratos",
+      "purpose": "Cadastro de contratos e cálculo dos prazos.",
+      "inputs": "A7:F56"
+    },
+    {
+      "name": "Pagamentos",
+      "purpose": "Conferência documental e acompanhamento dos pagamentos.",
+      "inputs": "A7:I56"
+    },
+    {
+      "name": "Previsoes",
+      "purpose": "Projeção separada dos saldos de serviço e material.",
+      "inputs": "A7:E56"
+    },
+    {
+      "name": "Alteracoes",
+      "purpose": "Histórico de alterações e providências por contrato.",
+      "inputs": "A7:E56"
+    },
+    {
+      "name": "Auxiliar",
+      "purpose": "Data de referência, competência e listas de preenchimento.",
+      "inputs": "B5:B7"
+    }
+  ],
+  "editable": {
+    "Contratos": "A7:F56",
+    "Pagamentos": "A7:I56",
+    "Previsoes": "A7:E56",
+    "Alteracoes": "A7:E56"
+  },
+  "capacity": "50 registros por aba operacional, da linha 7 à 56.",
+  "firstRow": 7,
+  "lastRow": 56,
+  "settings": [
+    "Auxiliar!B5: data de referência",
+    "Auxiliar!B6: primeiro dia do mês de competência",
+    "Auxiliar!B7: horizonte de projeção em meses, de 1 a 24"
+  ],
+  "steps": [
+    {
+      "title": "Etapa 1",
+      "text": "Extraia o ZIP e abra planilha-exemplo.xlsx para conhecer o preenchimento. Use planilha-em-branco.xlsx para iniciar o seu controle."
+    },
+    {
+      "title": "Etapa 2",
+      "text": "Em Auxiliar!B5, informe a data de referência. Em B6, informe o primeiro dia do mês desejado. O painel usa a competência e considera pagamentos efetivados até a referência."
+    },
+    {
+      "title": "Etapa 3",
+      "text": "Cadastre os contratos em Contratos!A7:F56. Use um ID único. Informe o estado administrativo sem confundir vencimento com encerramento."
+    },
+    {
+      "title": "Etapa 4",
+      "text": "Lance os pagamentos em Pagamentos!A7:I56 e selecione o contrato. Informe a competência, o valor, o vencimento e a documentação. A data de pagamento registra a quitação. A etapa informada é um acompanhamento separado."
+    },
+    {
+      "title": "Etapa 5",
+      "text": "Em Previsoes!A7:E56, informe os saldos disponíveis e os valores mensais de serviço e material. Ajuste o horizonte em Auxiliar!B7. Saldo projetado igual a zero não é risco. Campo vazio mantém a previsão incompleta."
+    },
+    {
+      "title": "Etapa 6",
+      "text": "Registre aditivos, prorrogações e acompanhamento em Alteracoes!A7:E56. O histórico não altera automaticamente datas ou saldos: após a conferência, atualize Contratos e Previsoes."
+    },
+    {
+      "title": "Etapa 7",
+      "text": "Confira as colunas Cadastro e Situação. Corrija campos incompletos e IDs duplicados antes de interpretar os totais. Documentação pendente permanece visível mesmo quando há pagamento."
+    },
+    {
+      "title": "Etapa 8",
+      "text": "Abra Painel para acompanhar os totais e o gráfico. Use os filtros da linha 6 para localizar pendências nas abas operacionais."
+    },
+    {
+      "title": "Etapa 9",
+      "text": "Para acrescentar registros, use a próxima linha vazia entre 7 e 56. Preencha somente as células amarelas. As células verdes já contêm fórmulas. Mantenha o conjunto da tabela ao ordenar."
+    },
+    {
+      "title": "Etapa 10",
+      "text": "Para excluir um registro, apague apenas suas células amarelas com Delete. Não exclua a linha da planilha nem as fórmulas. Para recomeçar, abra novamente a versão em branco."
+    }
+  ],
+  "limits": [
+    "Cada aba operacional aceita até 50 registros nas linhas preparadas. Registros além da linha 56 não participam dos indicadores sem ampliar fórmulas e validações.",
+    "O painel agrupa por competência mensal. Ele não é um extrato de fluxo de caixa por data de pagamento.",
+    "Datas devem ser datas válidas, valores devem ser numéricos e IDs devem ser únicos. Pagamentos futuros em relação à referência exigem conferência.",
+    "A previsão é saldo informado menos valor mensal vezes o horizonte. Não inclui reajustes automáticos, rateio diário nem desconto automático dos pagamentos: o saldo informado já deve representar a posição que você deseja projetar.",
+    "Um componente sem gastos deve receber zero explícito. Campo vazio significa informação ainda ausente. A análise não compensa falta de serviço com sobra de material.",
+    "Arquivo sem macros, sem conexão externa e sem dependência de outras pastas. Cálculos e exportação verificados no motor de criação; não houve teste direto no Excel ou Google Planilhas. Após importar para outro aplicativo, confira fórmulas, listas, datas e gráfico antes do uso."
+  ],
+  "tests": [
+    {
+      "cell": "Painel!B7",
+      "expected": 27200,
+      "actual": 27200
+    },
+    {
+      "cell": "Painel!B8",
+      "expected": 4200,
+      "actual": 4200
+    },
+    {
+      "cell": "Painel!B9",
+      "expected": 23000,
+      "actual": 23000
+    },
+    {
+      "cell": "Painel!B10",
+      "expected": 7200,
+      "actual": 7200
+    },
+    {
+      "cell": "Painel!B26",
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "cell": "Painel!B28",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "cell": "Painel!B29",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "cell": "Previsoes!G7",
+      "expected": 10500,
+      "actual": 10500
+    },
+    {
+      "cell": "Previsoes!G8",
+      "expected": -3100,
+      "actual": -3100
+    },
+    {
+      "cell": "Previsoes!H9",
+      "expected": 1200,
+      "actual": 1200
+    },
+    {
+      "cell": "Previsoes!J10",
+      "expected": "Incompleto",
+      "actual": "Incompleto"
+    },
+    {
+      "cell": "Painel!B8",
+      "expected": 16700,
+      "actual": 16700
+    },
+    {
+      "cell": "Painel!B12",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "cell": "Previsoes!G8",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "cell": "Previsoes!I8",
+      "expected": "Saldo suficiente",
+      "actual": "Saldo suficiente"
+    },
+    {
+      "cell": "Previsoes!H10",
+      "expected": 2800,
+      "actual": 2800
+    },
+    {
+      "cell": "Previsoes!J10",
+      "expected": "Saldo suficiente",
+      "actual": "Saldo suficiente"
+    },
+    {
+      "cell": "Contratos!H9",
+      "expected": "Encerrado",
+      "actual": "Encerrado"
+    },
+    {
+      "cell": "Painel!B7",
+      "expected": 27300,
+      "actual": 27300
+    },
+    {
+      "cell": "Pagamentos!K7",
+      "expected": "Sem cadastro único",
+      "actual": "Sem cadastro único"
+    },
+    {
+      "cell": "Painel!B7",
+      "expected": "Revisar dados",
+      "actual": "Revisar dados"
+    },
+    {
+      "cell": "Pagamentos!K7",
+      "expected": "Informe ID",
+      "actual": "Informe ID"
+    },
+    {
+      "cell": "Painel!B7",
+      "expected": "Revisar dados",
+      "actual": "Revisar dados"
+    },
+    {
+      "cell": "Painel!B7",
+      "expected": "Conferir Auxiliar",
+      "actual": "Conferir Auxiliar"
+    },
+    {
+      "cell": "Painel!B7",
+      "expected": "",
+      "actual": ""
+    }
+  ],
+  "rules": [
+    "Cada aba operacional aceita até 50 registros nas linhas preparadas. Registros além da linha 56 não participam dos indicadores sem ampliar fórmulas e validações.",
+    "O painel agrupa por competência mensal. Ele não é um extrato de fluxo de caixa por data de pagamento.",
+    "Datas devem ser datas válidas, valores devem ser numéricos e IDs devem ser únicos. Pagamentos futuros em relação à referência exigem conferência.",
+    "A previsão é saldo informado menos valor mensal vezes o horizonte. Não inclui reajustes automáticos, rateio diário nem desconto automático dos pagamentos: o saldo informado já deve representar a posição que você deseja projetar.",
+    "Um componente sem gastos deve receber zero explícito. Campo vazio significa informação ainda ausente. A análise não compensa falta de serviço com sobra de material.",
+    "Arquivo sem macros, sem conexão externa e sem dependência de outras pastas. Cálculos e exportação verificados no motor de criação; não houve teste direto no Excel ou Google Planilhas. Após importar para outro aplicativo, confira fórmulas, listas, datas e gráfico antes do uso."
+  ],
+  "exercise": [
+    "No exemplo, registre 17/09/2026 em Pagamentos!G7. O valor pago em Painel!B8 passa de R$ 4.200,00 para R$ 16.700,00. Documentação pendente continua em 2. Apague G7 para restaurar.",
+    "Em Previsoes!B8, troque 18.500 por 21.600. O saldo projetado de serviço passa a zero e a situação fica Saldo suficiente. Restaure 18.500."
+  ],
+  "troubleshooting": [
+    {
+      "problem": "O painel mostra Revisar dados.",
+      "solution": "Verifique a coluna Cadastro nas abas operacionais. Corrija ID vazio ou duplicado, vínculo sem cadastro, datas e valores."
+    },
+    {
+      "problem": "O resultado ficou vazio.",
+      "solution": "Confira a competência no Auxiliar e se há lançamentos nesse mês. Nas previsões, preencha saldo e mensalidade de cada componente. Campo vazio não é tratado como zero."
+    },
+    {
+      "problem": "O painel mostra Conferir Auxiliar.",
+      "solution": "Informe datas válidas em Auxiliar!B5 e B6. B6 deve ser o primeiro dia do mês. Não apague as fórmulas verdes."
+    }
+  ],
+  "checks": [
+    {
+      "sheet": "Painel",
+      "cell": "B7",
+      "expected": 27200
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B8",
+      "expected": 4200
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B9",
+      "expected": 23000
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B10",
+      "expected": 7200
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B26",
+      "expected": 3
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B28",
+      "expected": 1
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B29",
+      "expected": 1
+    },
+    {
+      "sheet": "Previsoes",
+      "cell": "G7",
+      "expected": 10500
+    },
+    {
+      "sheet": "Previsoes",
+      "cell": "G8",
+      "expected": -3100
+    },
+    {
+      "sheet": "Previsoes",
+      "cell": "H9",
+      "expected": 1200
+    },
+    {
+      "sheet": "Previsoes",
+      "cell": "J10",
+      "expected": "Incompleto"
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "title": "Controle de frota",
+  "filenames": [
+    "planilha-exemplo.xlsx",
+    "planilha-em-branco.xlsx"
+  ],
+  "sheets": [
+    {
+      "name": "Painel",
+      "purpose": "Despesa mensal, consumo ponderado e ocorrências pendentes. Campos calculados.",
+      "inputs": "Nenhum. Resultados calculados."
+    },
+    {
+      "name": "Abastecimentos",
+      "purpose": "Registro de intervalos de abastecimento e cálculo de consumo.",
+      "editable": "A7:H56",
+      "inputs": "A7:H56"
+    },
+    {
+      "name": "Ocorrencias",
+      "purpose": "Registro e acompanhamento de conferências.",
+      "editable": "A7:F56",
+      "inputs": "A7:F56"
+    },
+    {
+      "name": "Auxiliar",
+      "purpose": "Data de referência, mês do painel e cadastro de veículos.",
+      "editable": "B4:B5 e A9:B58",
+      "inputs": "B4:B5 e A9:B58"
+    }
+  ],
+  "settings": [
+    "Auxiliar B4: data de referência. B5: primeiro dia do mês desejado, exibido como mês/ano."
+  ],
+  "capacity": "50 linhas em cada aba operacional e 50 veículos em Auxiliar. As fórmulas estão preparadas até a linha 56; inserir dados abaixo exige estender fórmulas, validações e os intervalos do Painel.",
+  "steps": [
+    {
+      "title": "Passo 1",
+      "text": "Abra a versão de exemplo e observe os campos calculados no Painel."
+    },
+    {
+      "title": "Passo 2",
+      "text": "Na versão em branco, ajuste Auxiliar B4 e B5. Em B5 digite sempre o primeiro dia do mês."
+    },
+    {
+      "title": "Passo 3",
+      "text": "Cadastre um ID único e uma descrição por veículo em Auxiliar A9:B58."
+    },
+    {
+      "title": "Passo 4",
+      "text": "Em Abastecimentos, preencha A:H. Para medir consumo, informe distância e litros correspondentes ao mesmo intervalo entre dois tanques cheios. Some os litros intermediários e use preço médio ponderado pelo volume quando necessário."
+    },
+    {
+      "title": "Passo 5",
+      "text": "Use Intervalo completo = Não para lançamentos parciais que devam compor somente a despesa. Não registre novamente o mesmo volume em outra linha."
+    },
+    {
+      "title": "Passo 6",
+      "text": "Leia Conferência e corrija hodômetros invertidos, litros zero, IDs repetidos ou veículos ausentes."
+    },
+    {
+      "title": "Passo 7",
+      "text": "Em Ocorrencias, registre o assunto e atualize a situação após a conferência."
+    },
+    {
+      "title": "Passo 8",
+      "text": "Volte ao Painel. Alterações nas entradas atualizam indicadores e gráfico."
+    }
+  ],
+  "exercise": [
+    "Na versão de exemplo, altere Abastecimentos F7 de 35 para 40 litros: despesa passa de R$ 718,95 para R$ 749,95 e consumo ponderado passa de 11,73 para 11,14 km/l. Restaure 35 depois."
+  ],
+  "rules": [
+    "Despesa = litros × preço médio por litro, arredondada em centavos. Entram intervalos parciais válidos.",
+    "Consumo ponderado = soma das distâncias de intervalos completos válidos ÷ soma dos litros desses mesmos intervalos. Não é média simples dos consumos.",
+    "Hodômetro final deve ser maior que o anterior e os litros devem ser positivos. Intervalos parciais e inválidos não participam do consumo.",
+    "Despesa e consumo respeitam o mês selecionado e lançamentos até a data de referência.",
+    "Ocorrências pendentes incluem Pendente e Em conferência até a referência, em todos os meses.",
+    "Cadastros ou lançamentos inválidos aparecem nas contagens a conferir."
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Sem intervalo completo",
+      "solution": "cadastre um intervalo completo válido para obter km/l."
+    },
+    {
+      "problem": "Conferir veículo",
+      "solution": "cadastre o ID no Auxiliar e elimine duplicações."
+    },
+    {
+      "problem": "Despesa não aparece",
+      "solution": "confira data, mês selecionado, litros, preço, ID único e veículo."
+    },
+    {
+      "problem": "Quais células posso preencher?",
+      "solution": "A cor amarela indica preenchimento. Verde-claro indica cálculo. Não substitua fórmulas por valores."
+    }
+  ],
+  "slug": "frota",
+  "checks": [
+    {
+      "sheet": "Painel",
+      "cell": "B8",
+      "expected": 718.95
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B9",
+      "expected": 1120
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B10",
+      "expected": 95.5
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B11",
+      "expected": 11.727748691099476
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B12",
+      "expected": 3
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B13",
+      "expected": 0
+    },
+    {
+      "sheet": "Painel",
+      "cell": "B14",
+      "expected": 0
+    }
+  ]
+}
