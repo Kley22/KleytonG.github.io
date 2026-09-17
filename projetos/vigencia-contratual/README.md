@@ -1,51 +1,57 @@
-# Acompanhamento de Vigência Contratual
+# Controle de contratos e vigências
 
-**Projeto demonstrativo — dados fictícios.**
+[Abrir case](https://kley22.github.io/KleytonG.github.io/projetos/vigencia-contratual/)
 
-[Abrir case](https://kley22.github.io/KleytonG.github.io/projetos/vigencia-contratual/) · [Experimentar demonstração](https://kley22.github.io/KleytonG.github.io/projetos/vigencia-contratual/#demonstracao)
+## Contexto
 
-## Contexto e limites
+Um contrato pode atravessar diferentes vigências e alterações. Sem distinguir cada período, documentos e pagamentos podem ser associados à etapa errada.
 
-Tema de projeto informado por Kleyton. As planilhas originais não foram anexadas. A demonstração web foi construída especificamente para este portfólio e não reproduz uma implementação institucional. Benefícios são finalidades esperadas, não resultados quantitativos comprovados. Excel e Google Planilhas constam no currículo como ferramentas; o código web não é apresentado como uma competência declarada no currículo.
+## Estrutura
 
-## Problema
+Organizar o cadastro contratual e o histórico de vigências, relacionando cada movimentação ao período correspondente. A consulta da vigência ativa apoia o acompanhamento da rotina.
 
-Datas distribuídas entre contratos e documentos dificultam a identificação das próximas renovações e do que precisa de atenção primeiro.
+## Papel profissional
 
-## Solução demonstrada
+Atualização dos controles, organização documental e acompanhamento de prazos e alterações. O controle reúne e sinaliza informações para os responsáveis pelo contrato.
 
-Reunir início, término e situação em uma base única. A demonstração classifica cada contrato a partir de uma data de referência e permite ajustar a antecedência dos alertas.
+## Fluxo conceitual
 
-## Recursos
+### 1. Identificar o contrato
 
-- Consulta por contrato ou fornecedor fictício
-- Filtro de situação e data de referência
-- Alertas configuráveis de renovação
-- Contratos encerrados identificados separadamente
+- Entrada: Instrumento contratual e documentos de referência.
+- Acompanhamento: Organizar os campos de identificação e relacionar os documentos ao cadastro.
+- Saída: Cadastro localizável, com vínculo para o histórico.
 
-## Processo
+### 2. Distinguir cada vigência
 
-1. Reunir as datas e a situação de cada instrumento.
-2. Calcular o intervalo até o término e identificar exceções.
-3. Organizar a consulta por prioridade de acompanhamento.
+- Entrada: Períodos e instrumentos de alteração.
+- Acompanhamento: Associar a movimentação à vigência correspondente e preservar o histórico.
+- Saída: Consulta clara da vigência ativa e dos períodos anteriores.
 
-## Finalidade
+### 3. Acompanhar prazos e alterações
 
-Apoiar a organização das prioridades e a preparação de documentos com antecedência.
+- Entrada: Datas, situação e documentos de cada etapa.
+- Acompanhamento: Conferir o que foi registrado, localizar pendências e acompanhar os prazos.
+- Saída: Pontos de atenção organizados para encaminhamento.
 
-## Arquivos
+### 4. Apoiar o próximo encaminhamento
 
-- `index.html`: case e demonstração integrada, compatíveis com GitHub Pages.
-- `modelo/dados-ficticios.json`: premissas e dados fictícios, sem informações internas.
-- `screenshots/demonstracao.png`: captura real da demonstração web criada neste projeto.
-- `documentacao/regras.md`: regras e limites do exemplo.
+- Entrada: Pendência identificada no acompanhamento.
+- Acompanhamento: Reunir as referências necessárias e sinalizar o assunto ao responsável.
+- Saída: Informação preparada para análise e providência.
 
-## Evolução
+## Estrutura observada
 
-Receber capturas anonimizadas da planilha original e documentar seu fluxo de atualização.
+- Cadastro de contratos e identificação de vigências.
+- Seleção de vigência ativa e consulta de alterações.
+- Relacionamento entre contratos, pagamentos e conferências.
 
-Antes de inserir planilhas ou imagens originais, remover nomes de fornecedores, dados pessoais, contratos reais, números de processos, valores e outras informações internas. Não substituir a demonstração por dados reais automaticamente.
+## Melhorias propostas
 
-## Tecnologias desta demonstração
+- Adotar identificadores estáveis para contrato e vigência.
+- Separar situação contratual, alerta de prazo e pendência documental.
+- Registrar a conferência antes de atualizar uma vigência.
 
-HTML, CSS e JavaScript nativo. Cálculos compartilhados em `assets/js/logic.mjs`; não há backend, armazenamento ou integrações com sistemas institucionais.
+## Escopo público
+
+Descrição conceitual baseada na análise estrutural de planilhas. Não contém registros, valores, documentos, capturas, fórmulas de origem, identificadores ou vínculos internos. As etapas são explicativas e não reproduzem uma aplicação institucional. As melhorias são propostas, não alterações aplicadas aos arquivos de trabalho. Não se afirmam ganhos quantitativos medidos.

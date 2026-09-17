@@ -1,5 +1,7 @@
-# Regras e limites
+# Escopo e limites
 
-Saldo projetado = saldo disponível − mensal previsto × meses. Valores são arredondados em centavos. Risco apenas se o saldo projetado for negativo, por componente. Serviço e material não compensam um ao outro. A projeção assume consumo mensal constante e não inclui reajustes, sazonalidade ou rateio de mês parcial.
+A previsão é uma informação de apoio e depende das premissas adotadas e da atualização dos registros.
 
-Todos os dados são fictícios. Alterações feitas no navegador não são gravadas. Entradas inválidas mantêm o último resultado válido, com aviso visível.
+A interface permite explorar etapas conceituais. Não recebe dados operacionais, não faz cálculos financeiros e não se conecta a planilhas ou sistemas internos. A estrutura observada e as melhorias propostas são identificadas separadamente.
+
+O conteúdo permanece disponível sem JavaScript.

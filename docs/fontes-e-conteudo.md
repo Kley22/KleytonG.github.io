@@ -1,42 +1,26 @@
 # Fontes e decisões de conteúdo
 
-## Fonte profissional principal
+## Evidência utilizada
 
-Currículo **Kleyton G. currículo (3).pdf**, fornecido em 17/09/2026. Cargos, empresas, períodos, formação, cursos, plataformas e atividades foram extraídos desse documento.
+- Currículo fornecido pelo titular: cargos, empresas, períodos, formação, cursos e ferramentas.
+- Correção expressa do titular: atuação de controle, organização e acompanhamento, sem atribuição pessoal de gestão.
+- Endereço de LinkedIn fornecido pelo titular, com a grafia correta do sobrenome.
+- Leitura estrutural das sete planilhas fornecidas: cadastros, contratos, obrigações imobiliárias, frota, bases auxiliares e painéis.
 
-| Informação | Fonte aplicada |
-| --- | --- |
-| Auxiliar de Escritório no CREA-RJ desde jun/2026 | Currículo atual, página 1 |
-| Estágio CLIC no CREA-RJ, ago/2025 a jun/2026 | Currículo atual, página 1 |
-| Estágio no INSS, 2023 a 2025 | Currículo atual, página 2 |
-| Auxiliar Administrativo na ECONIT, jan/2020 a jan/2021 | Currículo atual, página 2 |
-| UNIFATECIE, Gran e SENAI | Currículo atual, página 2 |
-| Excel, Google Planilhas, Word, SEI, PNCP, Compras.gov.br, Banco de Preços e sistemas financeiros | Currículo atual, página 2 |
-| LinkedIn e e-mail | Cabeçalho do currículo atual |
-| Cinco temas de projeto | Instruções fornecidas em Texto colado(7).txt |
-| Fórmulas, exemplos, regras e dados das demonstrações | Criados especificamente para o portfólio; não são reprodução de arquivos originais |
+## Da análise à publicação
 
-## Informações antigas descartadas
+A análise ocorreu fora do repositório. Somente descrições conceituais foram escritas no site. Não foram copiados registros, valores, contagens operacionais, documentos, capturas, fórmulas de origem, metadados, chaves ou links das planilhas.
 
-O site e o currículo de 2023 apresentavam atuação em TI, estudos em outra instituição, programação e dados de contato diferentes. Essas informações não foram transportadas para o conteúdo profissional atualizado. As datas e o cargo da ECONIT foram corrigidos conforme o PDF atual.
+Os seis cases separam a estrutura observada das propostas de melhoria. Os exploradores representam etapas do processo, não reproduções dos sistemas de trabalho. A existência de um controle não comprova atribuição de aprovação, fiscalização formal ou responsabilidade gerencial. O cargo Auxiliar de Escritório foi preservado.
 
-## Privacidade
+## Limites da leitura
 
-- A página exibe somente cidade/estado, e-mail profissional e LinkedIn.
-- A cópia pública do PDF deriva do currículo atual; telefone e bairro foram removidos. O conteúdo profissional das duas páginas foi preservado.
-- Não foram usados documentos institucionais, contratos, fornecedores, valores reais nem números de processos.
-- Nenhuma demonstração envia ou persiste informações digitadas.
-- O histórico Git e a branch de backup preservam os arquivos antigos, inclusive o PDF antigo que já continha endereço. Não houve reescrita do histórico.
+As cópias XLSX são exportações. Sua leitura não equivale a testar recálculo, permissões, automações ou atualização das fontes online. Os projetos descrevem estruturas identificadas, sem publicar um parecer de integridade dos arquivos operacionais. As propostas não foram aplicadas às planilhas originais.
 
-## Limites de autoria e evidência
+## Currículo e contato
 
-O titular informou que desenvolveu controles nos cinco temas, mas as planilhas originais não foram anexadas. As páginas explicam essa distinção. Recursos específicos, interfaces, cálculos e screenshots representam **a demonstração criada para o portfólio**. Não se afirmam métricas de produtividade, economia, volumes de trabalho ou resultados comprovados sem material de suporte. HTML/CSS/JavaScript são tecnologias do site, não habilidades profissionais acrescentadas ao currículo.
+A cópia pública do currículo mantém as informações profissionais e adota a linguagem corrigida pelo titular. Nomes oficiais de formação, cursos e sistemas foram mantidos. Telefone e bairro permanecem omitidos. A página usa cidade/estado, e-mail profissional e LinkedIn.
 
-## Material que pode completar os cases
+## Histórico
 
-1. Capturas anonimizadas e autorizadas das planilhas originais.
-2. Modelos vazios ou fictícios das planilhas, se houver autorização para disponibilização.
-3. Descrição do papel do titular em cada solução e das fórmulas realmente utilizadas.
-4. Resultados comprovados, com período, forma de medição e autorização para publicação.
-
-Esses materiais são opcionais para enriquecer os cases; o site e as demonstrações atuais são utilizáveis sem eles.
+O histórico Git conserva versões públicas anteriores, incluindo os antigos exemplos fictícios e currículos. Não houve reescrita de histórico. Nenhum arquivo institucional desta revisão foi incluído no histórico.

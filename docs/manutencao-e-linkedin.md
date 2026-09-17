@@ -1,43 +1,29 @@
 # Atualização do portfólio e apresentação no LinkedIn
 
-## Link principal
+## Posicionamento
 
-https://kley22.github.io/KleytonG.github.io/
+Cargo formal: **Auxiliar de Escritório**.
 
-Use o link do site no currículo e nas candidaturas. O endereço do GitHub é complementar, para quem quiser consultar documentação e código.
+Área de atuação: **Controle e acompanhamento administrativo**.
 
-## Apresentação no LinkedIn
+Título sugerido para o LinkedIn:
 
-Adicione o endereço do portfólio à área de links do perfil e à seção Destaques, quando disponível na sua interface.
+> Auxiliar de Escritório no CREA-RJ | Controle de Contratos e Pagamentos | Controle Operacional de Frota | Excel e Google Planilhas
 
-**Título sugerido do destaque:** Portfólio | Contratos, Pagamentos e Gestão de Frota
+Descrição do destaque:
 
-**Descrição sugerida:** Minha trajetória na área administrativa e cinco cases sobre vigência contratual, previsão de saldos, pagamentos mensais, alterações contratuais e gestão de frota. Demonstrações interativas com dados fictícios.
+> Minha trajetória e seis cases de controle e acompanhamento administrativo: contratos, saldos, pagamentos, imóveis, frota e painéis. O portfólio apresenta processos e minha contribuição, sem publicar dados operacionais.
 
-**Texto sugerido para uma publicação:**
+Link do portfólio: https://kley22.github.io/KleytonG.github.io/
 
-Reuni minha trajetória e meus projetos administrativos em um portfólio profissional.
+Use organizar, controlar, acompanhar, conferir, registrar, consolidar e apoiar para descrever a atuação. Preserve títulos oficiais de cursos e graduação, mesmo quando contêm a palavra Gestão.
 
-O site apresenta minha experiência com contratos, contas a pagar, documentação e frota, além de cinco cases com demonstrações interativas preparadas com dados fictícios. A proposta é mostrar, de forma prática, como a organização das informações apoia o acompanhamento da rotina.
+## Manutenção
 
-Conheça o portfólio: https://kley22.github.io/KleytonG.github.io/
+1. Atualize os textos e etapas em `content/projects.json`.
+2. Atualize dados profissionais ou componentes em `scripts/build.py`.
+3. Execute o gerador, a conferência de links e `scripts/check_public_content.py`.
+4. Verifique páginas e interações em celular e desktop.
+5. Publique em `main` e confira o resultado do GitHub Pages.
 
-## Como atualizar
-
-1. Edite o arquivo `content/projects.json` para atualizar os cases ou seus exemplos.
-2. Edite `scripts/build.py` para atualizar o currículo online, contatos ou layout compartilhado.
-3. Execute `python scripts/build.py` e atualize as capturas das demos afetadas.
-4. Execute `python scripts/check_links.py` e `node --test tests/*.test.mjs`.
-5. Revise o site localmente em celular e desktop antes do commit.
-6. Publique em `main` e acompanhe a execução de Pages no GitHub Actions.
-
-Para incluir um novo projeto, acrescente seus dados, sua lógica demonstrativa, a documentação e a navegação; o gerador não inventa automaticamente regras de negócio.
-
-## Ideias para próximos projetos
-
-- Checklist demonstrativo de documentos para instrução de pagamentos.
-- Histórico de consumo contratual por competência, comparando estimado e realizado.
-- Controle fictício de manutenções de veículos por data e quilometragem.
-- Pesquisa de preços demonstrativa com registro de fontes públicas e critérios de comparação.
-
-Apresente cada evolução como nova demonstração até que sua utilização e seus resultados reais possam ser comprovados e publicados.
+Não insira arquivos, registros, capturas, fórmulas ou conexões das planilhas de trabalho no repositório. As melhorias dos arquivos operacionais devem ser validadas na origem e não fazem parte da publicação do site.

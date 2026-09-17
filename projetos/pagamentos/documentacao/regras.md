@@ -1,5 +1,7 @@
-# Regras e limites
+# Escopo e limites
 
-Registro com data de pagamento é Pago. Sem baixa e com vencimento anterior à referência é Em atraso; os demais são A pagar. A data de referência avalia apenas o vencimento, sem reconstruir posição histórica. A pagar e Em atraso são categorias exclusivas. Totais respeitam filtros, valores acumulados em centavos. Situação documental é um campo independente.
+Minha atuação está na preparação, conferência e no acompanhamento administrativo do fluxo.
 
-Todos os dados são fictícios. Alterações feitas no navegador não são gravadas. Entradas inválidas mantêm o último resultado válido, com aviso visível.
+A interface permite explorar etapas conceituais. Não recebe dados operacionais, não faz cálculos financeiros e não se conecta a planilhas ou sistemas internos. A estrutura observada e as melhorias propostas são identificadas separadamente.
+
+O conteúdo permanece disponível sem JavaScript.

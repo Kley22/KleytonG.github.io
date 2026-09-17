@@ -1,51 +1,58 @@
-# Previsão Contratual
+# Acompanhamento de saldos e previsões
 
-**Projeto demonstrativo — dados fictícios.**
+[Abrir case](https://kley22.github.io/KleytonG.github.io/projetos/previsao-contratual/)
 
-[Abrir case](https://kley22.github.io/KleytonG.github.io/projetos/previsao-contratual/) · [Experimentar demonstração](https://kley22.github.io/KleytonG.github.io/projetos/previsao-contratual/#demonstracao)
+## Contexto
 
-## Contexto e limites
+Lançamentos de competências diferentes e componentes distintos podem dificultar a leitura do saldo e do consumo contratual.
 
-Tema de projeto informado por Kleyton. As planilhas originais não foram anexadas. A demonstração web foi construída especificamente para este portfólio e não reproduz uma implementação institucional. Benefícios são finalidades esperadas, não resultados quantitativos comprovados. Excel e Google Planilhas constam no currículo como ferramentas; o código web não é apresentado como uma competência declarada no currículo.
+## Estrutura
 
-## Problema
+Vincular os lançamentos ao contrato e à vigência, separar serviço de material e organizar a leitura por período. A previsão complementa o acompanhamento do que já foi registrado.
 
-Conhecer o saldo atual não basta para avaliar se os recursos cobrem as despesas esperadas até o fim de um período.
+## Papel profissional
 
-## Solução demonstrada
+Conferência dos lançamentos, atualização dos controles e acompanhamento de saldos e previsões. A previsão é uma informação de apoio e depende das premissas adotadas e da atualização dos registros.
 
-Relacionar saldo disponível, estimativa mensal e meses restantes. O simulador apresenta os componentes de serviço e material e sinaliza insuficiência quando o saldo projetado é negativo.
+## Fluxo conceitual
 
-## Recursos
+### 1. Localizar o período correto
 
-- Projeção separada de serviço e material
-- Estimativa ajustável de consumo mensal
-- Saldo projetado ao fim do período
-- Alerta de insuficiência por componente
+- Entrada: Contrato, vigência e competência do lançamento.
+- Acompanhamento: Conferir o vínculo antes de atualizar o acompanhamento.
+- Saída: Movimentação associada ao período correspondente.
 
-## Processo
+### 2. Acompanhar os componentes
 
-1. Separar saldos disponíveis de serviço e material.
-2. Definir o consumo mensal estimado e o horizonte.
-3. Revisar a projeção quando houver mudança nas premissas.
+- Entrada: Classificação de serviço ou material.
+- Acompanhamento: Manter os componentes separados nos lançamentos e nas consultas.
+- Saída: Leitura individual de consumo e saldo.
 
-## Finalidade
+### 3. Conferir o registrado
 
-Dar visibilidade à diferença entre os recursos disponíveis e o consumo estimado, apoiando o acompanhamento contratual.
+- Entrada: Referência contratual e movimentações do período.
+- Acompanhamento: Comparar os lançamentos com o saldo acompanhado e investigar diferenças.
+- Saída: Pendências de conciliação identificadas.
 
-## Arquivos
+### 4. Explicitar a previsão
 
-- `index.html`: case e demonstração integrada, compatíveis com GitHub Pages.
-- `modelo/dados-ficticios.json`: premissas e dados fictícios, sem informações internas.
-- `screenshots/demonstracao.png`: captura real da demonstração web criada neste projeto.
-- `documentacao/regras.md`: regras e limites do exemplo.
+- Entrada: Premissas e horizonte de acompanhamento.
+- Acompanhamento: Organizar a previsão e apresentá-la separadamente dos lançamentos registrados.
+- Saída: Visão de apoio para sinalizar necessidade de análise.
 
-## Evolução
+## Estrutura observada
 
-Conectar uma base demonstrativa de pagamentos por competência e comparar a estimativa com o realizado.
+- Saldos e médias separados entre serviço e material.
+- Competência vinculada à vigência correspondente.
+- Previsão que distingue lacunas do histórico e competências futuras.
+- Ressalvas para vínculos, datas e base de projeção insuficientes.
 
-Antes de inserir planilhas ou imagens originais, remover nomes de fornecedores, dados pessoais, contratos reais, números de processos, valores e outras informações internas. Não substituir a demonstração por dados reais automaticamente.
+## Melhorias propostas
 
-## Tecnologias desta demonstração
+- Exibir o método da média e a referência de cada previsão.
+- Preservar nos resumos a indicação de projeção indisponível.
+- Conferir os totais por componente, vigência e ciclo de acompanhamento.
 
-HTML, CSS e JavaScript nativo. Cálculos compartilhados em `assets/js/logic.mjs`; não há backend, armazenamento ou integrações com sistemas institucionais.
+## Escopo público
+
+Descrição conceitual baseada na análise estrutural de planilhas. Não contém registros, valores, documentos, capturas, fórmulas de origem, identificadores ou vínculos internos. As etapas são explicativas e não reproduzem uma aplicação institucional. As melhorias são propostas, não alterações aplicadas aos arquivos de trabalho. Não se afirmam ganhos quantitativos medidos.

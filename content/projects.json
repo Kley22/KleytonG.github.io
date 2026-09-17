@@ -1,57 +1,352 @@
 [
   {
-    "slug":"vigencia-contratual", "number":"01", "title":"Vigências sob controle", "name":"Acompanhamento de Vigência Contratual", "category":"contratos", "tag":"Prazos & renovações", "short":"Uma visão organizada dos contratos, das datas de encerramento e das próximas renovações.",
-    "problem":"Datas distribuídas entre contratos e documentos dificultam a identificação das próximas renovações e do que precisa de atenção primeiro.",
-    "solution":"Reunir início, término e situação em uma base única. A demonstração classifica cada contrato a partir de uma data de referência e permite ajustar a antecedência dos alertas.",
-    "features":["Consulta por contrato ou fornecedor fictício","Filtro de situação e data de referência","Alertas configuráveis de renovação","Contratos encerrados identificados separadamente"],
-    "benefit":"Apoiar a organização das prioridades e a preparação de documentos com antecedência.",
-    "challenge":"Distinguir contratos encerrados, vencidos e ainda não iniciados sem depender apenas da data de término.",
-    "future":"Receber capturas anonimizadas da planilha original e documentar seu fluxo de atualização.",
-    "process":["Reunir as datas e a situação de cada instrumento.","Calcular o intervalo até o término e identificar exceções.","Organizar a consulta por prioridade de acompanhamento."],
-    "model":{"reference":"2026-09-17","threshold":60,"rows":[{"id":"DEMO-001","supplier":"Aurora Serviços (fictícia)","object":"Manutenção predial","start":"2026-01-01","end":"2026-10-15","closed":false},{"id":"DEMO-002","supplier":"Horizonte Espaços (fictícia)","object":"Locação de imóvel","start":"2026-02-01","end":"2027-01-31","closed":false},{"id":"DEMO-003","supplier":"Norte Apoio (fictícia)","object":"Serviços de apoio","start":"2025-09-01","end":"2026-09-01","closed":false},{"id":"DEMO-004","supplier":"Cais Mobilidade (fictícia)","object":"Locação de veículos","start":"2026-01-01","end":"2026-12-31","closed":true},{"id":"DEMO-005","supplier":"Vereda Serviços (fictícia)","object":"Conservação","start":"2026-10-01","end":"2027-09-30","closed":false}]}
+    "slug": "vigencia-contratual",
+    "category": "contratos",
+    "tag": "Contratos",
+    "title": "Contratos e vigências",
+    "name": "Controle de contratos e vigências",
+    "short": "Acompanhamento de prazos, instrumentos e alterações de contratos de obras e facilities.",
+    "problem": "Um contrato pode atravessar diferentes vigências e alterações. Sem distinguir cada período, documentos e pagamentos podem ser associados à etapa errada.",
+    "solution": "Organizar o cadastro contratual e o histórico de vigências, relacionando cada movimentação ao período correspondente. A consulta da vigência ativa apoia o acompanhamento da rotina.",
+    "benefit": "Facilitar a localização do instrumento vigente e sinalizar prazos que precisam de encaminhamento.",
+    "role": "Atualização dos controles, organização documental e acompanhamento de prazos e alterações.",
+    "observed": [
+      "Cadastro de contratos e identificação de vigências.",
+      "Seleção de vigência ativa e consulta de alterações.",
+      "Relacionamento entre contratos, pagamentos e conferências."
+    ],
+    "scope": "O controle reúne e sinaliza informações para os responsáveis pelo contrato.",
+    "future": [
+      "Adotar identificadores estáveis para contrato e vigência.",
+      "Separar situação contratual, alerta de prazo e pendência documental.",
+      "Registrar a conferência antes de atualizar uma vigência."
+    ],
+    "steps": [
+      {
+        "label": "Cadastrar",
+        "title": "Identificar o contrato",
+        "input": "Instrumento contratual e documentos de referência.",
+        "action": "Organizar os campos de identificação e relacionar os documentos ao cadastro.",
+        "output": "Cadastro localizável, com vínculo para o histórico."
+      },
+      {
+        "label": "Relacionar",
+        "title": "Distinguir cada vigência",
+        "input": "Períodos e instrumentos de alteração.",
+        "action": "Associar a movimentação à vigência correspondente e preservar o histórico.",
+        "output": "Consulta clara da vigência ativa e dos períodos anteriores."
+      },
+      {
+        "label": "Conferir",
+        "title": "Acompanhar prazos e alterações",
+        "input": "Datas, situação e documentos de cada etapa.",
+        "action": "Conferir o que foi registrado, localizar pendências e acompanhar os prazos.",
+        "output": "Pontos de atenção organizados para encaminhamento."
+      },
+      {
+        "label": "Sinalizar",
+        "title": "Apoiar o próximo encaminhamento",
+        "input": "Pendência identificada no acompanhamento.",
+        "action": "Reunir as referências necessárias e sinalizar o assunto ao responsável.",
+        "output": "Informação preparada para análise e providência."
+      }
+    ],
+    "related": [
+      "previsao-contratual",
+      "pagamentos"
+    ],
+    "number": "01"
   },
   {
-    "slug":"previsao-contratual", "number":"02", "title":"Do saldo à previsão", "name":"Previsão Contratual", "category":"contratos financeiro", "tag":"Saldos & planejamento", "short":"Projeções de consumo para antecipar a necessidade de saldo em serviços e materiais.",
-    "problem":"Conhecer o saldo atual não basta para avaliar se os recursos cobrem as despesas esperadas até o fim de um período.",
-    "solution":"Relacionar saldo disponível, estimativa mensal e meses restantes. O simulador apresenta os componentes de serviço e material e sinaliza insuficiência quando o saldo projetado é negativo.",
-    "features":["Projeção separada de serviço e material","Estimativa ajustável de consumo mensal","Saldo projetado ao fim do período","Alerta de insuficiência por componente"],
-    "benefit":"Dar visibilidade à diferença entre os recursos disponíveis e o consumo estimado, apoiando o acompanhamento contratual.",
-    "challenge":"Mostrar as premissas da projeção e evitar que uma sobra em material esconda a insuficiência em serviço.",
-    "future":"Conectar uma base demonstrativa de pagamentos por competência e comparar a estimativa com o realizado.",
-    "process":["Separar saldos disponíveis de serviço e material.","Definir o consumo mensal estimado e o horizonte.","Revisar a projeção quando houver mudança nas premissas."],
-    "model":{"months":6,"serviceBalance":48000,"serviceMonthly":7200,"materialBalance":12000,"materialMonthly":2300}
+    "slug": "previsao-contratual",
+    "category": "contratos financeiro",
+    "tag": "Saldos e previsões",
+    "title": "Saldos e previsões contratuais",
+    "name": "Acompanhamento de saldos e previsões",
+    "short": "Organização de saldos, consumo e previsões, com serviço e material acompanhados separadamente.",
+    "problem": "Lançamentos de competências diferentes e componentes distintos podem dificultar a leitura do saldo e do consumo contratual.",
+    "solution": "Vincular os lançamentos ao contrato e à vigência, separar serviço de material e organizar a leitura por período. A previsão complementa o acompanhamento do que já foi registrado.",
+    "benefit": "Dar visibilidade ao consumo e aos pontos que precisam de conferência, mantendo a distinção entre registrado e previsto.",
+    "role": "Conferência dos lançamentos, atualização dos controles e acompanhamento de saldos e previsões.",
+    "observed": [
+      "Saldos e médias separados entre serviço e material.",
+      "Competência vinculada à vigência correspondente.",
+      "Previsão que distingue lacunas do histórico e competências futuras.",
+      "Ressalvas para vínculos, datas e base de projeção insuficientes."
+    ],
+    "scope": "A previsão é uma informação de apoio e depende das premissas adotadas e da atualização dos registros.",
+    "future": [
+      "Exibir o método da média e a referência de cada previsão.",
+      "Preservar nos resumos a indicação de projeção indisponível.",
+      "Conferir os totais por componente, vigência e ciclo de acompanhamento."
+    ],
+    "steps": [
+      {
+        "label": "Vincular",
+        "title": "Localizar o período correto",
+        "input": "Contrato, vigência e competência do lançamento.",
+        "action": "Conferir o vínculo antes de atualizar o acompanhamento.",
+        "output": "Movimentação associada ao período correspondente."
+      },
+      {
+        "label": "Separar",
+        "title": "Acompanhar os componentes",
+        "input": "Classificação de serviço ou material.",
+        "action": "Manter os componentes separados nos lançamentos e nas consultas.",
+        "output": "Leitura individual de consumo e saldo."
+      },
+      {
+        "label": "Confrontar",
+        "title": "Conferir o registrado",
+        "input": "Referência contratual e movimentações do período.",
+        "action": "Comparar os lançamentos com o saldo acompanhado e investigar diferenças.",
+        "output": "Pendências de conciliação identificadas."
+      },
+      {
+        "label": "Projetar",
+        "title": "Explicitar a previsão",
+        "input": "Premissas e horizonte de acompanhamento.",
+        "action": "Organizar a previsão e apresentá-la separadamente dos lançamentos registrados.",
+        "output": "Visão de apoio para sinalizar necessidade de análise."
+      }
+    ],
+    "related": [
+      "vigencia-contratual",
+      "paineis-acompanhamento"
+    ],
+    "number": "02"
   },
   {
-    "slug":"pagamentos", "number":"03", "title":"Pagamentos em perspectiva", "name":"Controle de Pagamentos Mensais", "category":"financeiro", "tag":"Contas a pagar", "short":"Competência, vencimento, documentação e pagamento reunidos em uma consulta objetiva.",
-    "problem":"A rotina de pagamentos exige conciliar o valor solicitado, a documentação e o vencimento, mantendo visibilidade do que já foi pago e do que está pendente.",
-    "solution":"Organizar os registros por contrato e competência. A demonstração combina filtros de situação, vencimento e fornecedor com totais calculados sobre os registros exibidos.",
-    "features":["Consulta por competência e fornecedor","Totais por situação de pagamento","Destaque de pendências documentais","Atraso somente para valores sem pagamento"],
-    "benefit":"Facilitar a conferência da rotina e a localização das pendências que precisam de acompanhamento.",
-    "challenge":"Separar pendência financeira de pendência documental e não manter como atrasado um registro já pago.",
-    "future":"Incluir um checklist demonstrativo de conferência e um histórico de atualizações por competência.",
-    "process":["Reunir competência, documento, valor e vencimento.","Conferir a situação documental e a data de pagamento.","Filtrar pendências e acompanhar sua regularização."],
-    "model":{"reference":"2026-09-17","rows":[{"id":"NF-DEMO-01","contract":"DEMO-001","supplier":"Aurora Serviços (fictícia)","period":"2026-09","value":7200,"due":"2026-09-15","paid":null,"documents":"Conferidos"},{"id":"NF-DEMO-02","contract":"DEMO-002","supplier":"Horizonte Espaços (fictícia)","period":"2026-09","value":4500,"due":"2026-09-10","paid":"2026-09-09","documents":"Conferidos"},{"id":"NF-DEMO-03","contract":"DEMO-003","supplier":"Norte Apoio (fictícia)","period":"2026-09","value":3200,"due":"2026-09-25","paid":null,"documents":"Em conferência"},{"id":"NF-DEMO-04","contract":"DEMO-004","supplier":"Cais Mobilidade (fictícia)","period":"2026-08","value":2800,"due":"2026-09-05","paid":"2026-09-05","documents":"Conferidos"}]}
+    "slug": "pagamentos",
+    "category": "financeiro",
+    "tag": "Pagamentos",
+    "title": "Documentos e pagamentos",
+    "name": "Instrução e acompanhamento de pagamentos",
+    "short": "Controle de competências, documentos, protocolos e etapas de encaminhamento para pagamento.",
+    "problem": "Recebimento, tramitação e lançamento são etapas distintas. Uma informação desatualizada dificulta localizar onde o processo precisa de acompanhamento.",
+    "solution": "Relacionar os documentos à obrigação e à competência, acompanhar protocolos e registrar as etapas do fluxo. A situação documental permanece distinguível da situação do pagamento.",
+    "benefit": "Facilitar a localização de documentos e pendências e apoiar o acompanhamento dos encaminhamentos.",
+    "role": "Conferência documental, organização dos protocolos e acompanhamento das etapas administrativas.",
+    "observed": [
+      "Registros de notas fiscais e competências.",
+      "Campos de protocolo, recebimento, tramitação e lançamento.",
+      "Acompanhamento de despesas contratuais e obrigações imobiliárias."
+    ],
+    "scope": "Minha atuação está na preparação, conferência e no acompanhamento administrativo do fluxo.",
+    "future": [
+      "Definir um dicionário único para as situações de cada etapa.",
+      "Manter datas de ocorrência e de atualização distinguíveis.",
+      "Sinalizar documento ausente sem tratá-lo como pagamento em atraso."
+    ],
+    "steps": [
+      {
+        "label": "Receber",
+        "title": "Relacionar o documento",
+        "input": "Documento recebido, obrigação e competência.",
+        "action": "Identificar a que contrato ou obrigação o documento se refere.",
+        "output": "Documento organizado no contexto correto."
+      },
+      {
+        "label": "Conferir",
+        "title": "Localizar pendências",
+        "input": "Documentação necessária ao encaminhamento.",
+        "action": "Conferir referências, organizar comprovantes e sinalizar o que precisa ser completado.",
+        "output": "Situação documental clara."
+      },
+      {
+        "label": "Encaminhar",
+        "title": "Acompanhar a tramitação",
+        "input": "Protocolo e registros de encaminhamento.",
+        "action": "Atualizar a etapa e preservar as referências para consulta.",
+        "output": "Caminho do processo localizável."
+      },
+      {
+        "label": "Atualizar",
+        "title": "Registrar o andamento",
+        "input": "Informação confirmada sobre a etapa seguinte.",
+        "action": "Atualizar o controle sem confundir recebimento, lançamento e pagamento.",
+        "output": "Consulta do andamento administrativo."
+      }
+    ],
+    "related": [
+      "controle-imoveis",
+      "vigencia-contratual"
+    ],
+    "number": "03"
   },
   {
-    "slug":"aditivos-repactuacoes", "number":"04", "title":"Cada alteração, um histórico", "name":"Aditivos e Repactuações", "category":"contratos", "tag":"Histórico contratual", "short":"Uma linha do tempo para visualizar as mudanças de prazo e de valor de um contrato.",
-    "problem":"Consultar apenas a versão inicial de um contrato pode ocultar alterações posteriores de valor e prazo.",
-    "solution":"Manter uma sequência de registros vinculados ao contrato, com data, tipo de alteração e efeito. O exemplo também permite simular um ajuste percentual sobre um valor mensal fictício.",
-    "features":["Linha do tempo de alterações fictícias","Visualização do valor inicial e do atualizado","Simulação do efeito de um percentual","Separação entre alteração de prazo e de valor"],
-    "benefit":"Apoiar a rastreabilidade das alterações e a consulta ao histórico de cada instrumento.",
-    "challenge":"Preservar a ordem dos registros e identificar a base de cálculo usada em cada alteração.",
-    "future":"Incluir referências a documentos públicos ou modelos anonimizados e uma trilha demonstrativa de revisão.",
-    "process":["Registrar o instrumento inicial e suas condições.","Vincular cada alteração à data e ao documento correspondente.","Consultar o histórico antes de atualizar os controles."],
-    "model":{"base":2400,"percent":8,"events":[{"date":"2026-01-01","title":"Registro inicial","text":"Valor mensal fictício de R$ 2.400,00; término em 31/12/2026."},{"date":"2026-07-01","title":"Alteração de prazo","text":"Exemplo de extensão do término para 30/06/2027, sem alteração do valor neste registro."}]}
+    "slug": "controle-imoveis",
+    "category": "contratos financeiro",
+    "tag": "Imóveis",
+    "title": "Imóveis e obrigações",
+    "name": "Controle administrativo de imóveis e obrigações",
+    "short": "Organização de locações, aluguéis, condomínios, IPTU e taxas, com acompanhamento por competência.",
+    "problem": "Um mesmo imóvel pode ter obrigações de naturezas e periodicidades diferentes. Acompanhá-las em conjunto exige preservar a identificação de cada despesa.",
+    "solution": "Relacionar o cadastro do imóvel aos controles de aluguel, condomínio, IPTU e taxas. Acompanhar competências, vencimentos, documentos e tramitação por tipo de obrigação.",
+    "benefit": "Reunir a visão das obrigações do imóvel sem perder o detalhe necessário para o acompanhamento.",
+    "role": "Organização cadastral e documental, conferência de obrigações e acompanhamento de encaminhamentos.",
+    "observed": [
+      "Cadastro de imóveis e contratos de locação.",
+      "Controles distintos para aluguel, condomínio, IPTU e taxas.",
+      "Referências de competência, vencimento, recebimento e tramitação."
+    ],
+    "scope": "O case trata da rotina administrativa de acompanhamento das obrigações imobiliárias.",
+    "future": [
+      "Relacionar cada obrigação a um identificador estável do imóvel.",
+      "Separar exercício, competência e vencimento.",
+      "Diferenciar obrigação sem lançamento de obrigação sem pendência."
+    ],
+    "steps": [
+      {
+        "label": "Identificar",
+        "title": "Organizar o cadastro",
+        "input": "Referência do imóvel e vínculo contratual.",
+        "action": "Conferir o cadastro que será usado nos controles relacionados.",
+        "output": "Referência comum entre as obrigações."
+      },
+      {
+        "label": "Classificar",
+        "title": "Distinguir a obrigação",
+        "input": "Aluguel, condomínio, IPTU ou taxa.",
+        "action": "Preservar a natureza da despesa e sua competência ou exercício.",
+        "output": "Acompanhamento adequado a cada obrigação."
+      },
+      {
+        "label": "Acompanhar",
+        "title": "Conferir os documentos",
+        "input": "Vencimentos, recebimentos e documentos de apoio.",
+        "action": "Organizar o que foi recebido e sinalizar o que precisa de conferência.",
+        "output": "Pendências documentais e de prazo identificadas."
+      },
+      {
+        "label": "Consolidar",
+        "title": "Preparar a consulta",
+        "input": "Situações registradas nos controles específicos.",
+        "action": "Reunir o acompanhamento por imóvel, mantendo acesso ao detalhe de cada obrigação.",
+        "output": "Visão de apoio para consulta e encaminhamento."
+      }
+    ],
+    "related": [
+      "pagamentos",
+      "paineis-acompanhamento"
+    ],
+    "number": "04"
   },
   {
-    "slug":"gestao-frota", "number":"05", "title":"A rotina da frota, visível", "name":"Controles de Gestão de Frota", "category":"operacoes", "tag":"Operação & manutenção", "short":"Hodômetros, abastecimentos e proximidade da manutenção para acompanhar a operação.",
-    "problem":"Registros dispersos de quilometragem, abastecimento e manutenção dificultam o acompanhamento da utilização de veículos.",
-    "solution":"Organizar os indicadores em uma consulta por veículo. A demonstração calcula a distância percorrida, o consumo médio estimado e a distância até uma manutenção programada.",
-    "features":["Validação de hodômetros crescentes","Cálculo demonstrativo de km por litro","Alerta de manutenção por quilometragem","Premissas de medição visíveis"],
-    "benefit":"Facilitar a conferência dos registros e a organização do acompanhamento preventivo da frota.",
-    "challenge":"Evitar indicadores distorcidos por registros inconsistentes ou por abastecimentos sem a mesma referência de medição.",
-    "future":"Adicionar histórico fictício por veículo e acompanhamento de manutenção por data, além da quilometragem.",
-    "process":["Conferir hodômetros e volumes registrados.","Calcular indicadores com uma referência de abastecimento consistente.","Comparar a quilometragem atual com a próxima manutenção."],
-    "model":{"vehicle":"VEÍCULO-DEMO-01","previous":41500,"current":41920,"litres":35,"maintenance":42000}
+    "slug": "controle-frota",
+    "category": "operacoes",
+    "tag": "Frota",
+    "title": "Rotina e controle de frota",
+    "name": "Controle operacional de frota e conferência de abastecimentos",
+    "short": "Conferência de abastecimentos, sequência de hodômetros e acompanhamento de ocorrências por identificador.",
+    "problem": "Cadastros, lançamentos e consultas de frota precisam se relacionar de forma consistente para que a leitura da operação seja útil.",
+    "solution": "Organizar os registros operacionais com apoio de bases auxiliares e consolidar as informações para consulta. A conferência dos vínculos e da sequência dos registros faz parte do controle.",
+    "benefit": "Facilitar o acompanhamento da utilização e a identificação de registros que precisam ser conferidos.",
+    "role": "Atualização das planilhas, conferência dos registros e acompanhamento administrativo da frota.",
+    "observed": [
+      "Normalização cadastral e sequência cronológica de hodômetros.",
+      "Identificação de possíveis repetições, com motivos de conferência.",
+      "Situação da ocorrência vinculada a um identificador estável.",
+      "Consolidação por período e consultas de acompanhamento."
+    ],
+    "scope": "O acompanhamento organiza informações operacionais para apoiar os responsáveis pela frota.",
+    "future": [
+      "Alinhar a cobertura dos registros em todas as consultas.",
+      "Centralizar correspondências cadastrais usadas nas fórmulas.",
+      "Distinguir quilometragem medida de estimativa por intervalo."
+    ],
+    "steps": [
+      {
+        "label": "Vincular",
+        "title": "Relacionar o registro ao veículo",
+        "input": "Cadastro e referência do lançamento operacional.",
+        "action": "Conferir o vínculo com a base auxiliar e padronizar os campos usados nas consultas.",
+        "output": "Registro identificável no acompanhamento."
+      },
+      {
+        "label": "Organizar",
+        "title": "Manter a sequência operacional",
+        "input": "Quilometragem e lançamentos de abastecimento.",
+        "action": "Organizar as informações por veículo e sequência de ocorrência.",
+        "output": "Histórico preparado para conferência."
+      },
+      {
+        "label": "Conferir",
+        "title": "Examinar os pontos de atenção",
+        "input": "Vínculos, sequência e possíveis repetições.",
+        "action": "Revisar os motivos de alerta e acompanhar o tratamento pelo identificador da ocorrência. Um alerta de repetição precisa ser conferido.",
+        "output": "Ocorrências sinalizadas para verificação."
+      },
+      {
+        "label": "Acompanhar",
+        "title": "Preparar as consultas",
+        "input": "Registros operacionais e informações auxiliares.",
+        "action": "Consolidar consultas por período, distinguindo leituras, estimativas e registros ainda em conferência.",
+        "output": "Informação organizada para apoiar a rotina."
+      }
+    ],
+    "related": [
+      "paineis-acompanhamento",
+      "pagamentos"
+    ],
+    "number": "05"
+  },
+  {
+    "slug": "paineis-acompanhamento",
+    "category": "paineis",
+    "tag": "Bases e painéis",
+    "title": "Da base ao painel",
+    "name": "Consolidação e painéis de acompanhamento",
+    "short": "Uma arquitetura de apoio que conecta cadastros, controles operacionais e consultas de acompanhamento.",
+    "problem": "Um painel depende da origem e da atualização de suas informações. Misturar cadastro, cálculo e apresentação torna mais difícil localizar uma divergência.",
+    "solution": "Separar as funções das bases de referência, dos registros operacionais e das consultas. Consolidar as informações e manter pontos de conferência para acompanhar os vínculos entre as camadas.",
+    "benefit": "Facilitar a rastreabilidade das informações e a leitura das pendências de acompanhamento.",
+    "role": "Organização e manutenção dos controles e das informações que apoiam as consultas administrativas.",
+    "observed": [
+      "Bases auxiliares e áreas de importação e consolidação.",
+      "Consultas de contratos, imóveis e frota.",
+      "Camadas de validação e acompanhamento da sincronização."
+    ],
+    "scope": "O painel apresenta informações de apoio. Sua leitura depende da atualização e da consistência das bases.",
+    "future": [
+      "Exibir a referência de atualização de cada origem.",
+      "Distinguir ausência de movimento de falha de importação.",
+      "Concentrar cada regra de cálculo em um ponto rastreável."
+    ],
+    "steps": [
+      {
+        "label": "Referenciar",
+        "title": "Organizar a origem",
+        "input": "Cadastros e tabelas de referência.",
+        "action": "Padronizar campos e identificar os vínculos usados nos controles.",
+        "output": "Base de referência para os registros."
+      },
+      {
+        "label": "Consolidar",
+        "title": "Relacionar as informações",
+        "input": "Lançamentos dos controles operacionais.",
+        "action": "Reunir as informações preservando a origem e o nível de detalhe.",
+        "output": "Consulta consolidada e rastreável."
+      },
+      {
+        "label": "Verificar",
+        "title": "Conferir a atualização",
+        "input": "Resultados de importação, vínculos e validações.",
+        "action": "Consultar as verificações disponíveis e sinalizar pendências de importação, vínculo ou atualização.",
+        "output": "Condições de leitura explicitadas."
+      },
+      {
+        "label": "Consultar",
+        "title": "Apresentar o acompanhamento",
+        "input": "Informações consolidadas e critérios de consulta.",
+        "action": "Organizar painéis por finalidade, com acesso ao detalhe necessário.",
+        "output": "Visão de apoio ao acompanhamento administrativo."
+      }
+    ],
+    "related": [
+      "controle-frota",
+      "controle-imoveis"
+    ],
+    "number": "06"
   }
 ]

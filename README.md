@@ -1,82 +1,58 @@
 # Kleyton Gonçalves Silva · Portfólio profissional
 
-Portfólio de **Administração, Gestão de Contratos, Contas a Pagar e Gestão de Frota**, com trajetória profissional, currículo e cinco cases interativos.
+**Controle e acompanhamento administrativo de contratos, pagamentos, imóveis e frota.**
 
-**[Acessar o portfólio](https://kley22.github.io/KleytonG.github.io/)** · [LinkedIn](https://www.linkedin.com/in/kleyton-goncalves-silva/) · [Currículo público](cv/kleyton-goncalves-silva.pdf)
+[Acessar o portfólio](https://kley22.github.io/KleytonG.github.io/) · [LinkedIn](https://www.linkedin.com/in/kleyton-gon%C3%A7alves-silva/) · [Currículo público](cv/kleyton-goncalves-silva.pdf)
 
-## Sobre
-
-Kleyton atua como Auxiliar de Escritório no CREA-RJ desde junho de 2026. O conteúdo profissional foi revisado com base no currículo fornecido em setembro de 2026. Formação em andamento: Administração na UNIFATECIE e Gestão de Serviços Judiciais no Gran Centro Universitário. Técnico em Administração pelo SENAI, concluído em 2021.
+Kleyton atua como Auxiliar de Escritório no CREA-RJ. O portfólio apresenta sua trajetória e seis cases sobre organização, conferência, atualização de controles e acompanhamento administrativo. O cargo formal é preservado.
 
 ## Cases
 
-| Projeto | Demonstração |
+| Case | O que apresenta |
 | --- | --- |
-| [Vigência contratual](projetos/vigencia-contratual/) | Datas, filtros, situações e alertas de renovação |
-| [Previsão contratual](projetos/previsao-contratual/) | Projeção de saldo de serviço e material |
-| [Pagamentos mensais](projetos/pagamentos/) | Competências, vencimentos, documentação e baixas |
-| [Aditivos e repactuações](projetos/aditivos-repactuacoes/) | Histórico ilustrativo e simulação percentual |
-| [Gestão de frota](projetos/gestao-frota/) | Hodômetro, consumo e manutenção por quilometragem |
+| [Contratos e vigências](projetos/vigencia-contratual/) | Acompanhamento de prazos, instrumentos e alterações de contratos de obras e facilities. |
+| [Saldos e previsões contratuais](projetos/previsao-contratual/) | Organização de saldos, consumo e previsões, com serviço e material acompanhados separadamente. |
+| [Documentos e pagamentos](projetos/pagamentos/) | Controle de competências, documentos, protocolos e etapas de encaminhamento para pagamento. |
+| [Imóveis e obrigações](projetos/controle-imoveis/) | Organização de locações, aluguéis, condomínios, IPTU e taxas, com acompanhamento por competência. |
+| [Rotina e controle de frota](projetos/controle-frota/) | Conferência de abastecimentos, sequência de hodômetros e acompanhamento de ocorrências por identificador. |
+| [Da base ao painel](projetos/paineis-acompanhamento/) | Uma arquitetura de apoio que conecta cadastros, controles operacionais e consultas de acompanhamento. |
 
-**Todos os exemplos usam dados fictícios.** As demonstrações foram construídas para o portfólio a partir dos temas informados. As planilhas originais não foram fornecidas e não são reproduzidas. Não há resultados quantitativos alegados, dados internos ou integração com sistemas institucionais.
+## Escopo público
+
+As planilhas de trabalho foram analisadas para compreender sua estrutura. O site apresenta somente descrições conceituais e etapas navegáveis. **Não contém planilhas, registros, valores operacionais, capturas, fórmulas de origem ou conexões com fontes internas.** A versão atual também não distribui as antigas bases de demonstração fictícias.
+
+Cada case distingue contexto, papel profissional, estrutura observada e melhorias propostas. Não se afirmam ganhos quantitativos medidos nem atribuições de aprovação ou gestão. A revisão dos textos não altera os títulos oficiais de cursos, formação ou sistemas.
 
 ## Organização
 
 | Caminho | Conteúdo |
 | --- | --- |
-| `index.html` | Página inicial gerada, pronta para publicação |
-| `projetos/<nome>/` | Case, README, documentação, JSON fictício e captura real da demo |
-| `assets/css/` | Estilos responsivos compartilhados |
-| `assets/js/` | Navegação, filtros e cálculos das demonstrações |
-| `assets/images/` | Favicon e imagem de compartilhamento 1200 × 630 |
-| `cv/` | Currículo atualizado em versão pública |
-| `content/projects.json` | Conteúdo e premissas dos cinco projetos |
-| `scripts/build.py` | Gerador estático com biblioteca padrão do Python |
-| `scripts/check_links.py` | Verificação de links e âncoras locais |
-| `tests/` | Testes de cálculos e roteiro automatizado de navegador |
-| `docs/` | Relatório, fontes do conteúdo e orientações de manutenção |
+| `content/projects.json` | Textos conceituais dos seis cases, sem modelos de dados |
+| `scripts/build.py` | Gerador estático da home, cases e documentação |
+| `assets/css/site.css` | Estilos responsivos |
+| `assets/js/site.js` | Menu, filtros e exploradores de etapas |
+| `projetos/` | Cases, escopo e documentação pública |
+| `cv/` | Currículo público com linguagem de controle e acompanhamento |
+| `tests/browser.mjs` | Verificação de responsividade, interação e conteúdo sem JavaScript |
+| `docs/` | Fontes, decisões e manutenção |
 
-## Tecnologias e execução
+## Executar e verificar
 
-HTML semântico, CSS e JavaScript nativo. Sem framework, CDN, fontes externas, cookies, rastreamento ou servidor de aplicação. O conteúdo principal e os exemplos iniciais permanecem disponíveis sem JavaScript.
-
-Python 3 e Node.js são ferramentas de desenvolvimento, não dependências da hospedagem.
+HTML, CSS e JavaScript nativo, sem dependências de execução, rastreamento, cookies ou backend. O conteúdo principal fica disponível sem JavaScript.
 
 ```bash
 python scripts/build.py
 python scripts/check_links.py
-node --test tests/*.test.mjs
+python scripts/check_public_content.py
 python -m http.server 8000
 ```
 
-Abra `http://localhost:8000/`. O arquivo 404 usa a raiz de produção `/KleytonG.github.io/`.
+Para QA de navegador, instale Playwright e Chromium no ambiente de desenvolvimento e execute `PORTFOLIO_URL=http://localhost:8000/ node tests/browser.mjs`. Para incluir a rota 404 com seu prefixo real, sirva o site sob `/KleytonG.github.io/`.
 
-Para repetir os testes visuais/interativos opcionais, instale Playwright no ambiente de desenvolvimento, instale o Chromium e execute `PORTFOLIO_URL=http://localhost:8000/ node tests/browser.mjs`. Para verificar também o 404 em sua configuração real, sirva a pasta com o prefixo `/KleytonG.github.io/`, como em produção. O navegador não faz parte do site publicado.
+## Publicação e histórico
 
-## GitHub Pages
+GitHub Pages usa a branch `main`, pasta raiz e `.nojekyll`. URL: https://kley22.github.io/KleytonG.github.io/
 
-O projeto é um **site de repositório**: o usuário é `Kley22` e o repositório é `KleytonG.github.io`. Por isso a URL inclui o nome do repositório:
+As rotas antigas de frota e aditivos levam a páginas de compatibilidade que indicam os cases atuais. O histórico Git preserva versões anteriores. A remoção de um arquivo da versão publicada não elimina suas versões antigas do histórico. As planilhas institucionais analisadas nesta revisão nunca foram adicionadas ao repositório.
 
-**https://kley22.github.io/KleytonG.github.io/**
-
-Publicação estática pela branch `main`, pasta `/ (root)`. O arquivo `.nojekyll` dispensa a transformação por Jekyll. Não é necessário configurar variáveis ou segredos. O submódulo incompleto que existia no repositório antigo foi removido.
-
-## Atualizar o portfólio
-
-- Edite os cases em `content/projects.json` e execute `python scripts/build.py`.
-- Edite o conteúdo da página inicial e os componentes compartilhados em `scripts/build.py`; regenere os HTMLs.
-- Atualize CSS e JavaScript em `assets/`.
-- Antes de publicar novos arquivos, revise a origem e remova informações internas ou pessoais desnecessárias.
-- Preserve a indicação de dados fictícios até haver material original autorizado e anonimizado.
-- Ao mudar uma demo, atualize sua captura em `screenshots/demonstracao.png`.
-- Ao mudar o currículo, substitua `cv/kleyton-goncalves-silva.pdf` por uma versão pública revisada.
-
-## Preservação do estado anterior
-
-A branch `backup/antes-reformulacao-2026-09-17` preserva o commit `1d8bfac59b502e4008bfb305040ac3004d03e3d3` e todos os arquivos antigos. A reformulação não reescreve o histórico Git.
-
-O histórico e a branch de backup mantêm o currículo antigo, que já estava no repositório público. A remoção do arquivo da versão atual **não o apaga do histórico**. Não foi feita reescrita de histórico.
-
-## Licença
-
-Mantida a [licença MIT](LICENSE) do repositório. Dados profissionais são fornecidos pelo titular; exemplos demonstrativos são fictícios.
+Mantida a [licença MIT](LICENSE).

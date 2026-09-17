@@ -1,51 +1,57 @@
-# Controle de Pagamentos Mensais
+# Instrução e acompanhamento de pagamentos
 
-**Projeto demonstrativo — dados fictícios.**
+[Abrir case](https://kley22.github.io/KleytonG.github.io/projetos/pagamentos/)
 
-[Abrir case](https://kley22.github.io/KleytonG.github.io/projetos/pagamentos/) · [Experimentar demonstração](https://kley22.github.io/KleytonG.github.io/projetos/pagamentos/#demonstracao)
+## Contexto
 
-## Contexto e limites
+Recebimento, tramitação e lançamento são etapas distintas. Uma informação desatualizada dificulta localizar onde o processo precisa de acompanhamento.
 
-Tema de projeto informado por Kleyton. As planilhas originais não foram anexadas. A demonstração web foi construída especificamente para este portfólio e não reproduz uma implementação institucional. Benefícios são finalidades esperadas, não resultados quantitativos comprovados. Excel e Google Planilhas constam no currículo como ferramentas; o código web não é apresentado como uma competência declarada no currículo.
+## Estrutura
 
-## Problema
+Relacionar os documentos à obrigação e à competência, acompanhar protocolos e registrar as etapas do fluxo. A situação documental permanece distinguível da situação do pagamento.
 
-A rotina de pagamentos exige conciliar o valor solicitado, a documentação e o vencimento, mantendo visibilidade do que já foi pago e do que está pendente.
+## Papel profissional
 
-## Solução demonstrada
+Conferência documental, organização dos protocolos e acompanhamento das etapas administrativas. Minha atuação está na preparação, conferência e no acompanhamento administrativo do fluxo.
 
-Organizar os registros por contrato e competência. A demonstração combina filtros de situação, vencimento e fornecedor com totais calculados sobre os registros exibidos.
+## Fluxo conceitual
 
-## Recursos
+### 1. Relacionar o documento
 
-- Consulta por competência e fornecedor
-- Totais por situação de pagamento
-- Destaque de pendências documentais
-- Atraso somente para valores sem pagamento
+- Entrada: Documento recebido, obrigação e competência.
+- Acompanhamento: Identificar a que contrato ou obrigação o documento se refere.
+- Saída: Documento organizado no contexto correto.
 
-## Processo
+### 2. Localizar pendências
 
-1. Reunir competência, documento, valor e vencimento.
-2. Conferir a situação documental e a data de pagamento.
-3. Filtrar pendências e acompanhar sua regularização.
+- Entrada: Documentação necessária ao encaminhamento.
+- Acompanhamento: Conferir referências, organizar comprovantes e sinalizar o que precisa ser completado.
+- Saída: Situação documental clara.
 
-## Finalidade
+### 3. Acompanhar a tramitação
 
-Facilitar a conferência da rotina e a localização das pendências que precisam de acompanhamento.
+- Entrada: Protocolo e registros de encaminhamento.
+- Acompanhamento: Atualizar a etapa e preservar as referências para consulta.
+- Saída: Caminho do processo localizável.
 
-## Arquivos
+### 4. Registrar o andamento
 
-- `index.html`: case e demonstração integrada, compatíveis com GitHub Pages.
-- `modelo/dados-ficticios.json`: premissas e dados fictícios, sem informações internas.
-- `screenshots/demonstracao.png`: captura real da demonstração web criada neste projeto.
-- `documentacao/regras.md`: regras e limites do exemplo.
+- Entrada: Informação confirmada sobre a etapa seguinte.
+- Acompanhamento: Atualizar o controle sem confundir recebimento, lançamento e pagamento.
+- Saída: Consulta do andamento administrativo.
 
-## Evolução
+## Estrutura observada
 
-Incluir um checklist demonstrativo de conferência e um histórico de atualizações por competência.
+- Registros de notas fiscais e competências.
+- Campos de protocolo, recebimento, tramitação e lançamento.
+- Acompanhamento de despesas contratuais e obrigações imobiliárias.
 
-Antes de inserir planilhas ou imagens originais, remover nomes de fornecedores, dados pessoais, contratos reais, números de processos, valores e outras informações internas. Não substituir a demonstração por dados reais automaticamente.
+## Melhorias propostas
 
-## Tecnologias desta demonstração
+- Definir um dicionário único para as situações de cada etapa.
+- Manter datas de ocorrência e de atualização distinguíveis.
+- Sinalizar documento ausente sem tratá-lo como pagamento em atraso.
 
-HTML, CSS e JavaScript nativo. Cálculos compartilhados em `assets/js/logic.mjs`; não há backend, armazenamento ou integrações com sistemas institucionais.
+## Escopo público
+
+Descrição conceitual baseada na análise estrutural de planilhas. Não contém registros, valores, documentos, capturas, fórmulas de origem, identificadores ou vínculos internos. As etapas são explicativas e não reproduzem uma aplicação institucional. As melhorias são propostas, não alterações aplicadas aos arquivos de trabalho. Não se afirmam ganhos quantitativos medidos.
